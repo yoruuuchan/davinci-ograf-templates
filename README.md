@@ -29,7 +29,17 @@
 
 同一个图形可以多次拖到时间线，每个实例的字段各自独立。
 
-## 检查器里能改什么
+## 在达芬奇里改参数
+
+卡片导入后就是一个普通 OGraf 图形。选中它，检查器右侧就是全部参数，改完立刻在监视器里生效，不用进 Fusion 节点。下面是 21.1.2 里的实拍，窗口左侧是媒体池，时间线上是导入的卡：
+
+![达芬奇检查器：brace-expand 的字段面板](previews/resolve/inspector.png)
+
+下拉字段在 21.1.2 里是真正的下拉菜单，例如 marker 卡的「背景」：
+
+![达芬奇检查器：marker 卡的下拉字段](previews/resolve/select-field.png)
+
+常见字段：
 
 | 字段 | 用途 |
 |---|---|
@@ -41,9 +51,26 @@
 
 每张卡的字段不完全相同，以检查器实际显示为准。
 
+## 动起来看看
+
+下面这些动图由同一份 OGraf 包离屏渲染，和达芬奇里看到的是同一套动画。前景与转场类的卡不带背景，动图里垫的是自绘演示底，实际使用时叠在实拍素材上。
+
+| | |
+|:--:|:--:|
+| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/research-card-stack-scroll.gif" width="420"> |
+| **paper-title-card** 纸面压印标题 | **research-card-stack-scroll** 研究卡片堆叠 |
+| <img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420"> | <img src="previews/showcase/carousel-3d.gif" width="420"> |
+| **chart-live-moves-dot-swarm** 点阵数字生长 | **carousel-3d** 3D 卡片轮播 |
+| <img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420"> | <img src="previews/showcase/collab-cursor-moves.gif" width="420"> |
+| **glow-flyline-moves-orb-flyline-relay** 光轨接力 | **collab-cursor-moves** 协作光标 |
+| <img src="previews/showcase/fui-hud-moves.gif" width="420"> | <img src="previews/showcase/print-texture-transitions.gif" width="420"> |
+| **fui-hud-moves** HUD 标注 | **print-texture-transitions** 印刷质感转场 |
+| <img src="previews/showcase/transition-travel.gif" width="420"> | |
+| **transition-travel** 空间转场 | |
+
 ## 卡片一览
 
-按制作批次分组，每批配一张验收静帧拼图，点开列表可以看完整模板名。
+按制作批次分组，每批配一张缩略图拼图，点开列表可以看完整模板名。
 
 ### 第一批 · 5 张
 
@@ -270,7 +297,7 @@
 
 </details>
 
-转场和前景层的卡（transition-travel、print-texture-transitions、collab-cursor-moves、brand-frame-snap 等）在验收渲染里叠的是测试底图，画面带 V1 标记属于预期，实际使用时叠在自己的素材上；draw-svg-trace 的预览帧合成在浅色底上，方便看清标注线。
+拼图里大部分帧来自达芬奇的验收渲染；brand-frame-snap、collab-cursor-moves、fui-hud-moves、glow-flyline-moves-flyline-arc、print-texture-transitions、transition-travel 和 draw-svg-trace 这几张不带背景，为看清效果垫了自绘的演示底，实际使用时是叠在实拍素材上的。
 
 ## marker 测试卡
 
@@ -302,7 +329,10 @@ templates/
   marker-underline-title/      测试卡 v0.1
   marker-underline-title-v0.2/ 测试卡 v0.2
 docs/                          18 份制作说明、验收清单与修改记录
-previews/                      拼贴图、批次预览、marker 动图与视频
+previews/
+  batches/                     每批一张缩略图拼图
+  showcase/                    9 张动图
+  resolve/                     达芬奇检查器截图
 ```
 
 每张卡的目录里至少有 `<模板名>.ograf.json`、`graphic.mjs`、`fonts/`、`NOTICE.md` 和上游许可证。
