@@ -1,43 +1,59 @@
 # DaVinci Resolve OGraf 模板库
 
-> 117 张动态图文卡，导入达芬奇就能改字、改色、改字体。
+> 118 张动态图文卡，导入达芬奇就能改字、改色、改字体。
 
-这套卡是给 DaVinci Resolve 21 做的 [OGraf](https://ograf.ebu.io) 图形：标题、数据、列表、图表、转场都有，媒体池导入即用，不用装插件，也不用另外找字体。全部改编自开源项目 video-shotcraft 的镜头卡，在 21.1.1 和 21.1.2 上逐张验收过。
+给 DaVinci Resolve 21 用的 [OGraf](https://ograf.ebu.io) 图形模板：标题、文字动效、图表、界面标注、转场都有。媒体池导入即用，不装插件，字体随包。全部改编自开源项目 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft) 的镜头卡。
+
+118 ready-to-use OGraf motion-graphics templates for DaVinci Resolve 21: titles, kinetic type, charts, UI callouts and transitions. Import a card's `.ograf.json`, then edit text, colours and fonts in the Inspector. Field labels are in Chinese.
 
 ![九张卡的拼贴预览](previews/hero.jpg)
 
 | | |
 |---|---|
-| 软件 | DaVinci Resolve 21（21.1.1、21.1.2 实测） |
-| 图形格式 | OGraf v1 |
-| 内容 | 117 张卡，分 7 类，另加 marker 测试卡两个版本 |
-| 许可 | Apache License 2.0，内置字体为 SIL OFL 1.1 |
+| 软件 | DaVinci Resolve 21 或更新（在 Windows 的 21.1.1、21.1.2 上测过） |
+| 图形格式 | OGraf v1，EBU 的开放图形标准 |
+| 内容 | 118 张卡，分 7 类；[图鉴](CATALOG.md)里每张都有缩略图和说明 |
+| 下载 | [Releases](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest)：全库 15 MB，另有 12 张的入门包 |
+| 许可 | [Apache License 2.0](LICENSE)，内置字体为 SIL OFL 1.1 |
 
-## 这套卡的特点
+**目录：** [上手](#上手) · [在达芬奇里改](#在达芬奇里改) · [动起来看看](#动起来看看) · [分类浏览](#分类浏览) · [验收与兼容](#验收与兼容) · [已知限制](#已知限制) · [目录结构](#目录结构) · [来源与许可](#来源与许可)
 
-- **字段全在检查器里。** 标题、强调词、数字、小字、配色、字号、字体预设都能改，动画节奏跟着参数走，不用进 Fusion 节点。
-- **字体随包。** 每张卡自带 Noto 宋体／黑体的字体切片，目标机器不装字体也不跑版；字体预设还能切到楷体等风格。
-- **片段长度随意。** 动效只取决于播放头位置，入场和出场按片段首尾对齐，剪多长都成立。
-- **按用途分类。** 117 张卡按用途分成 7 类，找卡时按「标题、数据、界面、转场」这样的目的去翻就行。
+## 上手
 
-## 快速开始
-
-1. 打开达芬奇，进入「媒体」页
-2. 在媒体池空白处右键，选择「导入媒体」，选中某张卡目录里的 `<模板名>.ograf.json`
-3. 把导入的图形拖到时间线上并选中
+1. 到 [Releases](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest) 下载一个包，解压到一个固定位置
+2. 打开达芬奇的「媒体」页，在媒体池空白处右键「导入媒体」，选某张卡目录里的 `<模板名>.ograf.json`
+3. 把导入的图形拖到时间线并选中
 4. 在检查器里改文案、颜色、字号和字体预设，拖动播放头预览
 
-同一个图形可以多次拖到时间线，每个实例的字段各自独立。
+| 下载 | 内容 | 大小 |
+|---|---|---|
+| `ograf-templates-all` .7z | 全部 118 张 | 15 MB，解压后 645 MB |
+| `ograf-starter` .zip | 12 张，七类各至少一张；解不开 .7z 时用这个 | 55 MB |
 
-## 在达芬奇里改参数
+全库包比入门包还小，是因为每张卡各带一份字体，同样的字体文件重复了上百遍，.7z 能把重复的压掉，.zip 不能。Windows 11（23H2 起）的资源管理器可以直接解压 .7z，其他情况用 [7-Zip](https://www.7-zip.org)。直接克隆仓库或点 Download ZIP 也行，只是要下 570 MB 左右。
 
-卡片导入后就是一个普通 OGraf 图形。选中它，检查器右侧就是全部参数，改完立刻在监视器里生效，不用进 Fusion 节点。下面是 21.1.2 里的实拍，窗口左侧是媒体池，时间线上是导入的卡：
+放好之后注意两件事：
 
-![达芬奇检查器：brace-expand 的字段面板](previews/resolve/inspector.png)
+- **模板目录别再挪。** 达芬奇工程按路径引用模板，挪了位置要在媒体池里重新链接。
+- **`fonts` 文件夹跟着 `.ograf.json` 走。** 单独拷走 json，中文会掉回系统字体。
 
-下拉字段在 21.1.2 里是真正的下拉菜单，例如 marker 卡的「背景」：
+同一个图形可以多次拖到时间线，每个实例的字段各自独立。片段剪多长都行：入场和出场按片段首尾对齐，画面只取决于播放头位置，往回拖、重复渲染都是同一帧。
 
-![达芬奇检查器：marker 卡的下拉字段](previews/resolve/select-field.png)
+## 在达芬奇里改
+
+导入后的卡片是一个普通 OGraf 图形。选中它，检查器的 OGraf 页签下就是全部字段，改完监视器里立刻生效，不用碰节点。
+
+下面三张是同一张 `brace-expand`（花括号拉幕），只改了文案、三个颜色和字体预设。图由同一份模板包离屏渲染，和达芬奇里出的是同一套画面：
+
+| 默认 | 改文案和配色 | 再把字体预设换成楷体 |
+|:--:|:--:|:--:|
+| ![默认](previews/resolve/variant-a.jpg) | ![改文案和配色](previews/resolve/variant-b.jpg) | ![换成楷体](previews/resolve/variant-c.jpg) |
+
+达芬奇 21.1.2 检查器里的样子（实拍）：
+
+| 一张卡的字段面板 | 下拉字段 |
+|:--:|:--:|
+| <img src="previews/resolve/inspector-fields.png" width="340" alt="brace-expand 的字段面板"> | <img src="previews/resolve/select-field.png" width="340" alt="marker 卡的「背景」下拉"> |
 
 常见字段：
 
@@ -45,301 +61,136 @@
 |---|---|
 | 标题、强调词、数字、小字 | 卡片正文；强调词自动换成强调色，英文强调词转斜体 |
 | 文字颜色、强调色、纸面色／背景色、卡片色 | 按品牌或主题改配色 |
-| 字体预设、字体、字号、小字倍率 | 一键换字体风格；小字倍率统一缩放辅助信息 |
-| 透明背景 | 去掉底色，叠加在实拍素材上 |
-| 卡片、叙事标题、眉题、数据组、脚注 | 图表与结构化卡片的内容字段 |
+| 字体预设、字体、字号、小字倍率 | 换字体风格；小字倍率统一缩放眉题、副标这类辅助信息 |
+| 透明背景 | 去掉底色，叠加在实拍素材上（107 张有这个开关） |
+| 卡片、眉题、数据组、脚注 | 图表与结构化卡片的内容，一行一项 |
 
-每张卡的字段不完全相同，以检查器实际显示为准。
+每张卡的字段不完全相同，[图鉴](CATALOG.md)里标了每张卡的字段数，具体以检查器显示为准。
+
+### 换图片
+
+58 张卡有图片或标志字段，图鉴里标着「可换图」。这类字段在检查器里是一个文本框：在资源管理器里选中图片，按 `Ctrl+Shift+C` 复制路径，粘贴进去。多图字段一行一张，从上到下就是出场顺序。留空时卡片画占位块，动作照常。
+
+本页和图鉴里的预览，图片位置填的是这套库自己的卡面截图。
+
+### 换字体
+
+- **字体预设**（97 张卡有）：内置、微软雅黑、宋体、楷体、仿宋、黑体、等线、思源宋体。「内置」用随包字体，其余用系统里装的同名字体；前六个是 Windows 自带的，思源宋体要自己装。
+- **字体**：填任意已安装的字体名，填了就以它为准。
+- **字体没装**：把字体文件放进这张卡的 `fonts` 文件夹，填 `fonts/文件名.ttf`。直接填 `C:\Windows\Fonts\...` 这种系统路径在达芬奇里不生效。
 
 ## 动起来看看
 
-下面这些动图由同一份 OGraf 包离屏渲染，和达芬奇里看到的是同一套动画。前景与转场类的卡不带背景，动图里垫的是自绘演示底，实际使用时叠在实拍素材上。
+这些动图由模板包离屏渲染。前景和转场类的卡不带背景，动图里垫了一张自绘的演示底，实际使用时叠在你的素材上。
 
 | | |
 |:--:|:--:|
-| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/deck-deal-flyin.gif" width="420"> |
-| **paper-title-card** 纸面压印标题 | **deck-deal-flyin** 发牌成墙 |
-| <img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420"> | <img src="previews/showcase/carousel-3d.gif" width="420"> |
-| **chart-live-moves-dot-swarm** 点阵数字生长 | **carousel-3d** 3D 卡片轮播 |
-| <img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420"> | <img src="previews/showcase/collab-cursor-moves.gif" width="420"> |
-| **glow-flyline-moves-orb-flyline-relay** 光轨接力 | **collab-cursor-moves** 协作光标 |
-| <img src="previews/showcase/fui-hud-moves.gif" width="420"> | <img src="previews/showcase/print-texture-transitions.gif" width="420"> |
-| **fui-hud-moves** HUD 标注 | **print-texture-transitions** 印刷质感转场 |
-| <img src="previews/showcase/transition-travel.gif" width="420"> | |
-| **transition-travel** 空间转场 | |
+| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/marker-underline-title.gif" width="420"> |
+| **纸面压印标题** `paper-title-card` | **马克笔下划线标题** `marker-underline-title` |
+| <img src="previews/showcase/deck-deal-flyin.gif" width="420"> | <img src="previews/showcase/carousel-3d.gif" width="420"> |
+| **牌堆发卡满板** `deck-deal-flyin` | **3D 环形画廊** `carousel-3d` |
+| <img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420"> | <img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420"> |
+| **点阵聚成数字** `chart-live-moves-dot-swarm` | **光斑飞线接力** `glow-flyline-moves-orb-flyline-relay` |
+| <img src="previews/showcase/collab-cursor-moves.gif" width="420"> | <img src="previews/showcase/fui-hud-moves.gif" width="420"> |
+| **协作光标游走** `collab-cursor-moves` | **取景框咬合** `fui-hud-moves` |
+| <img src="previews/showcase/print-texture-transitions.gif" width="420"> | <img src="previews/showcase/transition-travel.gif" width="420"> |
+| **墨渗揭示转场** `print-texture-transitions` | **字腔穿越转场** `transition-travel` |
+
+这十张加上 `brace-expand` 和 `list-reveal` 就是入门包的内容。
 
 ## 分类浏览
 
-七类按用途划分，每类配一张缩略图拼图，点开列表可以看完整模板名。
+按用途分七类。每类一张缩略图拼图，逐张的中文名、说明和字段数在[图鉴](CATALOG.md)里。
 
-### 标题与版式 · 10 张
+### 标题与版式 · 11 张
 
-开场标题、套印字标、文字里嵌画面、标题降级成标签这类版式卡。
+开场标题、套印字标、文字里嵌画面、标题降级成标签这类版式卡。[看这 11 张的说明](CATALOG.md#titles)
 
 ![标题与版式](previews/categories/titles.jpg)
 
-<details>
-<summary>全部 10 张</summary>
-
-- aurora-bloom-bg-flip
-- blur-slide
-- brand-ink-open
-- logo-shrink-wordmark-lockup
-- orbit-ring-title-open
-- paper-title-card
-- riso-print-hits
-- text-as-mask
-- title-demote-to-label
-- white-flash-logo-simplify-cut
-
-</details>
-
 ### 文字动效 · 22 张
 
-逐词浮现、打字机、装配、压入、卡拉 OK 填色等，文字本身的入场与节奏。
+逐词浮现、打字机、装配、压入、卡拉 OK 填色，文字本身的入场与节奏。[看这 22 张的说明](CATALOG.md#type-moves)
 
 ![文字动效](previews/categories/type-moves.jpg)
 
-<details>
-<summary>全部 22 张</summary>
-
-- assemble-then-type-flyin
-- brace-expand
-- flying-words
-- gradient-word-sweep
-- lead-word-zoom-assemble
-- letterspace-materialize
-- neon-triple-marquee
-- outline-word-fill
-- slam-entrance-moves-impact
-- slam-entrance-moves-kanada
-- stroke-segment-build
-- text-column-converge
-- type-assembly-moves-drift-assembly
-- type-assembly-moves-split-stagger
-- type-assembly-moves-text-on-path
-- type-entrance-moves
-- type-rhythm-sync-font-weight-pump
-- type-rhythm-sync-karaoke-fill-sync
-- typewriter-moves
-- vertical-word-roll-blur-cycle
-- word-relay-filmstrip
-- word-relay-geometry
-
-</details>
-
 ### 数据与图表 · 14 张
 
-仪表、折线、点阵数字、时间线和信息图。
+仪表、折线、点阵数字、时间线和信息图。[看这 14 张的说明](CATALOG.md#data)
 
 ![数据与图表](previews/categories/data.jpg)
 
-<details>
-<summary>全部 14 张</summary>
-
-- bezier-source-converge-merge
-- chart-live-moves-axis-rescale
-- chart-live-moves-dot-swarm
-- chart-live-moves-oscilloscope
-- countdown-arc-scatter
-- dataviz-landscape-open
-- gauge-readout-moves-needle
-- gauge-readout-moves-tape
-- impact-feedback-hit-counter
-- integration-hub-map
-- slam-entrance-moves-score
-- timeline-travel
-- value-stagger-gradient
-- voice-waveform-live
-
-</details>
-
 ### 列表与步骤 · 4 张
 
-菜单、步骤条、表格行这类条理内容的入场。
+菜单、步骤条、表格行这类条理内容的入场。[看这 4 张的说明](CATALOG.md#lists)
 
 ![列表与步骤](previews/categories/lists.jpg)
 
-<details>
-<summary>全部 4 张</summary>
-
-- beat-step-list-theme-cycle
-- list-reveal
-- list-stack-press
-- row-embed
-
-</details>
-
 ### 界面与交互 · 24 张
 
-光标、HUD、扫描标注、下拉、药丸、滑块，界面演示与叠加标注。
+光标、HUD、扫描标注、下拉、药丸、滑块，界面演示与叠加标注。[看这 24 张的说明](CATALOG.md#ui)
 
 ![界面与交互](previews/categories/ui.jpg)
 
-<details>
-<summary>全部 24 张</summary>
-
-- before-after-slider-scrub
-- chip-grid-single-select-blackout
-- collab-cursor-moves
-- cursor-flyover
-- doc-park-left-pill-deal
-- document-typewriter-reveal
-- draw-svg-trace
-- fui-hud-moves
-- glass-pill-dictation-typing
-- hashtag-to-pill-materialize
-- icon-performance-moves
-- picker-carousel-feature-cycle
-- pill-chip-slot-cycle-handled
-- pill-slot-cycle
-- radial-ripple-phone-chips
-- scan-bracket-sweep
-- scanline-annotate-focus
-- scanline-assemble-flyin
-- scroll-brake-moves-changelog
-- scroll-brake-moves-reticle-lock
-- segmented-thumb-hero
-- theme-switch-moves-sweep
-- ui-to-brand-morph-icon-flip-bloom
-- ui-to-brand-morph-input-morph-assemble
-
-</details>
-
 ### 卡片与场景 · 28 张
 
-轮播、发牌、照片墙、俯拍桌面和 3D 场景这类画面主体卡。
+轮播、发牌、照片墙、俯拍桌面和 3D 场景这类画面主体卡。[看这 28 张的说明](CATALOG.md#cards-scenes)
 
 ![卡片与场景](previews/categories/cards-scenes.jpg)
 
-<details>
-<summary>全部 28 张</summary>
-
-- avatar-bracket-carousel
-- basic-3d-scene
-- brand-frame-snap
-- card-flip-reveal
-- card-flock-tumble
-- card-stack
-- carousel-3d
-- cloner-depth-echo
-- deck-deal-flyin
-- depth-layer-moves
-- element-body-moves
-- fracture
-- icon-field-colorize
-- impact-feedback-anime-impact
-- magician-card-flourish
-- mosaic-reframe
-- neon-frame-forerun
-- outro-group-photo-launch
-- overhead-camera-moves-tabletop-drop
-- overhead-camera-moves-tilt-reveal
-- page-waterfall-wall
-- panel-grid-moves
-- product-card-progressive-assemble
-- research-card-stack-scroll
-- spotlight-hero-card
-- steep-tilt-glide
-- wall-reveal-moves-bento
-- wall-reveal-moves-wireframe
-
-</details>
-
 ### 转场与光效 · 15 张
 
-光轨、聚光、故障、溶解、印刷和空间转场。
+光轨、聚光、故障、溶解、印刷和空间转场。[看这 15 张的说明](CATALOG.md#transitions)
 
 ![转场与光效](previews/categories/transitions.jpg)
 
-<details>
-<summary>全部 15 张</summary>
+缩略图有两个来源：68 张是达芬奇 21.1.1 里的取帧；另外 50 张是用模板包离屏重渲的，其中带图片位的卡填了示例图，不带背景的叠加层卡垫了演示底。
 
-- bottom-push-stack-wipe
-- glitch-cycle
-- glow-flyline-moves-flyline-arc
-- glow-flyline-moves-glow-orb-ambient
-- glow-flyline-moves-orb-flyline-relay
-- gradient-transition
-- grain-dissolve
-- light-play-moves-sheen-sweep
-- light-play-moves-spotlight-sweep
-- print-texture-transitions
-- radial-wave
-- spotlight-sweep-moves-corner-reveal
-- spotlight-sweep-moves-glow-wake-sleep
-- spotlight-sweep-moves-slide-pan
-- transition-travel
+## 验收与兼容
 
-</details>
+- **自动验收。** 2026-11-17 对 117 张卡逐张跑了 11 项机器检查，0 失败：同一时间点重复渲染逐帧一致、入场确实在动、片段前后隐藏、结束后隐藏、默认文案不出框、用的是随包字体、无报错、无 NaN、透明背景四角透明、1080×1920 竖屏不出框、超长文案变体。此后有两处改动（一张卡重做动效、字体预设由滑杆改成下拉），重新构建后抽查通过。手写的 `marker-underline-title` 不在这 117 张里，单独测过。
+- **清单校验。** 118 份 `.ograf.json` 全部通过 OGraf 官方 JSON Schema 校验。
+- **达芬奇里。** 21.1.1 上全部卡片导入成功并逐张取帧；21.1.2 上抽查通过。
 
-拼图里大部分帧来自达芬奇的验收渲染；brand-frame-snap、collab-cursor-moves、fui-hud-moves、glow-flyline-moves-flyline-arc、print-texture-transitions、transition-travel 和 draw-svg-trace 这几张不带背景，为看清效果垫了自绘的演示底，实际使用时是叠在实拍素材上的。
-
-## marker 测试卡
-
-marker-underline-title 是这套卡的第一张，用来验证字段和渲染链路。v0.2 加入「背景」下拉字段，是整库唯一使用 select 字段的卡。
-
-![marker 动图](previews/marker-underline-title.gif)
-
-| 版本 | 目录 | 预览 |
-|---|---|---|
-| v0.1 | `templates/marker-underline-title/` | [视频](previews/marker-underline-title-preview.mp4) |
-| v0.2 | `templates/marker-underline-title-v0.2/` | [视频](previews/marker-underline-title-v0.2-preview.mp4) |
-
-与原镜头卡的对比：[marker-underline-title-vs-original.png](previews/marker-underline-title-vs-original.png)
-
-## 兼容性
-
-| 项目 | 状态 |
+| 环境 | 状态 |
 |---|---|
-| DaVinci Resolve 21.1.1 | 全库实测通过；select 字段显示为文本框 |
-| DaVinci Resolve 21.1.2 | 全库实测通过；select 字段变为下拉 |
-| 更高的 21.x 版本 | 未逐一验证 |
-| 竖屏工程 | 抽查通过，卡面不出框 |
+| DaVinci Resolve Studio 21.1.1，Windows | 全库导入通过；下拉字段在这个版本里显示成文本框，手打选项名（比如「楷体」）即可 |
+| DaVinci Resolve Studio 21.1.2，Windows | 抽查通过；下拉字段是真下拉 |
+| 更高的 21.x | 没有逐一验证 |
+| macOS、Linux | 没测过，见下方已知限制 |
+| 免费版达芬奇 | 没测过 |
+| DaVinci Resolve 20 及更早 | 不支持 OGraf |
+
+## 已知限制
+
+- **只在 Windows 上测过。** 达芬奇的 OGraf 支持不限于 Windows，但字体预设里六个是 Windows 自带字体，别的系统上选了没有对应字体，会回到随包字体；想换字体就在「字体」框里填本机装了的字体名。
+- **字段名和说明是中文。** 检查器里的标签、提示、默认文案都是中文。
+- **图片字段没有「选文件」按钮**，要粘贴路径，见[换图片](#换图片)。
+- **用脚本追加片段会崩。** 21.1.1 上用脚本的 `AppendToTimeline` 往时间线加 OGraf 片段会让达芬奇直接退出；手动拖拽不受影响，脚本建时间线用 `CreateTimelineFromClips` 没问题。
 
 ## 目录结构
 
 ```
-templates/
-  titles/         标题与版式
-  type-moves/     文字动效
-  data/           数据与图表
-  lists/          列表与步骤
-  ui/             界面与交互
-  cards-scenes/   卡片与场景
-  transitions/    转场与光效
-  marker-underline-title/      测试卡 v0.1
-  marker-underline-title-v0.2/ 测试卡 v0.2
-docs/             18 份制作说明、验收清单与修改记录
-previews/
-  categories/     每类一张缩略图拼图
-  showcase/       9 张动图
-  resolve/        达芬奇检查器截图
+templates/<分类>/<模板名>/
+  <模板名>.ograf.json   导入达芬奇的清单文件
+  graphic.mjs           图形本体
+  fonts/                字体切片和字体许可证
+  NOTICE.md             来源、改了什么、打包进来的第三方内容
+  LICENSE-*.txt         上游许可证全文
+CATALOG.md              118 张卡的图鉴
+previews/               本页和图鉴用的图
 ```
 
-每张卡的目录里至少有 `<模板名>.ograf.json`、`graphic.mjs`、`fonts/`、`NOTICE.md` 和上游许可证。docs 里的「第 X 批」是当时的制作顺序，现在只当制作记录看，和分类无关。
+分类目录是 `titles`、`type-moves`、`data`、`lists`、`ui`、`cards-scenes`、`transitions`。
 
 ## 来源与许可
 
 **本仓库以 [Apache License 2.0](LICENSE) 发布。**
 
-- 全部卡片改编自 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（Vincentwei1021，Apache-2.0）的镜头卡，从 Remotion 合成改写为 OGraf v1 图形；每张卡内保留 `NOTICE.md` 与上游许可证全文
-- 字体为 Noto Serif SC、Noto Sans SC、JetBrains Mono，SIL Open Font License 1.1，许可证随字体目录
-- 打包运行时依赖 React、React DOM、scheduler，MIT License
-- OGraf 为 EBU 维护的开放图形规范，见 https://ograf.ebu.io
+- 全部卡片改编自 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（Vincentwei1021，Apache-2.0）的镜头卡，从 Remotion 合成改写为 OGraf v1 图形，对齐的上游版本是 `1266a3e`（2026-10-30）。每张卡的 `NOTICE.md` 写明了对应的上游文件和改动，并附上游许可证全文
+- 字体为 Noto Serif SC、Noto Sans SC、JetBrains Mono，SIL Open Font License 1.1，许可证在各卡的 `fonts` 目录
+- 打包进图形的运行时是 React、React DOM、scheduler，MIT License
+- `marker-underline-title` 的时间调度写法参考了 Novaire 的 [sticker-graphics-free](https://github.com/NovaireGroup/sticker-graphics-free)（MIT License），许可证随卡
+- OGraf 是 EBU 维护的开放图形规范，见 https://ograf.ebu.io
 
-## 文档与验收记录
-
-`docs/` 保留了这套卡从制作到验收的全过程，比较常看的有：
-
-- [媒体夹索引](docs/媒体夹索引.md)：全部卡的内容与用法索引
-- [修复记录](docs/修复记录-20261117.md)：全库字体预设与细节修复
-- [验收清单（第三到九批）](docs/验收清单-第三到九批.md)
-- [人眼验收（第三到九批）](docs/人眼验收-第三到九批.md)
-- [自动验收（全库）](docs/自动验收-全库-20261117.md)
-- [动效重做：research-card-stack-scroll](docs/动效重做-research-card-stack-scroll-20261118.md)
-- 每批的达芬奇试用清单见 `docs/达芬奇试用清单-第X批.md`
-
-## 范围说明
-
-本仓库只包含模板成品。生成器工程（构建脚本与兼容层，可用于重新构建全部卡片）、验收渲染和参考素材体积较大，未纳入仓库，另行备份。
+本仓库只放模板成品。把镜头卡改写成 OGraf 的生成器（构建脚本和兼容层）没有放进来。
