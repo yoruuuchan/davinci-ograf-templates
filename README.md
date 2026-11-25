@@ -27,7 +27,7 @@
 
 | 下载 | 内容 | 大小 |
 |---|---|---|
-| `ograf-templates-all` .7z | 全部 118 张 | 15 MB，解压后 645 MB |
+| `ograf-templates-all` .7z | 全部 118 张 | 15 MB，解压后约 600 MB |
 | `ograf-starter` .zip | 12 张，七类各至少一张；解不开 .7z 时用这个 | 55 MB |
 
 全库包比入门包还小，是因为每张卡各带一份字体，同样的字体文件重复了上百遍，.7z 能把重复的压掉，.zip 不能。Windows 11（23H2 起）的资源管理器可以直接解压 .7z，其他情况用 [7-Zip](https://www.7-zip.org)。直接克隆仓库或点 Download ZIP 也行，只是要下 570 MB 左右。
