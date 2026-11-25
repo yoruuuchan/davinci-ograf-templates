@@ -270,7 +270,7 @@
 
 </details>
 
-转场和前景层的卡（transition-travel、print-texture-transitions、collab-cursor-moves 等）在验收渲染里叠的是测试底图，画面带 V1 标记属于预期，实际使用时叠在自己的素材上。
+转场和前景层的卡（transition-travel、print-texture-transitions、collab-cursor-moves、brand-frame-snap 等）在验收渲染里叠的是测试底图，画面带 V1 标记属于预期，实际使用时叠在自己的素材上；draw-svg-trace 的预览帧合成在浅色底上，方便看清标注线。
 
 ## marker 测试卡
 
