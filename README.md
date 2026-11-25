@@ -8,36 +8,64 @@
 
 ![九张卡的拼贴预览](previews/hero.jpg)
 
-<table>
-<tr><td><b>软件</b></td><td>DaVinci Resolve 21 或更新（在 Windows 的 21.1.1、21.1.2 上测过）</td></tr>
-<tr><td><b>图形格式</b></td><td>OGraf v1，EBU 的开放图形标准</td></tr>
-<tr><td><b>内容</b></td><td>118 张卡，分 7 类；<a href="CATALOG.md">图鉴</a>里每张都有缩略图和说明</td></tr>
-<tr><td><b>下载</b></td><td><a href="https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest">Releases</a>：全库 15 MB，另有 12 张的入门包</td></tr>
-<tr><td><b>许可</b></td><td><a href="LICENSE">Apache License 2.0</a>，内置字体为 SIL OFL 1.1</td></tr>
-</table>
+**第一次用先下入门包：** [ograf-starter（12 张，55 MB，解压即用）](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest)。想要全部 118 张：[ograf-templates-all（15 MB）](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest)。免费开源（[Apache License 2.0](LICENSE)），需要达芬奇 21 或更新。
 
-**目录：** [上手](#上手) · [在达芬奇里改](#在达芬奇里改) · [动起来看看](#动起来看看) · [分类浏览](#分类浏览) · [验收与兼容](#验收与兼容) · [已知限制](#已知限制) · [目录结构](#目录结构) · [来源与许可](#来源与许可)
+**目录：** [上手](#上手) · [不知道选哪张](#不知道选哪张) · [在达芬奇里改](#在达芬奇里改) · [动起来看看](#动起来看看) · [分类浏览](#分类浏览) · [验收与兼容](#验收与兼容) · [常见问题](#常见问题) · [已知限制](#已知限制) · [目录结构](#目录结构) · [来源与许可](#来源与许可)
 
 ## 上手
 
-1. 到 [Releases](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest) 下载一个包，解压到一个固定位置
-2. 打开达芬奇的「媒体」页，在媒体池空白处右键「导入媒体」，选某张卡目录里的 `<模板名>.ograf.json`
-3. 把导入的图形拖到时间线并选中
-4. 在检查器里改文案、颜色、字号和字体预设，拖动播放头预览
+第一次用就三步。下面三张图是同一个达芬奇窗口，亮框的地方照着操作。
+
+### 第一步 · 把卡导入媒体池
+
+![第一步：在媒体池右键导入](previews/resolve/step-1.jpg)
+
+达芬奇左下角这块是媒体池，放素材和导入文件都在这。空白处右键 →「导入媒体」，选某张卡目录里的 `<模板名>.ograf.json`。整张卡的文件夹（连同 `fonts`）放在固定位置，之后别再挪。
+
+### 第二步 · 拖到时间线
+
+![第二步：把卡拖到时间线](previews/resolve/step-2.jpg)
+
+把导入的卡拖到时间线的轨道上，用鼠标选中它。
+
+### 第三步 · 在检查器里改
+
+![第三步：在检查器里改参数](previews/resolve/step-3.jpg)
+
+右边这块是检查器，这张卡所有参数都在这里：标题、颜色、字号、字体预设。改完在监视器里立刻生效。
+
+### 三个词
+
+| 词 | 什么意思 |
+|---|---|
+| OGraf | 达芬奇 21 认的开放图形格式。一张卡就是一个 `.ograf.json` 加一个字体文件夹，不是插件，不用安装 |
+| 媒体池 | 达芬奇左下角放素材的区域，导入的文件都在这里 |
+| 检查器 | 达芬奇右侧的参数面板，选中时间线上的卡后在这里改 |
+
+### 下哪个包
 
 | 下载 | 内容 | 大小 |
 |---|---|---|
+| `ograf-starter` .zip | 12 张，七类各至少一张 | 55 MB，解压就能用 |
 | `ograf-templates-all` .7z | 全部 118 张 | 15 MB，解压后约 600 MB |
-| `ograf-starter` .zip | 12 张，七类各至少一张；解不开 .7z 时用这个 | 55 MB |
 
-全库包比入门包还小，是因为每张卡各带一份字体，同样的字体文件重复了上百遍，.7z 能把重复的压掉，.zip 不能。Windows 11（23H2 起）的资源管理器可以直接解压 .7z，其他情况用 [7-Zip](https://www.7-zip.org)。直接 `git clone` 也快：同样的字体在仓库里只存一份，只要下载 40 MB 左右，检出后整个仓库占 690 MB；点 GitHub 的 Download ZIP 则要下 570 MB 左右，因为 ZIP 不会去重。
+全库包反而更小：每张卡各带一份字体，同样的字体重复了上百遍，.7z 能把重复压掉，.zip 不能。Windows 11（23H2 起）自带 .7z 解压，其他系统用 [7-Zip](https://www.7-zip.org)，或者直接用入门包。
 
-放好之后注意两件事：
+同一个图形可以多次拖到时间线，每个实例改各自的字段。片段剪多长都行：入场和出场贴着片段首尾，画面只取决于播放头位置，往回拖、重复渲染都是同一帧。
 
-- **模板目录别再挪。** 达芬奇工程按路径引用模板，挪了位置要在媒体池里重新链接。
-- **`fonts` 文件夹跟着 `.ograf.json` 走。** 单独拷走 json，中文会掉回系统字体。
+## 不知道选哪张
 
-同一个图形可以多次拖到时间线，每个实例的字段各自独立。片段剪多长都行：入场和出场按片段首尾对齐，画面只取决于播放头位置，往回拖、重复渲染都是同一帧。
+按你要做的效果挑，点名字直接跳到图鉴里的那张卡。全部 118 张都带缩略图和说明。
+
+| 我要做 | 先试这几张 |
+|---|---|
+| 片头标题、品牌开场 | [纸面压印标题](CATALOG.md#paper-title-card) · [墨线压印立名](CATALOG.md#brand-ink-open) · [马克笔下划线标题](CATALOG.md#marker-underline-title) |
+| 成绩、数据、结果展示 | [点阵聚成数字](CATALOG.md#chart-live-moves-dot-swarm) · [三表甩针自检](CATALOG.md#gauge-readout-moves-needle) · [柱阵错峰脉冲](CATALOG.md#value-stagger-gradient) |
+| 步骤、清单、条目 | [列表逐项入场](CATALOG.md#list-reveal) · [逐拍换词换色](CATALOG.md#beat-step-list-theme-cycle) · [内容行嵌入](CATALOG.md#row-embed) |
+| 软件演示、圈注讲解 | [协作光标游走](CATALOG.md#collab-cursor-moves) · [扫描线逐块标注](CATALOG.md#scanline-annotate-focus) · [前后对比拉杆](CATALOG.md#before-after-slider-scrub) |
+| 图片、作品、相册 | [3D 环形画廊](CATALOG.md#carousel-3d) · [牌堆发卡满板](CATALOG.md#deck-deal-flyin) · [瀑布墙滚动](CATALOG.md#page-waterfall-wall) |
+| 镜头之间的转场 | [字腔穿越转场](CATALOG.md#transition-travel) · [墨渗揭示转场](CATALOG.md#print-texture-transitions) · [乱码轮播状态](CATALOG.md#glitch-cycle) |
+| 纯文字入场 | [打字机改口](CATALOG.md#typewriter-moves) · [渐变扫光大字](CATALOG.md#gradient-word-sweep) · [空心字点亮](CATALOG.md#outline-word-fill) |
 
 ## 在达芬奇里改
 
@@ -170,6 +198,16 @@
 | macOS、Linux | 没测过，见下方已知限制 |
 | 免费版达芬奇 | 没测过 |
 | DaVinci Resolve 20 及更早 | 不支持 OGraf |
+
+## 常见问题
+
+| 问题 | 怎么办 |
+|---|---|
+| 找不到检查器 | 点达芬奇窗口右上角的「检查器」按钮切换显示；先选中时间线上的卡，右侧默认就有 |
+| 导入后画面上没东西 | 确认卡在时间线轨道上、播放头停在片段范围内；先选中片段，再拖播放头看效果 |
+| 字体和预览不一样 | `fonts` 文件夹要和 `.ograf.json` 放在同一个目录；字体预设选「内置」就用随包字体 |
+| .7z 打不开 | Windows 11（23H2 起）自带支持；其他系统装 [7-Zip](https://www.7-zip.org)，或者先下入门包的 .zip |
+| 想直接克隆仓库 | 可以：`git clone` 只下载约 40 MB，检出后整个仓库占 690 MB；GitHub 的 Download ZIP 要下约 570 MB，因为 ZIP 不会去重 |
 
 ## 已知限制
 
