@@ -10,7 +10,7 @@
 |---|---|
 | 软件 | DaVinci Resolve 21（21.1.1、21.1.2 实测） |
 | 图形格式 | OGraf v1 |
-| 内容 | 117 张卡，加 marker 测试卡两个版本 |
+| 内容 | 117 张卡，分 7 类，另加 marker 测试卡两个版本 |
 | 许可 | Apache License 2.0，内置字体为 SIL OFL 1.1 |
 
 ## 这套卡的特点
@@ -18,7 +18,7 @@
 - **字段全在检查器里。** 标题、强调词、数字、小字、配色、字号、字体预设都能改，动画节奏跟着参数走，不用进 Fusion 节点。
 - **字体随包。** 每张卡自带 Noto 宋体／黑体的字体切片，目标机器不装字体也不跑版；字体预设还能切到楷体等风格。
 - **片段长度随意。** 动效只取决于播放头位置，入场和出场按片段首尾对齐，剪多长都成立。
-- **按批次整理。** 117 张卡分在 batch1–batch9，另有 marker 测试卡两个版本；每批都留了验收静帧与制作记录。
+- **按用途分类。** 117 张卡按用途分成 7 类，找卡时按「标题、数据、界面、转场」这样的目的去翻就行。
 
 ## 快速开始
 
@@ -57,8 +57,8 @@
 
 | | |
 |:--:|:--:|
-| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/research-card-stack-scroll.gif" width="420"> |
-| **paper-title-card** 纸面压印标题 | **research-card-stack-scroll** 研究卡片堆叠 |
+| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/deck-deal-flyin.gif" width="420"> |
+| **paper-title-card** 纸面压印标题 | **deck-deal-flyin** 发牌成墙 |
 | <img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420"> | <img src="previews/showcase/carousel-3d.gif" width="420"> |
 | **chart-live-moves-dot-swarm** 点阵数字生长 | **carousel-3d** 3D 卡片轮播 |
 | <img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420"> | <img src="previews/showcase/collab-cursor-moves.gif" width="420"> |
@@ -68,231 +68,207 @@
 | <img src="previews/showcase/transition-travel.gif" width="420"> | |
 | **transition-travel** 空间转场 | |
 
-## 卡片一览
+## 分类浏览
 
-按制作批次分组，每批配一张缩略图拼图，点开列表可以看完整模板名。
+七类按用途划分，每类配一张缩略图拼图，点开列表可以看完整模板名。
 
-### 第一批 · 5 张
+### 标题与版式 · 10 张
 
-纸面压印标题、马克笔下划线、文字遮罩、描边画出和列表逐条展开，整套卡从这里开始。
+开场标题、套印字标、文字里嵌画面、标题降级成标签这类版式卡。
 
-![第一批](previews/batches/batch1.jpg)
-
-<details>
-<summary>第一批的 5 张卡</summary>
-
-- draw-svg-trace
-- list-reveal
-- paper-title-card
-- text-as-mask
-- title-demote-to-label
-
-</details>
-
-### 第二批 · 10 张
-
-文字入场的一组：打字机、词级位移、渐变扫字、镂空填色、括号展开和糊化滑动。
-
-![第二批](previews/batches/batch2.jpg)
+![标题与版式](previews/categories/titles.jpg)
 
 <details>
-<summary>第二批的 10 张卡</summary>
+<summary>全部 10 张</summary>
 
 - aurora-bloom-bg-flip
 - blur-slide
-- brace-expand
-- gradient-word-sweep
-- lead-word-zoom-assemble
-- outline-word-fill
-- riso-print-hits
-- text-column-converge
-- type-entrance-moves
-- typewriter-moves
-
-</details>
-
-### 第三批 · 16 张
-
-信息呈现的一组：3D 场景底、仪表读数、数据图展开、倒计时弧、卡片轮播和文字装配。
-
-![第三批](previews/batches/batch3.jpg)
-
-<details>
-<summary>第三批的 16 张卡</summary>
-
-- basic-3d-scene
 - brand-ink-open
-- countdown-arc-scatter
-- dataviz-landscape-open
-- gauge-readout-moves-needle
-- gauge-readout-moves-tape
-- light-play-moves-sheen-sweep
-- light-play-moves-spotlight-sweep
-- picker-carousel-feature-cycle
-- pill-chip-slot-cycle-handled
-- pill-slot-cycle
-- segmented-thumb-hero
-- type-assembly-moves-drift-assembly
-- type-assembly-moves-split-stagger
-- type-assembly-moves-text-on-path
-- word-relay-geometry
-
-</details>
-
-### 第四批 · 29 张
-
-信息图与屏幕叙事：卡片堆叠滚动、扫描框标注、HUD、故障循环、光斑、声波和图标场，是数量最多的一批。
-
-![第四批](previews/batches/batch4.jpg)
-
-<details>
-<summary>第四批的 29 张卡</summary>
-
-- beat-step-list-theme-cycle
-- before-after-slider-scrub
-- bezier-source-converge-merge
-- bottom-push-stack-wipe
-- chip-grid-single-select-blackout
-- cloner-depth-echo
-- doc-park-left-pill-deal
-- element-body-moves
-- flying-words
-- fracture
-- fui-hud-moves
-- glass-pill-dictation-typing
-- glitch-cycle
-- gradient-transition
-- grain-dissolve
-- icon-field-colorize
-- letterspace-materialize
 - logo-shrink-wordmark-lockup
-- magician-card-flourish
-- neon-triple-marquee
-- radial-ripple-phone-chips
-- radial-wave
-- research-card-stack-scroll
-- scan-bracket-sweep
-- spotlight-hero-card
-- value-stagger-gradient
-- vertical-word-roll-blur-cycle
-- voice-waveform-live
+- orbit-ring-title-open
+- paper-title-card
+- riso-print-hits
+- text-as-mask
+- title-demote-to-label
 - white-flash-logo-simplify-cut
 
 </details>
 
-### 第五批 · 22 张
+### 文字动效 · 22 张
 
-界面演示的一组：光标飞行、文档打字、扫描线标注、压入式入场、卡拉 OK 填色和品牌形变。
+逐词浮现、打字机、装配、压入、卡拉 OK 填色等，文字本身的入场与节奏。
 
-![第五批](previews/batches/batch5.jpg)
+![文字动效](previews/categories/type-moves.jpg)
 
 <details>
-<summary>第五批的 22 张卡</summary>
+<summary>全部 22 张</summary>
 
 - assemble-then-type-flyin
-- avatar-bracket-carousel
-- card-flip-reveal
-- cursor-flyover
-- document-typewriter-reveal
-- icon-performance-moves
-- list-stack-press
-- neon-frame-forerun
-- row-embed
-- scanline-annotate-focus
-- scanline-assemble-flyin
+- brace-expand
+- flying-words
+- gradient-word-sweep
+- lead-word-zoom-assemble
+- letterspace-materialize
+- neon-triple-marquee
+- outline-word-fill
 - slam-entrance-moves-impact
 - slam-entrance-moves-kanada
-- slam-entrance-moves-score
-- steep-tilt-glide
 - stroke-segment-build
-- theme-switch-moves-sweep
+- text-column-converge
+- type-assembly-moves-drift-assembly
+- type-assembly-moves-split-stagger
+- type-assembly-moves-text-on-path
+- type-entrance-moves
 - type-rhythm-sync-font-weight-pump
 - type-rhythm-sync-karaoke-fill-sync
-- ui-to-brand-morph-icon-flip-bloom
-- ui-to-brand-morph-input-morph-assemble
+- typewriter-moves
+- vertical-word-roll-blur-cycle
 - word-relay-filmstrip
+- word-relay-geometry
 
 </details>
 
-### 第六批 · 9 张
+### 数据与图表 · 14 张
 
-场景与收尾：3D 轮播、牌组发牌、轨道标题、墙面揭开、命中反馈和合影收尾。
+仪表、折线、点阵数字、时间线和信息图。
 
-![第六批](previews/batches/batch6.jpg)
+![数据与图表](previews/categories/data.jpg)
 
 <details>
-<summary>第六批的 9 张卡</summary>
+<summary>全部 14 张</summary>
 
-- carousel-3d
-- deck-deal-flyin
-- impact-feedback-anime-impact
+- bezier-source-converge-merge
+- chart-live-moves-axis-rescale
+- chart-live-moves-dot-swarm
+- chart-live-moves-oscilloscope
+- countdown-arc-scatter
+- dataviz-landscape-open
+- gauge-readout-moves-needle
+- gauge-readout-moves-tape
 - impact-feedback-hit-counter
 - integration-hub-map
-- orbit-ring-title-open
+- slam-entrance-moves-score
+- timeline-travel
+- value-stagger-gradient
+- voice-waveform-live
+
+</details>
+
+### 列表与步骤 · 4 张
+
+菜单、步骤条、表格行这类条理内容的入场。
+
+![列表与步骤](previews/categories/lists.jpg)
+
+<details>
+<summary>全部 4 张</summary>
+
+- beat-step-list-theme-cycle
+- list-reveal
+- list-stack-press
+- row-embed
+
+</details>
+
+### 界面与交互 · 24 张
+
+光标、HUD、扫描标注、下拉、药丸、滑块，界面演示与叠加标注。
+
+![界面与交互](previews/categories/ui.jpg)
+
+<details>
+<summary>全部 24 张</summary>
+
+- before-after-slider-scrub
+- chip-grid-single-select-blackout
+- collab-cursor-moves
+- cursor-flyover
+- doc-park-left-pill-deal
+- document-typewriter-reveal
+- draw-svg-trace
+- fui-hud-moves
+- glass-pill-dictation-typing
+- hashtag-to-pill-materialize
+- icon-performance-moves
+- picker-carousel-feature-cycle
+- pill-chip-slot-cycle-handled
+- pill-slot-cycle
+- radial-ripple-phone-chips
+- scan-bracket-sweep
+- scanline-annotate-focus
+- scanline-assemble-flyin
+- scroll-brake-moves-changelog
+- scroll-brake-moves-reticle-lock
+- segmented-thumb-hero
+- theme-switch-moves-sweep
+- ui-to-brand-morph-icon-flip-bloom
+- ui-to-brand-morph-input-morph-assemble
+
+</details>
+
+### 卡片与场景 · 28 张
+
+轮播、发牌、照片墙、俯拍桌面和 3D 场景这类画面主体卡。
+
+![卡片与场景](previews/categories/cards-scenes.jpg)
+
+<details>
+<summary>全部 28 张</summary>
+
+- avatar-bracket-carousel
+- basic-3d-scene
+- brand-frame-snap
+- card-flip-reveal
+- card-flock-tumble
+- card-stack
+- carousel-3d
+- cloner-depth-echo
+- deck-deal-flyin
+- depth-layer-moves
+- element-body-moves
+- fracture
+- icon-field-colorize
+- impact-feedback-anime-impact
+- magician-card-flourish
+- mosaic-reframe
+- neon-frame-forerun
 - outro-group-photo-launch
+- overhead-camera-moves-tabletop-drop
+- overhead-camera-moves-tilt-reveal
+- page-waterfall-wall
+- panel-grid-moves
+- product-card-progressive-assemble
+- research-card-stack-scroll
+- spotlight-hero-card
+- steep-tilt-glide
 - wall-reveal-moves-bento
 - wall-reveal-moves-wireframe
 
 </details>
 
-### 第七批 · 7 张
+### 转场与光效 · 15 张
 
-图表与空间：三组实时图表、深度分层、面板网格、聚光扫过和时间线穿行。
+光轨、聚光、故障、溶解、印刷和空间转场。
 
-![第七批](previews/batches/batch7.jpg)
-
-<details>
-<summary>第七批的 7 张卡</summary>
-
-- card-flock-tumble
-- chart-live-moves-axis-rescale
-- chart-live-moves-dot-swarm
-- depth-layer-moves
-- panel-grid-moves
-- spotlight-sweep-moves-corner-reveal
-- timeline-travel
-
-</details>
-
-### 第八批 · 16 张
-
-品牌与协作：品牌画框、协作光标、拼贴重构图、瀑布墙、商品卡装配、滚动刹车和光带扫过。
-
-![第八批](previews/batches/batch8.jpg)
+![转场与光效](previews/categories/transitions.jpg)
 
 <details>
-<summary>第八批的 16 张卡</summary>
+<summary>全部 15 张</summary>
 
-- brand-frame-snap
-- card-stack
-- chart-live-moves-oscilloscope
-- collab-cursor-moves
+- bottom-push-stack-wipe
+- glitch-cycle
 - glow-flyline-moves-flyline-arc
 - glow-flyline-moves-glow-orb-ambient
-- hashtag-to-pill-materialize
-- mosaic-reframe
-- overhead-camera-moves-tabletop-drop
-- overhead-camera-moves-tilt-reveal
-- page-waterfall-wall
-- product-card-progressive-assemble
-- scroll-brake-moves-changelog
-- scroll-brake-moves-reticle-lock
+- glow-flyline-moves-orb-flyline-relay
+- gradient-transition
+- grain-dissolve
+- light-play-moves-sheen-sweep
+- light-play-moves-spotlight-sweep
+- print-texture-transitions
+- radial-wave
+- spotlight-sweep-moves-corner-reveal
 - spotlight-sweep-moves-glow-wake-sleep
 - spotlight-sweep-moves-slide-pan
-
-</details>
-
-### 第九批 · 3 张
-
-转场与光效：光轨接力、印刷质感转场和空间转场。
-
-![第九批](previews/batches/batch9.jpg)
-
-<details>
-<summary>第九批的 3 张卡</summary>
-
-- glow-flyline-moves-orb-flyline-relay
-- print-texture-transitions
 - transition-travel
 
 </details>
@@ -325,17 +301,23 @@ marker-underline-title 是这套卡的第一张，用来验证字段和渲染链
 
 ```
 templates/
-  batch1 … batch9/             117 张卡，每张一个目录
+  titles/         标题与版式
+  type-moves/     文字动效
+  data/           数据与图表
+  lists/          列表与步骤
+  ui/             界面与交互
+  cards-scenes/   卡片与场景
+  transitions/    转场与光效
   marker-underline-title/      测试卡 v0.1
   marker-underline-title-v0.2/ 测试卡 v0.2
-docs/                          18 份制作说明、验收清单与修改记录
+docs/             18 份制作说明、验收清单与修改记录
 previews/
-  batches/                     每批一张缩略图拼图
-  showcase/                    9 张动图
-  resolve/                     达芬奇检查器截图
+  categories/     每类一张缩略图拼图
+  showcase/       9 张动图
+  resolve/        达芬奇检查器截图
 ```
 
-每张卡的目录里至少有 `<模板名>.ograf.json`、`graphic.mjs`、`fonts/`、`NOTICE.md` 和上游许可证。
+每张卡的目录里至少有 `<模板名>.ograf.json`、`graphic.mjs`、`fonts/`、`NOTICE.md` 和上游许可证。docs 里的「第 X 批」是当时的制作顺序，现在只当制作记录看，和分类无关。
 
 ## 来源与许可
 
