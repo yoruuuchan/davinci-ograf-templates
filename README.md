@@ -8,13 +8,13 @@
 
 ![九张卡的拼贴预览](previews/hero.jpg)
 
-| | |
-|---|---|
-| 软件 | DaVinci Resolve 21 或更新（在 Windows 的 21.1.1、21.1.2 上测过） |
-| 图形格式 | OGraf v1，EBU 的开放图形标准 |
-| 内容 | 118 张卡，分 7 类；[图鉴](CATALOG.md)里每张都有缩略图和说明 |
-| 下载 | [Releases](https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest)：全库 15 MB，另有 12 张的入门包 |
-| 许可 | [Apache License 2.0](LICENSE)，内置字体为 SIL OFL 1.1 |
+<table>
+<tr><td><b>软件</b></td><td>DaVinci Resolve 21 或更新（在 Windows 的 21.1.1、21.1.2 上测过）</td></tr>
+<tr><td><b>图形格式</b></td><td>OGraf v1，EBU 的开放图形标准</td></tr>
+<tr><td><b>内容</b></td><td>118 张卡，分 7 类；<a href="CATALOG.md">图鉴</a>里每张都有缩略图和说明</td></tr>
+<tr><td><b>下载</b></td><td><a href="https://github.com/yoruuuchan/davinci-ograf-templates/releases/latest">Releases</a>：全库 15 MB，另有 12 张的入门包</td></tr>
+<tr><td><b>许可</b></td><td><a href="LICENSE">Apache License 2.0</a>，内置字体为 SIL OFL 1.1</td></tr>
+</table>
 
 **目录：** [上手](#上手) · [在达芬奇里改](#在达芬奇里改) · [动起来看看](#动起来看看) · [分类浏览](#分类浏览) · [验收与兼容](#验收与兼容) · [已知限制](#已知限制) · [目录结构](#目录结构) · [来源与许可](#来源与许可)
 
@@ -83,18 +83,28 @@
 
 这些动图由模板包离屏渲染。前景和转场类的卡不带背景，动图里垫了一张自绘的演示底，实际使用时叠在你的素材上。
 
-| | |
-|:--:|:--:|
-| <img src="previews/showcase/paper-title-card.gif" width="420"> | <img src="previews/showcase/marker-underline-title.gif" width="420"> |
-| **纸面压印标题** `paper-title-card` | **马克笔下划线标题** `marker-underline-title` |
-| <img src="previews/showcase/deck-deal-flyin.gif" width="420"> | <img src="previews/showcase/carousel-3d.gif" width="420"> |
-| **牌堆发卡满板** `deck-deal-flyin` | **3D 环形画廊** `carousel-3d` |
-| <img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420"> | <img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420"> |
-| **点阵聚成数字** `chart-live-moves-dot-swarm` | **光斑飞线接力** `glow-flyline-moves-orb-flyline-relay` |
-| <img src="previews/showcase/collab-cursor-moves.gif" width="420"> | <img src="previews/showcase/fui-hud-moves.gif" width="420"> |
-| **协作光标游走** `collab-cursor-moves` | **取景框咬合** `fui-hud-moves` |
-| <img src="previews/showcase/print-texture-transitions.gif" width="420"> | <img src="previews/showcase/transition-travel.gif" width="420"> |
-| **墨渗揭示转场** `print-texture-transitions` | **字腔穿越转场** `transition-travel` |
+<table>
+<tr>
+<td align="center" width="50%"><img src="previews/showcase/paper-title-card.gif" width="420" alt="纸面压印标题"><br><b>纸面压印标题</b> <code>paper-title-card</code></td>
+<td align="center" width="50%"><img src="previews/showcase/marker-underline-title.gif" width="420" alt="马克笔下划线标题"><br><b>马克笔下划线标题</b> <code>marker-underline-title</code></td>
+</tr>
+<tr>
+<td align="center" width="50%"><img src="previews/showcase/deck-deal-flyin.gif" width="420" alt="牌堆发卡满板"><br><b>牌堆发卡满板</b> <code>deck-deal-flyin</code></td>
+<td align="center" width="50%"><img src="previews/showcase/carousel-3d.gif" width="420" alt="3D 环形画廊"><br><b>3D 环形画廊</b> <code>carousel-3d</code></td>
+</tr>
+<tr>
+<td align="center" width="50%"><img src="previews/showcase/chart-live-moves-dot-swarm.gif" width="420" alt="点阵聚成数字"><br><b>点阵聚成数字</b> <code>chart-live-moves-dot-swarm</code></td>
+<td align="center" width="50%"><img src="previews/showcase/glow-flyline-moves-orb-flyline-relay.gif" width="420" alt="光斑飞线接力"><br><b>光斑飞线接力</b> <code>glow-flyline-moves-orb-flyline-relay</code></td>
+</tr>
+<tr>
+<td align="center" width="50%"><img src="previews/showcase/collab-cursor-moves.gif" width="420" alt="协作光标游走"><br><b>协作光标游走</b> <code>collab-cursor-moves</code></td>
+<td align="center" width="50%"><img src="previews/showcase/fui-hud-moves.gif" width="420" alt="取景框咬合"><br><b>取景框咬合</b> <code>fui-hud-moves</code></td>
+</tr>
+<tr>
+<td align="center" width="50%"><img src="previews/showcase/print-texture-transitions.gif" width="420" alt="墨渗揭示转场"><br><b>墨渗揭示转场</b> <code>print-texture-transitions</code></td>
+<td align="center" width="50%"><img src="previews/showcase/transition-travel.gif" width="420" alt="字腔穿越转场"><br><b>字腔穿越转场</b> <code>transition-travel</code></td>
+</tr>
+</table>
 
 这十张加上 `brace-expand` 和 `list-reveal` 就是入门包的内容。
 
