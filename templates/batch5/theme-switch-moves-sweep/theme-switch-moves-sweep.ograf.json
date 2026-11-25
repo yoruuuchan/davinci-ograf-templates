@@ -1,0 +1,196 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.theme-switch-moves-sweep",
+  "version": "0.1.0",
+  "name": "斜扫昼夜换肤 · Theme sweep",
+  "description": "一块 1680×912 的周排期窗口：镜头先贴近右上角的日夜开关按下，夜色以 15° 斜边从右往左扫过整个画面，相机同时拉开；扫完后今天、此刻线和窗口轮廓光依次亮起，最后停在夜景里缓推。昼版和夜版各用一张用户截图铺满窗口，日程、周标题、品牌、今天和此刻都能在检查器里改。改编自 video-shotcraft 的 theme-sweep-toggle 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "dayImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "昼版截图",
+        "description": "白天那版窗口里铺的图片，会裁切铺满整个窗口。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "nightImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "夜版截图",
+        "description": "夜里那版窗口里铺的图片。只填一张时两版共用这一张。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "weekTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "周标题",
+        "description": "窗口左上角的大标题，默认「9 月 14 日 – 18 日」。太长会自动缩小。",
+        "default": "9 月 14 日 – 18 日"
+      },
+      "weekTag": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "周次签",
+        "description": "周标题后面那行小字，比如「第 38 周」。留空不显示。",
+        "default": "第 38 周"
+      },
+      "weekNote": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "周注记",
+        "description": "右上角那行说明，比如「发布片 · 周五交付」。留空不显示。",
+        "default": "发布片 · 周五交付"
+      },
+      "brandName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "品牌名",
+        "description": "顶栏左边的名字，前面会跟一个中性的窗口标志。留空连标志一起不显示。",
+        "default": "制作排期"
+      },
+      "events": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "日程事件",
+        "description": "一行一条：「星期几｜开始｜结束｜事项｜颜色」。星期几填 1–5（周一到周五），开始 / 结束填 9–16 的小数（9.5 = 9:30），颜色填 blue / green / amber / rose，留空按行序轮替。最多 16 条，解析不了的行跳过；同列时间重叠会左右并排。",
+        "default": "1｜9.5｜10.75｜分镜评审｜rose\n1｜12.5｜14.5｜镜头清单检查｜blue\n2｜10.75｜12.5｜屏幕实拍｜green\n3｜11｜12.75｜运镜测试｜green\n4｜14.75｜16｜渲染检查｜blue"
+      },
+      "todayIndex": {
+        "type": "integer",
+        "title": "今天列",
+        "description": "今天胶囊和此刻线落在第几列：1 = 周一，5 = 周五，默认 3。",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 5
+      },
+      "nowHour": {
+        "type": "number",
+        "title": "此刻时间",
+        "description": "此刻线的高度，9–16 之间的小数，比如 13.75 = 13:45，默认 13.75。",
+        "default": 13.75,
+        "minimum": 9,
+        "maximum": 16
+      },
+      "dayAccent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "昼强调色",
+        "description": "昼版的今天胶囊、此刻线和开关轨道。",
+        "default": "#e0552a"
+      },
+      "nightAccent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "夜强调色",
+        "description": "夜版的今天胶囊、此刻线和开关轨道。",
+        "default": "#ff9450"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

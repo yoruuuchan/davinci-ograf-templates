@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.text-as-mask",
+  "version": "0.1.0",
+  "name": "字里有画 · Text as mask",
+  "description": "一个超大汉字（或英文词）镂空，字里透出缓慢漂移的画面，结尾画面顺着笔画冲满全屏。大字、字里的图片、眉题、副题、颜色、字号和是否冲入都能在检查器里改；眉题和副题留空就不显示。改编自 video-shotcraft的 text-as-mask镜头卡（Apache-2.0）。画面只取决于播放头位置。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "word": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大字",
+        "description": "字里有画的那个大词。2–4个汉字或4–6个英文字母最好看；太长会自动缩小，竖屏也不会出框。",
+        "default": "出片"
+      },
+      "panelImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "字里的画面",
+        "description": "填一张图铺满字的里面；留空用内置的暗色渲染面板。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "大字上方的一行小字，默认「画面正在生成」。留空就不显示。",
+        "default": "画面正在生成"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副题",
+        "description": "大字下方的一行说明，默认「从一句话到成片。」。留空就不显示。",
+        "default": "从一句话到成片。"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "大字字号",
+        "description": "按 1080 高的画面算，默认 580。字太宽时会自动缩小，竖屏也会按画面宽度收。",
+        "default": 580,
+        "minimum": 180,
+        "maximum": 700
+      },
+      "rushIn": {
+        "type": "boolean",
+        "title": "结尾冲进画面",
+        "description": "勾上时结尾顺着笔画冲满全屏；关掉就停在字里有画的状态。",
+        "default": true
+      },
+      "stageColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "舞台颜色",
+        "description": "瓷白舞台的底色，主光、暗角和字的软影都由它推出。",
+        "default": "#eef2f8"
+      },
+      "eyebrowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "眉题颜色",
+        "default": "#0d1324"
+      },
+      "subtitleColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "副题颜色",
+        "default": "#4c566e"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

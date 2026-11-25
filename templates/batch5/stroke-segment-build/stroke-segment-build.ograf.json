@@ -1,0 +1,97 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.stroke-segment-build",
+  "version": "0.1.0",
+  "name": "断笔成字 · Stroke segment build",
+  "description": "深紫墙上的一块霓虹灯牌：标题被切成一条条横向碎片，跨字乱序点亮，前七成读不出字，停一拍后三条底段落下，整词在一瞬间成立，墙面和地面跟着亮起，灯牌在下方留下倒影。标题、副题、灯管色、白热芯色、底色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 stroke-segment-build 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主标题",
+        "description": "2–5 个字最好：每个字切成 6 条碎片乱序点亮，最后 3 条底段揭晓整词。字越多碎片越少（总段数不超过 40）、整体越小，悬念会变弱；填很长也能自动排下。留空只剩灯光和副题。",
+        "default": "上线"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副题",
+        "description": "揭晓之后才浮出的一行小字。留空就不显示。",
+        "default": "八月首映"
+      },
+      "tubeColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "灯管色",
+        "description": "灯管本体的颜色；泛光、墙面和地面的受光都从它推出来。",
+        "default": "#ff5cab"
+      },
+      "coreColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "白热芯色",
+        "description": "灯管中间那层白热芯的颜色，副题的灰紫也由它和底色混出来。",
+        "default": "#fff2f8"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "墙和地的深色底；顶部渐变、暗角和地面明暗都从它推出来。",
+        "default": "#0a0716"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按画面短边 1080 算，默认 400（原卡字高）。字多或字大时整块灯牌自动缩小，竖屏也放得下。",
+        "default": 400,
+        "minimum": 120,
+        "maximum": 700
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

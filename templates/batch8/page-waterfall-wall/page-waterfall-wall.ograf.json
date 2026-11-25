@@ -1,0 +1,82 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.page-waterfall-wall",
+  "version": "0.1.0",
+  "name": "瀑布墙滚动 · Page waterfall wall",
+  "description": "三列页面截图排在向后倾的墙面上，各自差速循环滚动（中列反向），镜头缓慢推近，墙后一团靛蓝余光，上下柔进柔出；填 6–12 张截图最合适（少于 6 张也能跑，但墙会稀），一张不填就显示暗色占位卡；截图、背景色、余光色和卡片纸色都能在检查器里改。改编自 video-shotcraft 的 page-waterfall-wall 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "墙面截图",
+        "description": "建议 6–12 张：按顺序轮流分到三列，超过 12 张只取前 12 张；少于 6 张也能跑，但墙会稀；每列不足 3 张时用该列自己的图循环补齐，少于 3 张时先轮流铺满三列；一张不填就显示占位卡。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "冷黑底色；上下羽化、暗角、空气透视和颗粒的明暗都从它推出来。",
+        "default": "#0d0e13"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "余光色",
+        "description": "墙后那团微弱余光的颜色，默认靛蓝；勾了透明背景就不画。",
+        "default": "#5b63d3"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡片纸色",
+        "description": "图片卡的衬底和占位卡的纸色；占位卡会用它和背景色混成暗底，留空图片时看到的就是它。",
+        "default": "#fefcf9"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

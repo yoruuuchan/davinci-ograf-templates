@@ -1,0 +1,165 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.scanline-assemble-flyin",
+  "version": "0.1.0",
+  "name": "扫描装配建页 · Scanline assemble",
+  "description": "一张深蓝蓝图画板先亮起来，电光蓝扫描线匀速下掠；扫到哪个槽位，那一块就从画外飞入、过冲贴合，四角闪出咬合角标，虚线槽位随之消失。扫完整页恰好装完，网格退到三成、右侧大图亮起，状态行停表。左侧区块按行数自动等分，右侧固定一张大图；区块、状态字、路径、三个颜色和区块标题字号都能在检查器里改。改编自 video-shotcraft 的 scanline-assemble-flyin 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "lines": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "区块列表",
+        "description": "一行一个区块，用「｜」把标题和内容分开；只写标题也可以。支持 1–12 行，超过 12 行只显示前 12 行；行数越多块越矮，文字会自动缩小。",
+        "default": "一句话｜说清楚想拍什么\n全自动｜生成、剪辑、调色一次走完\n三十秒｜成片直接交付"
+      },
+      "image": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "右侧大图",
+        "description": "画板右半的大图，横图竖图都按 cover 裁切，不变形；扫描线扫过时会照常刷亮。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "status": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "状态字",
+        "description": "装配过程中的状态文字，装完自动换成「完成」。留空就不显示状态字。",
+        "default": "装配中"
+      },
+      "path": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "路径小字",
+        "description": "状态字后面的路径小字，默认留空不显示；太长会自动缩小。",
+        "default": ""
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "区块标题字号",
+        "description": "按 1080 高的画面算，默认 44。内容字和间距跟着变；块太矮或字太长时自动缩小。",
+        "default": 44,
+        "minimum": 20,
+        "maximum": 120
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "深蓝底色；蓝图画板、网格、状态行和文字明暗都从它推出来。",
+        "default": "#090d1a"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "电光蓝：落位角标、槽位、装完的状态字和画板蓝线都用它。",
+        "default": "#5b8cff"
+      },
+      "scanColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "扫描线色",
+        "description": "扫描线的辉光和身后被照亮的网格颜色，线芯保持白色。",
+        "default": "#5b8cff"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

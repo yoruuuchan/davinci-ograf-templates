@@ -1,0 +1,162 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.chart-live-moves-dot-swarm",
+  "version": "0.1.0",
+  "name": "点阵聚成数字 · Dot swarm regroup",
+  "description": "320 个点先散布漂浮，再按组聚成簇、码成柱，最后聚到终幕大数字后面形成光晕底。四句叙事标题、眉题、最多 4 组「名称｜数值」、终幕大数字、底部注记、三种颜色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 UnitDotSwarmRegroupV2 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6500
+      }
+    },
+    "properties": {
+      "headlines": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "叙事标题",
+        "description": "一行一句，最多取前四句，按三幕换句。填三行时第四幕沿用第三行；每句太长会自动缩小。",
+        "default": "每个点都是一次产出\n按类型分开\n按类型叠起来\n累计产出"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "左上角的小字。留空就不显示。",
+        "default": "产出统计 · 2026 年第三季"
+      },
+      "groups": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "数据组",
+        "description": "一行一组「名称｜数值」，最多取前四组，4 组时每组柱面从 8 列收成 6 列。数值带千分位原样显示；点数按数值比例分配，最少保底 12 点。只填一组时第二幕退化成单柱。",
+        "default": "预告短片｜7,210\n发布影片｜4,102\n讲解视频｜1,535"
+      },
+      "totalNumber": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "终幕数字",
+        "description": "最后一幕点阵拼出的数字。能拼的字符：0–9、逗号、小数点、加号、减号、百分号、空格，数字越长整体越小。带其他字（比如「1.2万」）时改成普通大字、点阵退到后面当淡色底。留空就不显示。",
+        "default": "12,847"
+      },
+      "footnote": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "底部注记",
+        "description": "图例下面那行小字。留空就不显示。",
+        "default": "每个点 ≈ 40 次产出"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "主角组、终幕大数字和终幕光晕的颜色；终幕点群由它推深。",
+        "default": "#2f5bff"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "瓷白底色；舞台渐变、光斑和文字色都由它和文字颜色推出。",
+        "default": "#eef2f8"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、数值和注记的主色；非主角组的两个灰阶也从它推出。",
+        "default": "#0d1324"
+      },
+      "headlineSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 84。簇顶数值、图例和注记会跟着等比缩放。",
+        "default": 84,
+        "minimum": 48,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.gauge-readout-moves-needle",
+  "version": "0.1.0",
+  "name": "三表甩针自检 · Needle sweep",
+  "description": "一排最多四个 270° 表盘错峰点火：指针 12 帧甩满全弧（扫过的刻度依次点亮再回落），再按落过头 8° 的弹簧回摆到真实数值，落定同帧数值弹出、指标名淡入；卡头状态胶囊在自检中和完成两段文案间切换。标题、指标行、两段状态文案和四个颜色都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 gauge-readout-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "卡头标题",
+        "description": "卡面左上角的标题，一行显示；太长会自动缩小。留空就只剩状态胶囊。",
+        "default": "系统状态"
+      },
+      "gauges": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "指标",
+        "description": "一行一个表盘，行内用「｜」分成「名称｜数值」，数值是 0–100 的百分比，超出会夹住；只写名称不写数值时按 0 算。最多 4 行，1–4 行都排一行，行越多表盘和字越小；超过 4 行只画前 4 行。全留空画一个 0 的空表盘。",
+        "default": "处理器｜70\n显卡｜44\n网络｜87"
+      },
+      "statusPending": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "自检中文案",
+        "description": "第 60 帧之前状态胶囊里的文字，前面的小圆点琥珀色呼吸。留空就只留小圆点。",
+        "default": "自检中…"
+      },
+      "statusDone": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "完成文案",
+        "description": "第 60 帧起状态胶囊换成的文字，小圆点变绿色常亮。留空就只留小圆点。",
+        "default": "一切正常"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "卡面外面的背景底色，柔光和暗角从它推出来。",
+        "default": "#0c0d11"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡面颜色",
+        "description": "中间大卡面的颜色，文字灰阶和轴帽金属色从它推出来。",
+        "default": "#1a1c22"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "指针、亮弧、发光和自检中胶囊的颜色；指针渐变的高光端从它提亮。",
+        "default": "#f59e0b"
+      },
+      "dangerColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "危险色",
+        "description": "表盘 75–100 那段红区和红区刻度数字的颜色。",
+        "default": "#ef4444"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

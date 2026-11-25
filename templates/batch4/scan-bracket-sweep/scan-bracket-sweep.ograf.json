@@ -1,0 +1,186 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.scan-bracket-sweep",
+  "version": "0.1.0",
+  "name": "取景扫描读档 · Scan bracket sweep",
+  "description": "一份白色文档弹进画面中央，四角落下取景括号，一条靛蓝扫描光带带着渐变拖尾在文档上往复扫几趟，光经过的行会被轻微照亮，扫完定格。文档下半部可以填一张截图（长图横图都会裁满），没填图时是带假文行的占位文档，表格行文字照常画在纸上。标题、副行、统计角标、表头、表格行、合计、扫描趟数、颜色和文档大小都能在检查器里改。改编自 video-shotcraft 的 scan-bracket-sweep 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "docImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "文档截图",
+        "description": "显示在页眉以下的纸面上，长图横图都会裁满不变形。留空时画占位文档。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "docTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页眉标题",
+        "description": "页眉左上的文档标题，前面带一个小文档图标。留空就不显示。",
+        "default": "分镜清单"
+      },
+      "docMeta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页眉副行",
+        "description": "标题下面的小字说明。留空就不显示。",
+        "default": "故事板 v3 · 1080p · 30fps"
+      },
+      "docChip": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "统计角标",
+        "description": "页眉右上的灰色小圆角角标。留空就不显示。",
+        "default": "7 镜 · 0:28"
+      },
+      "docHeader": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "表头",
+        "description": "表格列名，用「｜」分列，和表格行的列对应；只填前几个也行。没填图时才显示。",
+        "default": "镜头｜做法｜入点｜帧数"
+      },
+      "rows": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "表格行",
+        "description": "一行一条，用「｜」分列（例：冷开场｜文字遮罩｜0:00｜96 帧）。最多 12 行，多的截掉；列数比表头少也能排。留空时表格整块不显示。",
+        "default": "冷开场｜文字遮罩｜0:00｜96 帧\n主镜揭示｜聚光扫过｜0:03｜120 帧\n功能巡礼｜掠光巡游｜0:07｜150 帧\n数据一拍｜riso 印刷｜0:12｜120 帧\n工作台｜急推变焦｜0:16｜90 帧\n画廊掠过｜俯冲飞越｜0:19｜144 帧\n收尾落版｜品牌定帧｜0:24｜108 帧"
+      },
+      "total": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "合计行",
+        "description": "表格最下面的一行，同样用「｜」分列，最后一段会加粗放大。留空就不显示。",
+        "default": "合计｜30fps｜828 帧 · 27.6 秒"
+      },
+      "scanPasses": {
+        "type": "integer",
+        "title": "扫描趟数",
+        "description": "光带往复扫过文档的趟数。",
+        "default": 5,
+        "minimum": 3,
+        "maximum": 7
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "括号、页眉标题和表格正文的颜色，默认近黑。",
+        "default": "#16171c"
+      },
+      "scanColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "扫描光色",
+        "description": "光带、行照亮和文档小图标的颜色，默认靛蓝。",
+        "default": "#5b63d3"
+      },
+      "docScale": {
+        "type": "number",
+        "title": "文档占比",
+        "description": "文档高度占画面短边的百分比，默认 55。",
+        "default": 55,
+        "minimum": 30,
+        "maximum": 90
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.orbit-ring-title-open",
+  "version": "0.1.0",
+  "name": "环卡托题开场 · Orbit ring title",
+  "description": "石墨夜场里一圈 16:9 图片卡沿椭圆匀速公转，环从 0.62 撑开、逐卡淡入、轨道发丝线描出；远处压暗微虚、近处全亮，标题逐字解糊下沉，落定后荧光块自左横扫、扫过处字反白，mono 副行随后浮出。图片、两行标题、副行、底色／强调色／主标题色和主标题字号都能在检查器里改；不填图时画 8 张石墨占位卡。改编自 video-shotcraft 的 orbit-ring-title-open 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "环形图片",
+        "description": "一行一张，3–10 张，张数就是环上卡数；超过 10 张只取前 10 张。每张按 16:9 卡面 cover 裁切，横图竖图都不拉伸。留空时画 8 张石墨占位卡，动作照常。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "titleTop": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "上行标题",
+        "description": "上行小字，逐字解糊下沉；字号跟着主标题字号等比。留空只隐藏这一行，主标题上移。",
+        "default": "让每一段素材"
+      },
+      "titleMain": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "下行主标题",
+        "description": "主标题，单行；落定后荧光块从左横扫、扫过处字反白。字太多时整块等比缩小，不出框。留空不显示这一行。",
+        "default": "都派上用场"
+      },
+      "tagline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副行小字",
+        "description": "主标题下面那行 mono 大字距小字，f60 起浮出。留空不显示，主标题位置不变。",
+        "default": "镜头配方 · 随取随用"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "石墨底色；舞台渐变、暗角、占位卡和标题后的暗 scrim 都从它推。",
+        "default": "#0c0d0b"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "荧光黄绿：荧光块、椭圆轨道线、卡片描边、近处顶光和占位卡细节都取它。",
+        "default": "#c6f432"
+      },
+      "titleColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "主标题色",
+        "description": "主标题的白热色；上行灰、副行灰、反白墨色都从它和底色推。",
+        "default": "#f6f8f0"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "主标题字号",
+        "description": "下行字号，按 1080 高的画面算，默认 156；上行按 64/156 等比。竖屏和 4K 会自动换算。",
+        "default": 156,
+        "minimum": 96,
+        "maximum": 240
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

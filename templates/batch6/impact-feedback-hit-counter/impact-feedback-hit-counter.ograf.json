@@ -1,0 +1,156 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.impact-feedback-hit-counter",
+  "version": "0.1.0",
+  "name": "连招砸卡计数 · Hit counter combo",
+  "description": "钴蓝街机海报：两到四张白卡接连砸进虚线槽位，每次命中整幅画面顿两帧、卡面闪白、白色冲击环炸开、黄色火花迸射、伤害数字上浮，右上角的 ×N 连击计数逐次加码，最后一行收益逐字升起。卡片、眉题、收尾行、四种颜色和卡标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 HitCounter 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片",
+        "description": "一行一卡，用「｜」隔开：标题｜说明｜伤害数字。支持 2–4 张，超过 4 张只显示前 4 张；伤害数字可以省略，省略后这张卡不显示页脚收益行。",
+        "default": "快速出稿｜套版不套思路｜−2 天\n自动踩点｜每刀都落在节拍上｜−1 天\n批量出片｜一次渲染全部尺寸｜−3 天"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "左上角那行小字，默认「这一版更新了什么」；留空隐藏。",
+        "default": "这一版更新了什么"
+      },
+      "closing": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "收尾行",
+        "description": "最后一张命中后逐字升起，默认「每条片子，省下一周。」；留空隐藏。",
+        "default": "每条片子，省下一周。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "钴蓝底色；渐变、斜纹后的暗部和主光都从它推出来。",
+        "default": "#1b3fd6"
+      },
+      "hitColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "街机黄：浮动伤害数字、连击计数、热度条、火花和槽底受光。",
+        "default": "#ffd23f"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡面颜色",
+        "description": "白卡的底色，卡片从上到下由白过渡到它；卡面文字和页脚分隔线也从硬投影色推出来。",
+        "default": "#f7f8ff"
+      },
+      "deepColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "硬投影色",
+        "description": "卡片阴影、伤害数字的错位硬影和背景暗部；卡面文字的颜色也由它加深。",
+        "default": "#06104a"
+      },
+      "cardTitleSize": {
+        "type": "integer",
+        "title": "卡标题字号",
+        "description": "卡片标题的字号，默认 48。字太长时卡内自动换行并整体缩小；竖屏和 4K 由整块缩放。",
+        "default": 48,
+        "minimum": 32,
+        "maximum": 64
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

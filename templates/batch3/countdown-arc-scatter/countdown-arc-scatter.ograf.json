@@ -1,0 +1,169 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.countdown-arc-scatter",
+  "version": "0.1.0",
+  "name": "表盘扫数落标题 · Dial sweep",
+  "description": "一只巨大的纸面表盘把一排数字扫过画面急停，停在弧顶的数字飞进标题第一个字，其余数字原地失焦散去，标题逐词浮现、强调词转强调色，下面升起一句描边胶囊小字。主角数字、陪跑数字、标题、强调词、栏目名、小字、颜色和字号都能在检查器里改。改编自 video-shotcraft 的 countdown-arc-scatter 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "hero": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主角数字",
+        "description": "表盘停在弧顶的那一格，也是标题的第一个字，可以填 2–3 位。",
+        "default": "5"
+      },
+      "scale": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "陪跑数字",
+        "description": "表盘上陪跑的数字，一行一个或用「、」「|」隔开。支持 2–12 个：前面的排在主角左边、每格 24°，少于 6 个时左边会空几格；超过 12 个只排前 12 个。",
+        "default": "45、35、28、22、17、10、4、3"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "跟在主角数字后面，整行读作「5 分钟装好」。太长整行会缩小，不出框。",
+        "default": "分钟装好"
+      },
+      "accentWords": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "强调词",
+        "description": "标题里出现的位置会转成强调色，可以填多个词，每一处都标。留空就没有这个颜色事件。",
+        "default": "装好"
+      },
+      "label": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "栏目名",
+        "description": "顶部发丝线左端的小字。留空不显示，发丝线还在。",
+        "default": "装配耗时"
+      },
+      "note": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "底部说明",
+        "description": "标题下面的等宽小字，放在描边胶囊里。留空不显示。",
+        "default": "开箱即用，不用配置环境"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "标题和主角数字的字号，按 1080 高的画面算，默认 150；表盘数字是它的 0.747 倍。竖屏会自动再缩一次。",
+        "default": 150,
+        "minimum": 90,
+        "maximum": 220
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的颜色，中间的柔光会跟着变。",
+        "default": "#f4efe5"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "数字、标题、刻度和发丝线的颜色。",
+        "default": "#17130f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "强调词和指针的颜色。",
+        "default": "#e5432d"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

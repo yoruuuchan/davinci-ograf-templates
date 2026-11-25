@@ -1,0 +1,162 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.riso-print-hits",
+  "version": "0.1.0",
+  "name": "套印错位标题 · Riso misregistration",
+  "description": "再生纸上，黑体标题从画外撞进来，命中瞬间裂成粉、蓝两版反向错位，抖两下后在第 72 帧硬切回套准，右下角同时盖下「套准」圆章；背后是一轮半调网点大太阳，底部三栏短卖点。标题、三句卖点、圆章文字、纸面 / 粉版 / 蓝版颜色和标题字号都能在检查器里改。改编自 video-shotcraft 的 riso-print-hits 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行。撞入后裂成粉、蓝两版，第 72 帧硬切回套准。中文两行各 3–5 个字正好；太长自动缩小。",
+        "default": "做出来，\n要够响。"
+      },
+      "info1": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "信息 1",
+        "description": "底部第一栏。留空就不显示，剩下的栏重新分宽；太长会自动缩小。",
+        "default": "镜头配方卡，拍电影感产品片"
+      },
+      "info2": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "信息 2",
+        "description": "底部第二栏。留空就不显示，剩下的栏重新分宽。",
+        "default": "一句提示词，直接出片"
+      },
+      "info3": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "信息 3",
+        "description": "底部第三栏。留空就不显示，剩下的栏重新分宽。",
+        "default": "本周五，全网上线"
+      },
+      "stampText": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "圆章文字",
+        "description": "沿着圆章环形排，短词会自动重复几遍铺满一圈。留空就不盖章。",
+        "default": "套准"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "再生纸的底色，中心柔光从它推出来。",
+        "default": "#f3eee2"
+      },
+      "pinkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "粉版颜色",
+        "description": "荧光粉印版：标题的一版和半调太阳。",
+        "default": "#ff4fa3"
+      },
+      "blueColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "蓝版颜色",
+        "description": "蓝印版：标题的另一版、套准十字、卖点栏和圆章。",
+        "default": "#1f5fc4"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 300。中文两行各 3–5 个字刚好；太长会自动缩小。",
+        "default": 300,
+        "minimum": 120,
+        "maximum": 400
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

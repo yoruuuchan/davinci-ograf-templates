@@ -1,0 +1,138 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.integration-hub-map",
+  "version": "0.1.0",
+  "name": "翻面亮管接生态 · Hub flip connect",
+  "description": "白色双面面板在近景里快翻 180°，侧棱闪一下白热，落成新页面后一圈 logo 瓷贴同帧弹现、光管同时接通，彗星脉冲持续往里输送、面板呼吸。两面各用一张图，图标绕面板自动排布、光管自动接到最近边缘。改编自 video-shotcraft 的 integration-hub-map 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "frontImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "旧页面图",
+        "description": "翻面之前那一面铺的图，按 cover 裁进 820×520 的白板，横图竖图都不拉伸。留空画淡色占位块和「旧页面」。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "hubImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "新页面图",
+        "description": "翻面之后落成的新页面，同样 cover 裁进白板。留空画占位块和「新中枢」。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "frontTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "旧页标题",
+        "description": "只在正面顶部显示一行 22px 的标题，下面一条发丝线。留空就正面不显示这一行。",
+        "default": "旧文档"
+      },
+      "hubTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "新页标题",
+        "description": "只在背面顶部显示，样式同旧页标题。留空只隐藏这一行，正面标题不受影响。",
+        "default": "工作台"
+      },
+      "icons": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "接入图标",
+        "description": "绕面板一圈的 logo 瓷贴，一行一个路径，从上中起顺时针排；填 2–6 张（超过只取前 6 张），每张 cover 进 112×112 瓷贴，横竖图都不拉伸。留空显示 5 个几何占位。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "暗场底色，默认暗紫；中心的紫光、暗角和颗粒叠在上面。",
+        "default": "#0d0c14"
+      },
+      "pipeStart": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光管起点色",
+        "description": "光管靠图标那一端的颜色，也决定瓷贴接通后的余光颜色。默认低饱和暖黄。",
+        "default": "#f2d37e"
+      },
+      "pipeEnd": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光管终点色",
+        "description": "光管接进面板那一端的颜色，面板呼吸的辉光也由它推出来。默认低饱和紫。",
+        "default": "#b49aff"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

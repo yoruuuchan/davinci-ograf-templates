@@ -1,0 +1,94 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.impact-feedback-anime-impact",
+  "version": "0.1.0",
+  "name": "负片打击帧急推 · Anime impact punch",
+  "description": "一记重拳打在一张画面上：镜头先缓慢推进、锁定中央偏上的目标框，短促回拉后六帧急推撞停；三帧整幅负片 + 手绘放射集中线 + 红青色散，随后恢复干净特写并震屏衰减。填一张挨打的画面、调目标框位置和两种颜色即可。不填图时效果打在中间的中性占位画面上，下面轨道的画面从四周透出来，但不会被反色。改编自 video-shotcraft 的 anime-impact 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "shotImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "被打的图",
+        "description": "把要挨这一拳的画面截图填进来，效果最好；留空则效果打在中间的中性占位画面上，下面的画面从四周透出来，但不会被反色。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "focusX": {
+        "type": "number",
+        "title": "目标横%",
+        "description": "目标框中心在画面宽度里的百分比，0–100，相对铺满后的画面。填到边上会自动往里收，保证撞停后框不出画。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "focusY": {
+        "type": "number",
+        "title": "目标纵%",
+        "description": "目标框中心在画面高度里的百分比，0–100。填到边上会自动往里收，保证撞停后框不出画。",
+        "default": 42,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "lineColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "集中线颜色",
+        "description": "冲击帧放射集中线的亮色；深色楔线由它压到近黑推出。",
+        "default": "#f4f2ee"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "目标框颜色",
+        "description": "目标框的锁定描边和光晕颜色，第 6–20 帧亮起。",
+        "default": "#5b63d3"
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

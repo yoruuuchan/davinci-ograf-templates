@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.card-stack",
+  "version": "0.1.0",
+  "name": "卡片弹入展扇 · Card stack",
+  "description": "一摞圆角图片卡从画面下方逐张弹入叠齐，再展开成扇面；正中那张被抽出 72px，描上一圈钴蓝边、扫过一道光，标题和副句随后升起。填 3–12 张图片，每张铺满一张 320×440 的圆角卡；标题、副句、字号和三种颜色都能在检查器里改，片段结尾统一上飘淡出。改编自 video-shotcraft 的 card-stack 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片图片",
+        "description": "一行一个路径，填 3–12 张，从上到下就是入场顺序。每张按 cover 铺满 320×440 的圆角卡，横图、竖图、方图都不拉伸；超过 12 张只取前 12 张。留空时画 9 张带序号的瓷白占位卡。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主标题",
+        "description": "扇面上方的大标题，卡片展开之后逐字升起。太长会自动换行，超出可用高度再等比缩小；留空就不显示。",
+        "default": "从这一摞里，挑一张。"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "标题下面的一行小字，标题升起之后淡入。太长会自动换行并缩小；留空就不显示。",
+        "default": "每一张都准备好了，随时可以开始。"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 88。竖屏和 4K 会自动换算；字太多时会自动缩小。",
+        "default": 88,
+        "minimum": 44,
+        "maximum": 120
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "舞台颜色",
+        "description": "瓷白舞台的底色；两端的亮暗和地面反光都从它推出来。",
+        "default": "#eef2f8"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、副句和角标计数的颜色；卡片描边、阴影也从它推出来。",
+        "default": "#0d1324"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "主角卡的描边和扫光的颜色。",
+        "default": "#2f5bff"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

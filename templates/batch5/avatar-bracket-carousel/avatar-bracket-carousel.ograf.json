@@ -1,0 +1,139 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.avatar-bracket-carousel",
+  "version": "0.1.0",
+  "name": "取景框换头像 · Bracket avatar carousel",
+  "description": "「你的 ⬜ 团队」填空句式：四角对焦框锁定头像槽，一列圆头像从下往上 spring 轮换（入框放大清晰、出框缩小虚化），头像下的角色标签同步滚动换字。头像一行一张按顺序轮换，最多 8 张（超过只取前 8 张）；角色标签一行一个，按顺序对应头像，少了就不显示后面的标签。头像多时切换会变密：片长建议按（张数−1）×1.14 秒估，最少 5 秒，多出来的片长停在最后一个头像上。改编自 video-shotcraft 的 avatar-bracket-carousel 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "avatars": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "头像图组",
+        "description": "一行一张，从上到下就是轮换顺序，最多 8 张（超过只取前 8 张）：每张 cover 裁成圆头像进框，队列长度就是张数，切换次数 = 张数 − 1。不填时画渐变圆盘 + 线性图标的占位，张数跟着角色标签的行数走（都空时 4 张）。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "roles": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "角色标签",
+        "description": "一行一个，按顺序对应头像；行数少了后面头像不显示标签，多了只取前几行（最多 8 行）。不填头像时占位张数也按这里填几行来，1 行就是 1 张、不切换。",
+        "default": "导演\n剪辑\n动画\n音效"
+      },
+      "wordLeft": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左词",
+        "description": "填空句左边的词，和头像、右词拼成一句话。留空只隐藏左词。",
+        "default": "你的"
+      },
+      "wordRight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右词",
+        "description": "填空句右边的词。左右词都填很长时整句会自动缩小。",
+        "default": "团队"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "对焦框、标签圆点和头像槽地光的颜色。",
+        "default": "#7b83f2"
+      },
+      "ink": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "左右两个词的颜色。",
+        "default": "#eef0f6"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "句式字号",
+        "description": "按 1080 高的画面算，默认 136；角色标签跟着等比缩放。整句太宽会自动缩小。",
+        "default": 136,
+        "minimum": 60,
+        "maximum": 280
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

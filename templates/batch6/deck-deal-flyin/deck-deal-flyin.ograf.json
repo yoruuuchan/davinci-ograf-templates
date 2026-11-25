@@ -1,0 +1,164 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.deck-deal-flyin",
+  "version": "0.1.0",
+  "name": "牌堆发卡满板 · Deck deal flyin",
+  "description": "一张石墨桌面上，一摞有厚度的实体卡特写环绕 → 一拍预备 → 一摞卡按硬加速节拍甩进奶白板上的 3 列网格，相机追着发牌升起、后仰成跑道式俯瞰，满板后左下标语升起。卡片图、两行标语、计数后缀、标志图和三个颜色都能在检查器里改。改编自 video-shotcraft 的 deck-deal-flyin 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片图",
+        "description": "3–12 张。网格固定 3 列：3–9 张用 3 行 9 格，10–12 张加到 4 行 12 格；图少于格数按顺序循环填满（想不重复就填满格数），超过 12 张只用前 12 张。留空画 9 张占位块。每张 cover 裁进横卡位，不拉伸。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "headline1": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语第一行",
+        "description": "粗体（700）。第 100 帧起从下往上升起；太长自动换行或缩小。留空这一行不显示。",
+        "default": "内容再多，"
+      },
+      "headline2": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语第二行",
+        "description": "细体（400）、颜色比第一行淡。第 103 帧起升起；留空这一行不显示。",
+        "default": "一步到位。"
+      },
+      "countLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "计数后缀",
+        "description": "计数数字后面那句话，数字跟着落地张数自动跳。留空整个计数行不显示。",
+        "default": "张作品就位"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志图",
+        "description": "放在计数行最前面，高 34 像素。留空就不占位。",
+        "default": ""
+      },
+      "tableColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "桌面颜色",
+        "description": "石墨桌面的底色；顶光、高光带、纸面暗层和占位块都由它推出来。",
+        "default": "#1b1c1f"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "板面颜色",
+        "description": "网格板纸面的颜色；槽位描边由它推出。",
+        "default": "#f9f6f1"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标语第一行、计数数字的颜色；第二行和计数后缀是它混桌面色后的淡色。",
+        "default": "#f4f2ee"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

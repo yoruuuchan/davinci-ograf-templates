@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.brace-expand",
+  "version": "0.1.0",
+  "name": "花括号拉幕 · Brace expand",
+  "description": "一对电光蓝花括号先紧贴着出现，再带一次弹簧过冲向左右弹开，把中间的标题像幕布一样拉出来；落定后字距松弛、括号泛光回落，眉题和副标随后入场，最后整幅极缓前推。标题、眉题、副标、括号色、文字色、底色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 brace-expand 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "括号中间拉出来的标题，默认「新片上线」。括号会给标题留出空当；很短时也会弹到原卡的开度，太长时整组自动缩小。",
+        "default": "新片上线"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方那行等宽小字，默认「// 本周更新」。留空就不显示。",
+        "default": "// 本周更新"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标",
+        "description": "标题下方逐字浮现的短句，默认「一个镜头，一份做法。」。中文逐字、英文逐词；留空就不显示。",
+        "default": "一个镜头，一份做法。"
+      },
+      "braceColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "括号颜色",
+        "description": "花括号、开场光标、泛光和反射的颜色，眉题也从它推出来。",
+        "default": "#5b8cff"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题和副标的颜色；标题的冷白渐变和副标的灰蓝都从它推出来。",
+        "default": "#f2f5ff"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "午夜蓝背景的中间色，上下渐变和顶光会跟着变。",
+        "default": "#090d1a"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 164。括号字号、间距和上下留白都跟着等比变；标题太长时整组自动缩小。",
+        "default": 164,
+        "minimum": 60,
+        "maximum": 300
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

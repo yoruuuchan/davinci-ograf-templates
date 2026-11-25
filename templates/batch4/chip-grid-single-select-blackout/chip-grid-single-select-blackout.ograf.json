@@ -1,0 +1,183 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.chip-grid-single-select-blackout",
+  "version": "0.1.0",
+  "name": "单选反黑揭晓 · Chip select",
+  "description": "几个选项 chip 居中排好，一只光标从右下走弧线点中其中一项：灰闪一帧、反黑成白字、带勾，其余 chip 淡没；黑块上移收窄回中线，下面升起结算——原价被划掉、现价、优惠标签。眉题、问句、选项、选中项、价格、颜色都能在检查器里改。改编自 video-shotcraft 的 chip-grid-single-select-blackout 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "问句上面一行强调色小字，比如「计费周期」。留空不显示。",
+        "default": "计费周期"
+      },
+      "question": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "问句",
+        "description": "一行大字，默认 84px；填长了会自动缩字号，不换行。",
+        "default": "你想怎么付？"
+      },
+      "options": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "选项",
+        "description": "一行一个选项，1–9 个；每行最多 3 个、整块居中，默认 5 个排成 3+2。超过 9 个只排前 9 个。某个名字太长会只缩这一枚的字号。",
+        "default": "按年付费\n按月付费\n两年一签\n学生价\n公益价"
+      },
+      "selected": {
+        "type": "integer",
+        "title": "选中第几项",
+        "description": "光标点中、反黑、最后上移的是这一项，从 1 数起；填得比选项多就按最后一项算。结算内容不跟着变，要在下面的价格字段里自己填。",
+        "default": 1,
+        "minimum": 1,
+        "maximum": 9
+      },
+      "price": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "现价",
+        "description": "收束后逐字升起的大数字。留空就不显示这一块，其余照常往中间收。",
+        "default": "¥34"
+      },
+      "oldPrice": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "原价",
+        "description": "先升起、再被一道划线划掉的那个价格。留空不显示。",
+        "default": "¥42"
+      },
+      "unit": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "价格后缀",
+        "description": "现价右边的小字，比如 /月、/年。留空不显示。",
+        "default": "/月"
+      },
+      "badge": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "优惠标签",
+        "description": "最下面弹出的强调色胶囊。留空不显示。",
+        "default": "立省 18% · 年付 ¥413"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景颜色，光斑和暗角会跟着变。",
+        "default": "#eef2f8"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "主文字色",
+        "default": "#0d1324"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "眉题、落地光、优惠标签的颜色。",
+        "default": "#2f5bff"
+      },
+      "selectedColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "反黑色",
+        "description": "选中 chip 反黑后的颜色，勾和落地光从这里推。",
+        "default": "#0b1020"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

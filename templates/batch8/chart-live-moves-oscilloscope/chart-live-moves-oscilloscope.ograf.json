@@ -1,0 +1,171 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.chart-live-moves-oscilloscope",
+  "version": "0.1.0",
+  "name": "示波实时曲线 · Oscilloscope stream",
+  "description": "满版示波器屏：电光蓝磷光迹线向左流动，写入头经过时一记 2.2 倍的珊瑚红尖峰打进来，「突发」标签钉上峰顶随流漂走，随后流速刹停、镜头缓推向尖峰。眉题、直播灯、大读数、副读数、尖峰标签、四种颜色和读数字号都能在检查器里改。改编自 video-shotcraft 的 OscilloscopeStreamV2 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "左上角的主眉题；留空只隐藏它，副题和直播灯留在原位。",
+        "default": "实时吞吐监控"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副题",
+        "description": "眉题右边的说明小字；留空只隐藏它。",
+        "default": "生产集群 · 帧/秒"
+      },
+      "live": {
+        "type": "boolean",
+        "title": "直播状态",
+        "description": "勾上是「实时」（灯呼吸）；不勾是「已暂停」，扫描线和新鲜段同步减光。不会随播放进度切换。",
+        "default": true
+      },
+      "readingBase": {
+        "type": "integer",
+        "title": "读数基数",
+        "description": "大读数的基准值，读数在它附近随波形摆动。",
+        "default": 1350,
+        "minimum": 0,
+        "maximum": 9999
+      },
+      "readingSwing": {
+        "type": "integer",
+        "title": "读数摆幅",
+        "description": "读数随波形摆动的幅度，0 就基本停在基数上。",
+        "default": 560,
+        "minimum": 0,
+        "maximum": 2000
+      },
+      "readingUnit": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "读数单位",
+        "description": "大读数右边的单位小字；留空不显示。",
+        "default": "帧/秒"
+      },
+      "stats": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "副读数",
+        "description": "右上角的副读数，一行一个「名称｜基准值｜单位」，1–4 个按个数均分右侧宽度，超出取前 4；尖峰时数值会跳。留空整行不显示。",
+        "default": "P99 延迟｜42｜毫秒\n错误率｜0.02｜%"
+      },
+      "burstLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "尖峰标签",
+        "description": "峰顶弹出的事件标签文字；留空只隐藏标签，备注留在原位。",
+        "default": "突发"
+      },
+      "burstNote": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "尖峰备注",
+        "description": "标签右边的峰值备注；留空只留标签文字。两个都留空整枚标签不显示。",
+        "default": "峰值 2,872 帧/秒"
+      },
+      "axisMax": {
+        "type": "integer",
+        "title": "上限",
+        "description": "竖向比例的上限值，波形按它缩放，不画刻度字。要和读数的量级匹配。",
+        "default": 3000,
+        "minimum": 100,
+        "maximum": 100000
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "深蓝磷光屏的底色；渐变、柔光、暗角、扫描线底圈都从它推。",
+        "default": "#090d1a"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "迹线色",
+        "description": "迹线、刻度网、写入头和「实时」灯的电光蓝。",
+        "default": "#5b8cff"
+      },
+      "eventColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "尖峰色",
+        "description": "尖峰段、事件标签和读数变热时的珊瑚红。",
+        "default": "#ff6b5b"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "读数色",
+        "description": "大读数、眉题和副读数的近白；变热时向尖峰色插值。",
+        "default": "#f2f5ff"
+      },
+      "readingSize": {
+        "type": "integer",
+        "title": "读数字号",
+        "description": "按 1080 高的画面算，默认 176，可调100–220。眉题、副读数、标签和间距都跟着等比缩放。",
+        "default": 176,
+        "minimum": 100,
+        "maximum": 220
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

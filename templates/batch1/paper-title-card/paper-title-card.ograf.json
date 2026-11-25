@@ -1,0 +1,154 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.paper-title-card",
+  "version": "0.1.0",
+  "name": "纸面压印标题 · Paper title card",
+  "description": "一句标题在暖白纸面上逐字压印出来（由大到小、由虚到实），强调词换成强调色，下面可以加一行带滚动数字的小字；片段结尾上飘淡出。改编自 video-shotcraft 的 paper-title-card 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行。中文一个字一个字压出来，英文一个词一个词压出来。",
+        "default": "你来导演，\n让 AI 掌镜。"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "强调词",
+        "description": "要在标题里出现，会换成强调色；英文强调词还会变斜体。留空就不强调。",
+        "default": "掌镜"
+      },
+      "number": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "数字",
+        "description": "标题下面那行开头滚动停下的数字，可以带逗号或百分号。留空就不显示。",
+        "default": "12"
+      },
+      "line": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "小字",
+        "description": "数字后面的说明。数字和小字都留空，这一行就不显示。",
+        "default": "今日渲染镜头"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#13110f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "强调词和数字的颜色。",
+        "default": "#955905"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的颜色，中间的柔光会跟着变。",
+        "default": "#f9f6f1"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 116。竖屏和 4K 会自动换算；字太多时会自动缩小。",
+        "default": 116,
+        "minimum": 40,
+        "maximum": 300
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.product-card-progressive-assemble",
+  "version": "0.1.0",
+  "name": "详情卡逐格自填 · Product card assemble",
+  "description": "一张商品详情卡被填充光标逐格填好：棚拍图、商品名、分类标签、价格降级、正文马克笔、色卡和按钮依次落位，整卡缓慢前推后停住。商品图、文案、颜色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft的 product-card-progressive-assemble镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "productImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "商品图",
+        "description": "左侧棚拍槽，按 cover裁切不拉伸；留空画中性占位，动作照常播放。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉标",
+        "description": "商品名上面的小字，原卡这里是品牌名。留空就不显示。",
+        "default": "本周新品"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "商品名",
+        "description": "商品名，太长会自动缩小，不出框。",
+        "default": "晨露保温杯"
+      },
+      "tags": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "分类标签",
+        "description": "一行一项，或用「、」「|」隔开。建议1–6项，最多8项；末项用白底描边强调，一排放不下会换排。超过8项只显示前8项。",
+        "default": "手作、小批量、无添加"
+      },
+      "oldPrice": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "原价",
+        "description": "会先落定、再被划掉降级的原价。留空则新价直接落位。",
+        "default": "¥299"
+      },
+      "newPrice": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "新价",
+        "description": "降级后跳出来的新价，用强调色。留空就不做降价动作，原价保持原样。",
+        "default": "免费"
+      },
+      "priceChip": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "价格理由",
+        "description": "新价旁边的理由签，晚6帧滑入。留空就不盖这个签；新价留空时也不显示。",
+        "default": "新品期"
+      },
+      "body": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卖点正文",
+        "description": "按回车换行。一行太长会自动换行，不会截断。",
+        "default": "每个卖点都有自己的\n出场顺序，价格与色卡\n逐格落位。"
+      },
+      "marks": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "高亮词",
+        "description": "要刷马克笔的词，一行一个或用「、」「|」隔开。正文里没有的词不会报错，只是不刷。",
+        "default": "出场顺序、逐格落位"
+      },
+      "swatchLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "色卡标签",
+        "description": "色卡右边的说明，留空只留四个圆点。",
+        "default": "配色 · 墨"
+      },
+      "cta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "按钮文案",
+        "description": "按钮上的字，留空按钮照样填满。",
+        "default": "立即领取"
+      },
+      "cursorLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "光标标签",
+        "description": "光标右上角的小签。留空只留框、不留签。",
+        "default": "自动填充"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "标题、正文和按钮底色。卡片表面、骨架条等推导色都从它来。",
+        "default": "#1c2128"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面",
+        "description": "画面和卡面的冷白底色，色卡第二枚也用它。",
+        "default": "#eef1f6"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "光标、新价、理由签和马克笔高亮都用它；色卡第三枚用它，第四枚是它混纸面的浅色。",
+        "default": "#2b4fd8"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "标题字号，按1080高的画面算，默认112。价格同级跟随，pill、正文、按钮等比缩放；内容太重时整卡自动缩进画面。",
+        "default": 112,
+        "minimum": 80,
+        "maximum": 150
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

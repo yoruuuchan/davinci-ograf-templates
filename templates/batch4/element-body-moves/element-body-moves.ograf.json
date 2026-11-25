@@ -1,0 +1,163 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.element-body-moves",
+  "version": "0.1.0",
+  "name": "抬卡点选 · Contact shadow lift",
+  "description": "几张竖版卡片平躺在冷白桌面上，斜俯拍镜头逐张点名（抬起、悬停、落回），选定的那张沿桌面法线抬起停在空中，带对勾和钴蓝描边，接触核和环境影两层影子留在桌面。卡片内容、卡片图、选定第几张、颜色和标题字号都能在检查器里改。改编自 video-shotcraft 的 element-body-moves（ContactShadowLift）镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片内容",
+        "description": "一行一张卡，格式「标签｜数值｜说明」，用竖线隔开；只写标签也行。某行标签和数值都留空，那张卡就不显示。最多 8 张，超过只取前 8 张；4 张起分两排，卡会整体缩小。",
+        "default": "横摇跟拍｜8 帧｜两个场景之间的模糊交接。\n急推镜头｜12 帧｜对准真正重要的数字。\n标志定格｜24 帧｜在最后一拍落在标志上。"
+      },
+      "cardImages": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片图",
+        "description": "每张卡面上半的图，一行一个路径，从上到下对应卡片内容的一行一行；建议竖版图，横图会裁两侧，图不够时剩下的卡画占位。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "pickIndex": {
+        "type": "integer",
+        "title": "选定卡",
+        "description": "第几张卡被选定抬起、停在空中，从 1 数；超过卡数时算最后一张。只填 1 张卡时没有点名段，直接是选定动作。",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 8
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "逐词（英文）或逐字（中文）升起；太长自动换行并缩小。留空只显示眉题。",
+        "default": "挑一张打法。"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方那行等宽小字；留空就不显示。",
+        "default": "镜头配方 · 宣传片"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "桌面的冷白底；桌面渐变、点阵和卡面渐变都从它推。",
+        "default": "#eef1f6"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "标题和卡面大字的主色；次级文字、阴影和点阵都从它推。",
+        "default": "#1c2128"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "选定卡的描边和对勾的颜色。",
+        "default": "#2b4fd8"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 120；眉题和间距跟着变。竖屏和 4K 自动换算。",
+        "default": 120,
+        "minimum": 48,
+        "maximum": 220
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体和等宽。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

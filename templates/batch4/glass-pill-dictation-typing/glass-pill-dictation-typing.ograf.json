@@ -1,0 +1,149 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.glass-pill-dictation-typing",
+  "version": "0.1.0",
+  "name": "胶囊听写打字 · Glass pill dictation",
+  "description": "一条磨砂玻璃胶囊以 1.25 倍落位，胶囊里自左淡到右浓铺一层暖光；光标先行，听写句匀速打出，暖光随打字渐渐退去，最后停成一条中性磨砂玻璃条。句子、提示语、暖色／杏色／文字／底色和字号都能在检查器里改。改编自 video-shotcraft 的 glass-pill-dictation-typing 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "text": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "听写句",
+        "description": "逐字匀速打出来的那句话；太长时胶囊封顶在画内、字号自动缩小，打字窗口按字数拉长。",
+        "default": "把这段想法，剪成短片。"
+      },
+      "hint": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "提示语",
+        "description": "胶囊上方那句「在等你开口」的小字：开口前浮现、首字落下前淡出。留空就不显示。",
+        "default": "说吧，我在听。"
+      },
+      "warmColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暖色",
+        "description": "胶囊内嵌光的主色，太阳、地面反光和声波按钮也用它。",
+        "default": "#d9643a"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "杏色光",
+        "description": "暖光的亮端：胶囊光层的最右、背后太阳的光心。",
+        "default": "#ffb070"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "听写句和光标的颜色。",
+        "default": "#221a12"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "画面的米色底；玻璃后面的柔光斑和阴影都从它推出来。透明模式不画。",
+        "default": "#e8ddce"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "听写字的字号，按 1080 高的画面算，默认 56；胶囊高度随字号等比。",
+        "default": 56,
+        "minimum": 32,
+        "maximum": 96
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

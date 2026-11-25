@@ -1,0 +1,89 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.value-stagger-gradient",
+  "version": "0.1.0",
+  "name": "柱阵错峰脉冲 · Value stagger",
+  "description": "一排发光圆角柱从暗色地面上按左到右的顺序逐根长出来（高度、位移、模糊、颜色从第一根到最后一根铺成梯度），第二拍一道脉冲从中间向两边扫过。柱高就是你填的一列数据，根数和颜色都能改，顶部可留一行标题。改编自 video-shotcraft 的 value-stagger-gradient 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "bars": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "柱高",
+        "description": "一排柱子的高度，一行一根，或用「、」「|」隔开；每根 0–100，支持 4–24 根，少于 4 根按 4 根排、超过 24 根取前 24 根，根数决定柱宽与间距。",
+        "default": "100\n96\n92\n87\n83\n78\n74\n70\n65\n61\n57\n52\n48\n44\n39\n35"
+      },
+      "heading": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "顶部标题",
+        "description": "柱子上面居中的一行字，淡入上浮出现。留空就不显示。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景的底色，上深下更深的渐变、柔光和暗角都从它推出来。",
+        "default": "#0a0b0f"
+      },
+      "startColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "首根颜色",
+        "description": "第一根柱子的颜色，往末根颜色铺成梯度。",
+        "default": "#75c7f0"
+      },
+      "endColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "末根颜色",
+        "description": "最后一根柱子的颜色，也是柱群下方柔光的颜色。",
+        "default": "#f075c7"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

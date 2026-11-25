@@ -1,0 +1,186 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.slam-entrance-moves-kanada",
+  "version": "0.1.0",
+  "name": "透视甩入急停 · Kanada snap",
+  "description": "一张发布片首映卡从左侧以金田式鱼眼透视甩进画面，落定瞬间弹平、震屏、炸开一圈集中线：左半是你的海报图，右半是角签、片名、副标、规格和播放按钮，卡外一行字幕逐字升起。海报、文案、三种颜色和片名字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 slam-entrance-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "posterImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "卡面海报图",
+        "description": "卡左半 560×580 的海报图，按 cover 裁满，竖图横图都不拉伸；留空画夜色渐变块和淡图片图标。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "cornerTag": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "角签",
+        "description": "卡左上角粉底签上的字，原卡是 PREMIERE；太长会自动缩小。留空只隐藏签，片名位置不动。",
+        "default": "首映"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "片名",
+        "description": "按回车换行；落定时从 −10° 斜切收正。中文按字排、字距为 0，英文自动收紧；填长了会换行或缩小。",
+        "default": "新片\n首映"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标",
+        "description": "片名下面那行说明；填长了自动换行并缩小，不出卡。留空不显示。",
+        "default": "你的产品，动起来。"
+      },
+      "specLine": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "规格行",
+        "description": "副标下面的 mono 小字，比如时长、画幅、分辨率。留空不显示。",
+        "default": "60 秒 · 16:9 · 1080P"
+      },
+      "cta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "按钮文案",
+        "description": "白色按钮上的字，左边保留播放三角；太长会自动缩小，不撑破卡。留空不显示按钮。",
+        "default": "立即观看"
+      },
+      "caption": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "字幕",
+        "description": "卡外的一行字幕，34 帧起升起；中文逐字、英文逐词。可以回车换行；太长自动缩到画面宽内。留空不显示。",
+        "default": "周五首映 · 用手机就能拍"
+      },
+      "nightColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "夜色",
+        "description": "背景和卡面的夜色；舞台光、暗角和海报占位渐变都从它推出来。",
+        "default": "#170f2a"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "片名、字幕和按钮旁文字的颜色；副标、规格行等次级文字从它推出来。",
+        "default": "#f3ecff"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "角签、速度线、集中线隔道和按钮光晕的粉色。",
+        "default": "#ff5fa2"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "片名字号",
+        "description": "按 1080 高的画面算，默认 92。右栏其余字号等比；整栏放不下时会整体缩小，保证不出卡。",
+        "default": 92,
+        "minimum": 64,
+        "maximum": 128
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

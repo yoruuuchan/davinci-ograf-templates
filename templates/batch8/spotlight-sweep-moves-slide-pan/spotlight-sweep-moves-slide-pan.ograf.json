@@ -1,0 +1,92 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.spotlight-sweep-moves-slide-pan",
+  "version": "0.1.0",
+  "name": "贴边泛光横摇 · Slide spotlight pan",
+  "description": "黑场里一块 3000×1400 的超宽界面板匀速向左滑（相机向右摇），一道紫色聚光贴着面板左缘爬上左上角，再转过角沿顶边一路扫到右段；光到哪里面板哪里显影，聚光范围外沉进黑色，片段最后停止左移并定格，由宿主统一上飘淡出。只填一张界面截图：图片按比例裁满整块超宽面板，不会拉伸；16:9 和竖图会裁掉上下（竖图只剩中间一条横带），比面板更宽的 21:9 图会裁掉左右。不填图时画一块浅灰的骨架占位面板（侧栏、顶栏、三列条块，没有字）。底色、泛光紫和面板底色都能在检查器里改。改编自 video-shotcraft 的 SlideSpotlightPan 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4400
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4800
+      }
+    },
+    "properties": {
+      "panelImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "界面截图",
+        "description": "面板里放的界面截图（网页、App、后台都行），按比例裁满整块超宽面板，不拉伸；16:9 和竖图裁上下（竖图只剩中间一条横带），比面板更宽的图裁左右。不填就画浅灰骨架占位面板。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "面板外的黑场底色，顶部黑檐也从它推出来。",
+        "default": "#050409"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "泛光颜色",
+        "description": "贴边光带的颜色；宽糊层、粉色层、亮芯和贴面泛光都从它推出来。",
+        "default": "#c47eff"
+      },
+      "panelColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "面板底色",
+        "description": "没填图片时骨架占位面板的底色，也是图片没铺满时露出的底。",
+        "default": "#f4f4f3"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉黑底和顶部黑檐，只留面板、贴边光和压暗罩；压暗罩裁在面板圆角内，不会压到下面那一轨。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

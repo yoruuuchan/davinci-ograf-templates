@@ -1,0 +1,154 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.type-assembly-moves-text-on-path",
+  "version": "0.1.0",
+  "name": "沿增长线流入 · Text on path",
+  "description": "整句标题沿着一条从左下爬到右上的发光增长曲线推进，每个字按切线角旋转，到顶后逐字抬升摆正成左上标题；曲线车头光点、季度标记和数值牌随后点亮。标题、刻度、季度、数值、颜色、字号都能改。改编自 video-shotcraft 的 type-assembly-moves（text-on-path 式）镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "headline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "沿曲线流入的整句话，到顶后摆正成左上标题。中文一个字一个字沿线走，英文一个词一组。",
+        "default": "一路向上，越走越快"
+      },
+      "axisLabels": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "纵轴刻度",
+        "description": "一行一个刻度，从上到下（最下面一条是基线）。3 到 6 条，网格线数量跟着条数走。",
+        "default": "6000\n4000\n2000\n0"
+      },
+      "milestones": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "季度标记",
+        "description": "一行一个「标签｜数值」，沿曲线从 35% 到 90% 均匀放置，2 到 6 条。留空就不显示。",
+        "default": "二季度｜1100 万\n三季度｜2400 万\n四季度｜3700 万"
+      },
+      "bigValue": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "数值",
+        "description": "线顶弹出的数值牌上的大数字。",
+        "default": "4860 万"
+      },
+      "unit": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "单位",
+        "description": "数值旁边的小字说明。留空就不显示。",
+        "default": "年收入"
+      },
+      "delta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "增幅",
+        "description": "数值旁边的涨幅，常用 ▲ 开头。单位和增幅都留空就只显示数值。",
+        "default": "▲ 312%"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方逐词升起的小字。留空就不显示。",
+        "default": "2026 财年 · 年度报告"
+      },
+      "subline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副句",
+        "description": "标题下方逐词浮现的一句话。留空就不显示。",
+        "default": "每个季度都比上一个季度更好。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "深色底最出效果。",
+        "default": "#05070e"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#f2f5ff"
+      },
+      "curveColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "曲线颜色",
+        "description": "面积渐变和外发光都从它推。",
+        "default": "#5b8cff"
+      },
+      "headColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "车头点缀色",
+        "description": "车头光点、到顶脉冲和增幅的颜色。",
+        "default": "#3ee6d0"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "标题字号，默认 92。刻度、眉题、副句等小字按比例跟着缩。",
+        "default": 92,
+        "minimum": 48,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

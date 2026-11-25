@@ -1,0 +1,143 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.doc-park-left-pill-deal",
+  "version": "0.1.0",
+  "name": "文档驻留发结论 · Doc park pill deal",
+  "description": "一页文档靠左驻留（向左滑出、微缩到0.92，全程极缓慢上滚），右侧按节拍慢发白底药丸，每张落定后逐字加深一句字幕，下一张到来前淡出。文档图、药丸、强调色、正文色和字号都能在检查器里改：药丸一行一张，格式是「名称｜图标｜右侧小数字｜字幕句」，支持2–8张，超过只取前8张；张数多时建议把片段拉长到8–10秒。没填文档图时画一页白纸文字条占位，动作照常。改编自 video-shotcraft的 doc-park-left-pill-deal镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "docImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "来源文档图",
+        "description": "替换原来那页假文档，按 cover裁进白面文档卡并缓慢上滚，横图竖图都行。留空时画白纸文字条占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "pills": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "药丸",
+        "description": "一行一张，格式「名称｜图标｜右侧小数字｜字幕句」。只有名称必填；图标填 zoom / deck / sting才有图标，数字和字幕留空就不显示。支持2–8张，超过只取前8张，5张以上建议把片段拉长到8–10秒。",
+        "default": "急推镜头｜zoom｜92%｜急推把主数字砸在重拍上\n发牌镜头｜deck｜88%｜发牌把素材库一次摊开\n品牌收尾｜sting｜95%｜收尾停在标志上一秒"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "药丸图标的颜色，背景的浅色柔光也从它推出来。",
+        "default": "#5b63d3"
+      },
+      "ink": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "正文颜色",
+        "description": "药丸名称、字幕和占位文字条的深浅都从它推出来。",
+        "default": "#17181c"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "按1080高的画面算：默认50是药丸名称，字幕是44。药丸名和字幕一起等比变；药丸多时整列会先缩小。",
+        "default": 50,
+        "minimum": 36,
+        "maximum": 72
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

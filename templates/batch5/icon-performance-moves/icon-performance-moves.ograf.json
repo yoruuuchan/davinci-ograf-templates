@@ -1,0 +1,164 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.icon-performance-moves",
+  "version": "0.1.0",
+  "name": "图标弹跳求关注 · Attention bounce",
+  "description": "奶油色 Dock 里的一枚应用图标先蹲一下，再连跳四次、一次比一次高，落地压扁、荡开涟漪溅点；后几次邻居图标失焦变淡，最高那跳镜头推近，落定后角标弹出、运行点亮起，功能面板从图标旁弹簧展开。主角图标、角标、面板眉题／标题／行、背景／文字／强调色、面板标题字号和字体都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 icon-performance-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "appIcon": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "主角图标",
+        "description": "会被裁进奶油色圆角壳里，方形图标最合适；横图竖图都按 cover 居中裁切，不拉伸。留空时壳里画强调色圆角方块占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "badge": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "角标",
+        "description": "主角图标右上角小圆里的字，默认 1；留空就不弹角标；字太长会在圆里自动缩小。",
+        "default": "1"
+      },
+      "panelEyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "面板眉题",
+        "description": "面板左上角那行小字，默认「新功能」，用强调色；留空只留右边那条发丝线。",
+        "default": "新功能"
+      },
+      "panelTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "面板标题",
+        "description": "面板的主标题，默认「每个镜头，都调过。」；填长了会先换行、再缩到两行以内，不会顶出面板。",
+        "default": "每个镜头，都调过。"
+      },
+      "panelRows": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "面板行",
+        "description": "一行一条，用「｜」分成「时间｜事项｜注记」；时间可以不写，例如「开场推近｜2.5D」。要加时间码就写成「00:04｜踩点切镜｜12 刀」，会以等宽字排在每行最前面。支持 1–5 行，超过 5 行只显示前 5 行；行多了面板会加高。",
+        "default": "开场推近｜2.5D\n踩点切镜｜12 刀\n标志定格｜带音效"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "画面的暖沙底色；上下渐变、面板底色和暗角都从它推出来。",
+        "default": "#dccdb8"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "面板文字和阴影的墨色；次级文字、时间码也从它推出来。",
+        "default": "#2b2925"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "角标、面板眉题、第三行色条和占位方块的颜色。",
+        "default": "#c4552e"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "面板标题字号",
+        "description": "面板主标题的字号，默认 68，范围 48–96；面板行字号会跟着变。竖屏和 4K 会按画面换算，太大时标题会换行或缩小。",
+        "default": 68,
+        "minimum": 48,
+        "maximum": 96
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

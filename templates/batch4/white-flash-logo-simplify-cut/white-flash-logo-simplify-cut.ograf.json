@@ -1,0 +1,144 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.white-flash-logo-simplify-cut",
+  "version": "0.1.0",
+  "name": "闪白转扁平定版 · White flash simplify",
+  "description": "暗场上液态字标流光蓄力，从字心炸出一记白闪，曝光回落时同一位置已是纸面上的扁平字标，随后标志揭开、标语逐词升起。字标、字号、标志、标语和四种颜色都能在检查器里改；这张卡不做透明背景——暗场转纸面就是动作本身。改编自 video-shotcraft 的 white-flash-logo-simplify-cut 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "wordmark": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字标",
+        "description": "液态版和扁平版显示的同一句话。太宽时整版自动缩小。留空只走白闪和空场。",
+        "default": "拾光影像工作室"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字标字号",
+        "description": "按 1080 高的画面算，默认 190；两版同字号。竖屏和 4K 自动换算。",
+        "default": 190,
+        "minimum": 100,
+        "maximum": 280
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志",
+        "description": "扁平段字标上方揭开的标志图，按原比例装进约 124px 的方框。留空就不显示，字标上方的位置也空出来。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "tagline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语",
+        "description": "扁平段字标下面那句话，逐词升起。中文按字拆、英文按词拆。留空就不显示。",
+        "default": "把每一帧，都拍成电影。"
+      },
+      "stageColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暗场颜色",
+        "description": "前半段液态演出的底色；舞台光和余光都从它推出来。",
+        "default": "#0b0816"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "白闪之后落到的纸面；底部的暗部从它推出来。",
+        "default": "#f7f5f0"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "扁平字标的颜色，标语的次级灰也从它推出来。",
+        "default": "#171714"
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

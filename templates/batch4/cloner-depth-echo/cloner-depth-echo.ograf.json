@@ -1,0 +1,165 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.cloner-depth-echo",
+  "version": "0.1.0",
+  "name": "分身纵队 · Cloner depth echo",
+  "description": "一张主卡「复印」出一列重影弹向纵深（消失点在左上），停一拍后全体加速吸回本体，合体时主卡脉冲、序号格全亮、左下计数回弹，标题随后升起。主卡显示你填的图片，不填画中性占位卡。第二行标题默认写「八个镜头」，改了克隆数记得把文案改成对应的数字。改编自 video-shotcraft 的 cloner-depth-echo 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "heroImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "主卡图",
+        "description": "显示在主卡和整列重影里的图片，横竖都行，会裁满卡面。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "clones": {
+        "type": "integer",
+        "title": "克隆数",
+        "description": "纵队里重影的张数，3–12。左下计数器显示 克隆数+1。标题文案不会跟着变，第二行的数字要自己改。",
+        "default": 7,
+        "minimum": 3,
+        "maximum": 12
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行，两行在左上角升起；中文逐字、英文逐词。第二行的数字请按实际克隆数写。",
+        "default": "一句话，\n八个镜头。"
+      },
+      "caption": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副行",
+        "description": "左下计数器下面那行等宽小字。留空就不显示。",
+        "default": "同时出片 · 一句到底"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "石墨黑舞台和卡面的底色。",
+        "default": "#0c0e0a"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "重影描边、计数器、序号格、第二行强调词的颜色。",
+        "default": "#d7ff4a"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "default": "#f6f8f0"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 112。竖屏和 4K 会自动换算；字太多会自动收紧节奏。",
+        "default": 112,
+        "minimum": 48,
+        "maximum": 220
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源字体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

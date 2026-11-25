@@ -1,0 +1,92 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.collab-cursor-moves",
+  "version": "0.1.0",
+  "name": "协作光标游走 · Cursor cast ensemble",
+  "description": "一层可以直接叠在你的白板、画布或录屏上的协作光标：五个带姓名徽标的彩色光标从画面四边错峰飞入，落在中心的椭圆上轻轻漂移，第 98 帧一起聚拢到你指定的位置。人物（一行一个「名字｜颜色」）、聚拢点、徽标字号、名字颜色和光标描边都能在检查器里改；支持 1–8 人，超过 8 人只取前 8，名字最多 6 个字。模板不画任何背景，只画光标和姓名徽标。改编自 video-shotcraft 的 collab-cursor-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "people": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "人物",
+        "description": "一行一个人，格式「名字｜颜色」。颜色可省略，省了按内置八色轮换；名字最多 6 个字，多出的不显示。支持 1–8 人，超过 8 人只取前 8；人多了整组缩小、间距均分。",
+        "default": "阿蓝｜#2f5bff\n小柯｜#0e9f6e\n阿美｜#f26a1b\n小唐｜#7b4dff\n小瑞｜#ec2f7c"
+      },
+      "focusX": {
+        "type": "number",
+        "title": "聚拢点横",
+        "description": "聚拢后那组光标中心的横坐标，0 是画面左边、100 是右边，默认 50。填到边上时整组自动往里收，光标和名字不出画。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "focusY": {
+        "type": "number",
+        "title": "聚拢点纵",
+        "description": "聚拢后那组光标中心的纵坐标，0 是画面上边、100 是下边，默认 50。填到边上时整组自动往里收，光标和名字不出画。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "badgeSize": {
+        "type": "number",
+        "title": "徽标字号",
+        "description": "姓名徽标的字号，默认 26（原卡大小）。光标箭头、投影、圆角和间距都按它等比缩放；人超过 5 个时整组还会再缩到 0.75。",
+        "default": 26,
+        "minimum": 18,
+        "maximum": 40
+      },
+      "nameColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "名字颜色",
+        "description": "姓名徽标里的文字颜色，默认白色。",
+        "default": "#ffffff"
+      },
+      "outlineColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "描边颜色",
+        "description": "光标箭头的描边颜色，默认白色。",
+        "default": "#ffffff"
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

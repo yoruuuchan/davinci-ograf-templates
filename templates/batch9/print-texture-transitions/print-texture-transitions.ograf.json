@@ -1,0 +1,150 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.print-texture-transitions",
+  "version": "0.1.0",
+  "name": "墨渗揭示转场 · Ink bleed reveal",
+  "description": "纸面章节页被一滴墨从落点洇开，墨洞是透明的，洞外的纸面慢慢退去，洞里直接透出下面那轨的下一段；纸纹、字和发丝线都在旧景里，墨边和湿晕压在洞沿上。章号、标题、副标题、纸色／墨色／文字色、标题字号和墨滴落点都能在检查器里改；100 帧后整层变透明，只剩下一段。改编自 video-shotcraft 的 print-texture-transitions 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "chapter": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "章号",
+        "description": "纸面上的章节小字，默认留空不显示；填「第二章」这类文字才出现，整块内容会重新居中。",
+        "default": ""
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行；支持 1–3 行，超过 3 行或太长会自动缩小，不压下面的发丝线。整行是英文时自动变斜体；留空则标题区不显示。",
+        "default": "让画面动起来，\n把这一镜拍好。"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "标题下面那行说明；太长会自动换行并缩小，留空就不显示。标题和副标题都留空时，发丝线也不显示。",
+        "default": "每一镜，都在同一处调好。"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "旧景纸面的底色；中心柔光、暗部和发丝线都从它和文字色推出来。",
+        "default": "#f3efe6"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "墨边和落点墨滴的颜色；湿晕的暖褐也从它和纸色混出来。",
+        "default": "#1a1c29"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题和副标题的主色；章号灰、副标题灰和发丝线都从它推出来。",
+        "default": "#2a2620"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 112；范围 72–150。副标题固定 34，章号 22；字太多时标题会自动缩小。",
+        "default": 112,
+        "minimum": 72,
+        "maximum": 150
+      },
+      "dropX": {
+        "type": "number",
+        "title": "落点 X",
+        "description": "墨滴落点的横向位置，按画面宽度的百分比算，0 是最左、100 是最右；默认 42。",
+        "default": 42,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "dropY": {
+        "type": "number",
+        "title": "落点 Y",
+        "description": "墨滴落点的纵向位置，按画面高度的百分比算，0 是最上、100 是最下；默认 39。",
+        "default": 39,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体（标题/副标）和思源黑体（章号）。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

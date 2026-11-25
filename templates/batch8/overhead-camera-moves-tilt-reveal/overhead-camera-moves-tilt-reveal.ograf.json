@@ -1,0 +1,84 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.overhead-camera-moves-tilt-reveal",
+  "version": "0.1.0",
+  "name": "俯拍抬正揭示 · Tilt reveal",
+  "description": "一张 16:9 页面截图平躺在深蓝舞台上，开场只见上缘一道发光的窄带；镜头从 86° 抬头回正，页面由远及近落定，背景光池和浮尘反向视差，落定后极缓推近。页面截图、背景色和强调色都能在检查器里改，不填图时画带顶栏、面积图和三块 KPI 骨架的中性占位页。勾「透明背景」后只剩页面和一束缘光。改编自 video-shotcraft 的 overhead-camera-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "pageImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "页面截图",
+        "description": "整页换成你的 16:9 页面截图，按 cover 铺满原来的页面平面，超出部分居中裁切。不填时画深蓝占位页。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "深夜蓝的舞台底色；舞台渐变、背光边缘和占位页的深蓝都从它提亮。",
+        "default": "#05070e"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "地平线缘光、页面背光、地面反光和镜面反光的电光蓝；默认 #5b8cff。",
+        "default": "#5b8cff"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉舞台底色、光池、浮尘、地面反光和暗角颗粒，只留页面、它的投影和一束缘光。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

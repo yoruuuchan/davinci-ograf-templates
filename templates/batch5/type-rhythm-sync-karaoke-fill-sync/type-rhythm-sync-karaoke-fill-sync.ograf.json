@@ -1,0 +1,134 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.type-rhythm-sync-karaoke-fill-sync",
+  "version": "0.1.0",
+  "name": "逐词填色跟读 · Karaoke fill sync",
+  "description": "旁白读到哪个词，哪个词就从左到右柔边填亮，读指下划线跟着前沿，读完退成主墨色；底部 48 根旁白波形跟着起伏。填色按匀速语感走：每个词的读窗按字数加权，词间留固定换气；想精确跟旁白，就把片段剪切对齐。改编自 video-shotcraft 的 karaoke-fill-sync 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "lines": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标语",
+        "description": "一行一条，最多 4 行，多出的行不显示。行内用空格、全角空格或「｜」分词；没有分隔符的一行会按字逐个点亮。字多或行多会自动缩小，读窗也会变长（默认文案第 140 帧落定）。填色按匀速走，想精确跟旁白就把片段剪切对齐。",
+        "default": "一帧一帧地，\n把故事讲清楚。"
+      },
+      "pace": {
+        "type": "number",
+        "title": "语速",
+        "description": "每拍帧数，默认 20（一拍约两个字）。数越大读得越慢；读窗总长跟着字数和语速变，调到 22 以上建议把片段拉长。",
+        "default": 20,
+        "minimum": 10,
+        "maximum": 45
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景的暖白底色，光斑、暗角和颗粒照旧；勾透明背景时整块背景都不画。",
+        "default": "#f6f6f4"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "字色",
+        "description": "读完的主墨色。未读字按 13% 透明度从它推出来，波形未播部分也从它推。",
+        "default": "#17181c"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "正在读的词、读指下划线和波形已播部分。默认是原卡的 #5b63d3。",
+        "default": "#5b63d3"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 150。行多或一行字太多时会自动缩小。",
+        "default": 150,
+        "minimum": 60,
+        "maximum": 260
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

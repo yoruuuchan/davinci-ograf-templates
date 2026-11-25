@@ -1,0 +1,149 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.icon-field-colorize",
+  "version": "0.1.0",
+  "name": "满屏图标点亮 · Icon field colorize",
+  "description": "满屏熄灯的键帽图标从中心向外浮现，停一拍后四道色波自上而下把全场点亮成金到珊瑚的四段横带，最后暗幕里升起眉题和两行标题。标题、眉题、颜色、字号都能改；标题留空就只剩图标场，可以当垫场。改编自 video-shotcraft 的 icon-field-colorize 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行，第二行用首波的颜色。中文一个字一个字升起，英文一个词一个词；太长会自动换行、再缩小。整段留空就只剩图标场，当垫场用。",
+        "default": "每一个镜头，\n都汇到一处。"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方的小字。留空就不显示。",
+        "default": "镜头配方"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 132；眉题固定 40。字太多时会自动缩小。",
+        "default": 132,
+        "minimum": 72,
+        "maximum": 200
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "图标场的暗底；顶部和中央的微光由它推出来。",
+        "default": "#070403"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "眉题和标题第一行的颜色。",
+        "default": "#fff5ee"
+      },
+      "waveFrom": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "首波颜色",
+        "description": "第一道色波的颜色，也是标题第二行的颜色。",
+        "default": "#ffc454"
+      },
+      "waveTo": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "末波颜色",
+        "description": "第四道波的颜色；中间两道由首末两色在 oklch 里插出来，不会发灰。",
+        "default": "#f04656"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源字体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

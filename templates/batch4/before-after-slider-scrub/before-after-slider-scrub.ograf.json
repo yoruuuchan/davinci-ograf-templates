@@ -1,0 +1,109 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.before-after-slider-scrub",
+  "version": "0.1.0",
+  "name": "前后对比拉杆 · Before-after slider scrub",
+  "description": "两张同机位的对比图（修图前后、旧版/新版界面、装修前后都行）铺满画面，竖分割杆快速甩到右侧再慢慢扫回，杆左侧露出「处理后」那张。两张图都留空时画中性占位；只填一张时两层用同一张图（处理前那层带灰蒙，仍能看出对比）。改编自 video-shotcraft 的 before-after-slider-scrub 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "beforeImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "处理前图",
+        "description": "对比里旧的那张，和处理后图同布局同机位才成立。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "afterImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "处理后图",
+        "description": "对比里新的那张。只填一张时两层都用它；两张都不填画占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "beforeLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "前角标",
+        "description": "分割杆右侧胶囊上的字。留空不显示。",
+        "default": "处理前"
+      },
+      "afterLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "后角标",
+        "description": "分割杆左侧胶囊上的字，会随杆一起被裁。留空不显示。",
+        "default": "处理后"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "后角标上的点和描边色；没填图时也是「处理后」占位卡片上的那道色条。",
+        "default": "#8f96f0"
+      },
+      "ink": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "深色",
+        "description": "后角标胶囊底色，也是前角标的字色。",
+        "default": "#10121a"
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.document-typewriter-reveal",
+  "version": "0.1.0",
+  "name": "文档逐行写出 · Typewriter doc",
+  "description": "暗场里一扇悬浮的应用窗口，标题和正文在紫色笔尖后一行行自己写出来，左侧的周报条目逐条落入，最后一行标语从底部升起。标题、正文、侧栏条目、标语、纸色、笔尖色、暗场色、强调色和字号都能改；勾了透明背景就只留纸面。改编自 video-shotcraft 的 document-typewriter-reveal 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "docTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "文档标题",
+        "description": "窗口里那份文档的标题，第一行被写出来的字。留空就从正文第一段开始写。",
+        "default": "本周复盘"
+      },
+      "blocks": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "正文段落",
+        "description": "一行一段，3–8 段。段落多时行距自动压紧，字太长会换行并整体缩小；超过 8 段只取前 8 段。",
+        "default": "三条主线都到了过去丢留的节点，本周先把最难的一段路走完。\n提醒：实验注记模板已经生效，下周开始统一从模板起草。\n两处卡顿都定位在渲染队列，排队策略改成按镜头长度优先。\n和设计对齐了下一版的窗口层级，阴影与描边先按纸面版收。\n周中做了一次完整的冷启动演练，第一次就能跑到终版。\n下周留出两天做复盘整理，把散落的记录并进同一份文档。"
+      },
+      "history": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "侧栏条目",
+        "description": "一行一条，写成「标题｜日期」，4–8 条都行；7 条起行距自动压紧，超过 8 条只取前 8 条。",
+        "default": "第 28 期｜7 月 10 日\n第 27 期｜7 月 3 日\n第 26 期｜6 月 26 日\n第 25 期｜6 月 19 日\n第 24 期｜6 月 12 日\n第 23 期｜6 月 5 日"
+      },
+      "taglineA": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语上句",
+        "description": "窗口下方升起的第一句，留空只藏这半句，下一句照常出现。",
+        "default": "从一张截图，"
+      },
+      "taglineB": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语下句",
+        "description": "第二句，用强调色；留空只藏这半句，上一句照常留在原位。",
+        "default": "到一部成片。"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "文档的底色；文字深浅和侧栏底色都从它推出来。",
+        "default": "#fefcf9"
+      },
+      "caretColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "笔尖颜色",
+        "description": "写字的笔尖，也是侧栏揭开时内缘线的颜色。",
+        "default": "#7a4dff"
+      },
+      "stageColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暗场颜色",
+        "description": "暗场和窗口背光的颜色，默认是一档压低饱和的极光紫。",
+        "default": "#171324"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "标语后半句的颜色，也用在背光和笔尖的柔光上。",
+        "default": "#a78bfa"
+      },
+      "bodySize": {
+        "type": "number",
+        "title": "正文字号",
+        "description": "按 1080 高的画面算，默认 30；标题、侧栏和段落间距跟着它缩放。",
+        "default": 30,
+        "minimum": 16,
+        "maximum": 60
+      },
+      "taglineSize": {
+        "type": "number",
+        "title": "标语字号",
+        "description": "底部标语的字号，默认 84；太长会自动换行并缩小。",
+        "default": 84,
+        "minimum": 40,
+        "maximum": 150
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

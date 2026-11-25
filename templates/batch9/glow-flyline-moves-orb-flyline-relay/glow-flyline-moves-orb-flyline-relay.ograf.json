@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.glow-flyline-moves-orb-flyline-relay",
+  "version": "0.1.0",
+  "name": "光斑飞线接力 · Orb flyline relay",
+  "description": "午夜蓝黑场上几颗圆形玻璃节点横向排开，节点间一条条拱形飞线依次长出、带着亮头和彗尾接力到下一站；落点那一帧节点点亮，背后的光斑同时涨亮一拍，随后飞线散成一串细点。最后一站交给下方逐字升起的标题，光斑收敛冻结。站点（一行一站「标题｜副标题」，支持 2–8 站）、标题、强调词、字号、底色、两种强调色和文字色都能改。改编自 video-shotcraft 的 orb-flyline-relay 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "steps": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "站点",
+        "description": "一行一站，格式「标题｜副标题」；只写标题也行，副标题留空就不显示。支持 2–8 站，超过 8 站只取前 8 站。3 站用原卡的大节点（半径 120、标题 52）；4 站起节点和字号随站数缩小，8 站约半径 64、标题 32、副标 22，每段飞线也会变短。",
+        "default": "说清楚｜一句话，一页纸\n排分镜｜八个镜头，踩拍点\n交付｜成片.mp4"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "画面下方的大字，第 92 帧起逐字升起。留空就不显示标题，节点和飞线照常走完。字太长会自动换行并整体缩小，不压节点。",
+        "default": "说一遍，剩下的交给流程。"
+      },
+      "highlight": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "强调词",
+        "description": "要在标题里标成强调色的词，一行一个（也可以用「、」隔开）；标题里出现几次就标几次。填标题里没有的词不会上色，也不会报错。留空就不强调。",
+        "default": "流程"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 72，范围 48–100。竖屏和 4K 自动换算；标题太长时会整体缩小。",
+        "default": 72,
+        "minimum": 48,
+        "maximum": 100
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "午夜蓝黑的舞台底色；背景渐变、暗角、节点玻璃的深色和文字压暗都从它推出来。勾透明背景时不画。",
+        "default": "#0a0f1e"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "主强调色",
+        "description": "默认 #6f86c9，把原卡的电光蓝压灰。第 1、3、5… 站的玻璃光、光斑和飞线外层辉光取自它。",
+        "default": "#6f86c9"
+      },
+      "accent2": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "次强调色",
+        "description": "默认 #7fa8a6，把原卡的青压灰。第 2、4、6… 站的玻璃光、光斑、标题强调词和飞线内层辉光取自它。",
+        "default": "#7fa8a6"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、站点标题、两位序号和飞线亮芯的颜色；站点副标会自动往底色方向压暗一点。",
+        "default": "#e8eef8"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉底色、舞台、光斑、暗角和颗粒，只留节点、飞线和标题，可以叠在别的画面上。这张卡的氛围主要靠背景和光斑，一般不用勾。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

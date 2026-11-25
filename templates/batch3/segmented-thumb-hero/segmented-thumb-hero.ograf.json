@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.segmented-thumb-hero",
+  "version": "0.1.0",
+  "name": "分段滑块切换 · Segmented switch",
+  "description": "一个两段胶囊分段控件从下方弹簧浮入，超大箭头光标从右下画外滑入点击，白色滑块 8 帧滑到右段（带拉伸和速度拖影），点击处散开一圈强调色细环。左右两段文字、纸面、墨色、强调色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 segmented-thumb-hero 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "leftLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左段文字",
+        "description": "左段的标签，默认「一句话」。清空只隐藏这一段文字，段位、滑块和圆点都不动。",
+        "default": "一句话"
+      },
+      "rightLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右段文字",
+        "description": "右段的标签，默认「成片」。清空只隐藏这一段文字，段位、滑块和圆点都不动。",
+        "default": "成片"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的纸色，柔光、轨道和滑块都从它推出来。",
+        "default": "#f1f1ef"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "文字、光标描边和阴影的颜色；轨道灰阶也从它推出。",
+        "default": "#17181c"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "两段标签前的小圆点和点击涟漪的颜色。",
+        "default": "#5b63d3"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "两段标签的字号，按 1080 高的画面算。控件整块跟着等比缩放，文字太长会自动缩小。",
+        "default": 72,
+        "minimum": 48,
+        "maximum": 100
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

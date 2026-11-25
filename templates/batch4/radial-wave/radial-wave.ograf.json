@@ -1,0 +1,125 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.radial-wave",
+  "version": "0.1.0",
+  "name": "点阵通电涟漪 · Radial wave grid",
+  "description": "暗底点阵从波源向外错峰通电点亮（每点胀大到 1.5 倍再落回），随后一道亮色脉冲从外圈反向收拢回波源、峰值换色带光晕，最后可留一行文字在中心淡入停住。没有背景发光就没效果，白底上脉冲看不见——底色默认近黑，请保持深色；勾「透明背景」则不画底色、点阵照常。改编自 video-shotcraft 的 radial-wave 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "text": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "中央文字",
+        "description": "波收拢回中心后淡入停住的一行字，当章节开场落点用；太长会自动缩小。留空就是纯点阵背景卡。",
+        "default": "系统在线"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "文字字号",
+        "description": "按 1080 高的画面算，默认 64。竖屏和 4K 自动换算；字太长会自动缩小。",
+        "default": 64,
+        "minimum": 24,
+        "maximum": 200
+      },
+      "sourceX": {
+        "type": "number",
+        "title": "波源 X",
+        "description": "波从画面哪个位置扩散出去，横向百分比 0–100，默认正中 50。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "sourceY": {
+        "type": "number",
+        "title": "波源 Y",
+        "description": "波从画面哪个位置扩散出去，纵向百分比 0–100，默认正中 50。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "density": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "sparse",
+          "mid",
+          "dense"
+        ],
+        "gddOptions": {
+          "labels": {
+            "sparse": "疏",
+            "mid": "中",
+            "dense": "密"
+          }
+        },
+        "title": "阵列密度",
+        "description": "点阵行×列数：填「疏」= 11×7、「中」= 17×9（默认）、「密」= 23×13。",
+        "default": "mid"
+      },
+      "baseColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "点阵常色",
+        "description": "通电后一直亮着的点阵颜色。",
+        "default": "#6c8cff"
+      },
+      "pulseColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "脉冲亮色",
+        "description": "第二道波收拢时的亮色，中央文字也用它。",
+        "default": "#b9f2ff"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "底色；发光全靠它压暗。改浅色脉冲会看不见，请保持深色。",
+        "default": "#0a0b10"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

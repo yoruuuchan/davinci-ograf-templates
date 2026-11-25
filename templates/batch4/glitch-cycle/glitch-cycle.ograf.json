@@ -1,0 +1,182 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.glitch-cycle",
+  "version": "0.1.0",
+  "name": "乱码轮播状态 · Glitch cycle",
+  "description": "一行固定槽位的状态短语轮播：每条开头和结尾被乱码熔断、中段偶发抽字，切换时叠 RGB分离、整行抖动和水平撕裂；底部进度条走满，末条收干净后状态转「已完成」、署名升起。短语表（2–8条，超过8条只取前8条）、两个状态词、文件名、署名、四种颜色和字号都能在检查器里改；每多一条把片段加长约1.3秒。改编自 video-shotcraft的 glitch-cycle镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "phrases": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "短语表",
+        "description": "一行一条，或用「、」「|」隔开。支持2–8条，超过8条只取前8条；每多一条把片段加长约1.3秒。",
+        "default": "正在画分镜\n正在锁拍点\n正在渲染\n马上能交付"
+      },
+      "statusActive": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "进行中状态",
+        "description": "进度没走满时状态行里的词，默认「正在渲染」；留空只显示脉冲点和文件名。",
+        "default": "正在渲染"
+      },
+      "statusDone": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "完成状态",
+        "description": "进度走满后换成这个词，默认「已完成」；留空就只剩脉冲点和文件名。",
+        "default": "已完成"
+      },
+      "fileName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "文件名",
+        "description": "状态词后面的假文件名，默认「作品/发布片」；留空不显示，中间的点也一起隐藏。",
+        "default": "作品/发布片"
+      },
+      "showStatus": {
+        "type": "boolean",
+        "title": "显示状态行",
+        "description": "勾上显示脉冲点、状态词和文件名；只想看乱码轮播时关掉。",
+        "default": true
+      },
+      "showProgress": {
+        "type": "boolean",
+        "title": "显示进度条",
+        "description": "勾上显示进度轨、刻度和 STEP/百分比；只想看乱码轮播时关掉。",
+        "default": true
+      },
+      "signature": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "署名",
+        "description": "进度条下方升起的一行字，默认「你的工作室」；留空不显示。",
+        "default": "你的工作室"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "舞台底色，渐变、主光和暗角都从它推出来。",
+        "default": "#06040c"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "短语、状态行和刻度的文字色；次级字和暗角也从它推。",
+        "default": "#f7f2ff"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "舞台主光、进度条和署名的颜色；进度条末端会过渡到故障色。",
+        "default": "#a78bfa"
+      },
+      "glitchColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "故障色",
+        "description": "RGB分离的粉色一路、逐字乱码和高亮头；冰蓝一路固定为 #6fd8ff。",
+        "default": "#ff4fa3"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按1080高的画面算，默认104；槽宽、四角括号和进度条会等比缩放。",
+        "default": 104,
+        "minimum": 48,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体和等宽字体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

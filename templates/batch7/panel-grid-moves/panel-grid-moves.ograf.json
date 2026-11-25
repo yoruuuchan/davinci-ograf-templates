@@ -1,0 +1,179 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.panel-grid-moves",
+  "version": "0.1.0",
+  "name": "漫画斜格分屏 · Comic panel split",
+  "description": "漫画分格：开场全屏轻推，20/24/28 三拍被 12° 斜缝切成三格，格子硬切弹入带白闪，三个旁白框盖章落下；定格后三格极缓推近，末格反拉一下再斜边吃屏，图片放大滑到右半屏，左侧升起两行片尾标题和副句。三格图片、旁白框、片尾标题／副句／品牌名／标志、三种颜色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 panel-grid-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4800
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5200
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "分格图",
+        "description": "填 1–3 张，最多用前三张。3 张时一格一张；2 张时按顺序填前两格、第三格用第二张放大；1 张时三格是同一张的三个机位：全幅、1.6× 中间偏左、2.0× 中间偏上。每格按 1920×1080 cover 铺满再被斜格裁切，不拉伸；三格机位放大最多 2 倍，末格吃屏成海报后会继续推近，请填高分辨率图片。没填时画中性占位。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "captions": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "旁白框",
+        "description": "最多 3 行，一行「小标签｜一句短话」；只写一句话也行，不写标签。少写几行就少几个框，第 4 行起忽略。",
+        "default": "镜头一｜先看整体\n镜头二｜再靠近一点\n镜头三｜看进细节"
+      },
+      "headline": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "片尾标题",
+        "description": "按回车分成两行，逐行升起；太长会自动换行并整体缩小。",
+        "default": "把每一格，\n拍成电影。"
+      },
+      "subline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "片尾副句",
+        "description": "片尾标题下面那行小字，逐字（英文逐词）从模糊里浮出；留空就不显示。",
+        "default": "三个机位，踩在拍点上。"
+      },
+      "brandName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "品牌名",
+        "description": "片尾标题上方的品牌名，和标志并排；和标志都留空时整行不显示。",
+        "default": "拾光影像"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志",
+        "description": "片尾标题上方的标志，建议透明底 PNG。留空只显示品牌名。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景墨色",
+        "description": "舞台的墨底；暗部、斜缝墨边、旁白框描边与硬投影都从它加深推出来。",
+        "default": "#1c0c0f"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸色",
+        "description": "斜缝纸芯、旁白框、片尾标题和文字的奶油纸色。",
+        "default": "#f3eadb"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "旁白小标签、背景光斑和半调网点的朱砂红。",
+        "default": "#ff3346"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 150。副句 38、旁白标签 22 / 正文 40 固定，不跟着变；标题太长会自动缩小。",
+        "default": 150,
+        "minimum": 90,
+        "maximum": 200
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.dataviz-landscape-open",
+  "version": "0.1.0",
+  "name": "流线汇流开场 · Stream confluence open",
+  "description": "暗场里一条荧光主干从镜头脚下奔向画面右 1/3 的消失点，支流切向汇入，镜头标签按透视立在支流上，随后两行标题在天空里逐字升起。标签、标题、眉题、颜色、字号都能改。改编自 video-shotcraft 的 dataviz-landscape-open 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6500
+      }
+    },
+    "properties": {
+      "labels": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "镜头标签",
+        "description": "一行一个标签，用「｜」分成「粗字｜细字」两段（比如「段落｜运镜」），只写一段字也行。按固定槽位钉到 11 条支流上，最多 11 个，超出的只取前 11；默认 6 个在原卡的时刻出现，其它数量在 44–104 帧里均匀错峰。",
+        "default": "开场｜推近\n冲刺｜急推\n转场｜甩镜\n节拍｜卡点\n人物｜仰拍\n收尾｜定版"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行，第二行用强调色。中文一个字一个字升起，英文一个词一个词。字太多会自动换行。",
+        "default": "每一个镜头，\n汇成一支片。"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方的小字，等宽字体、强调色。留空就不显示。",
+        "default": "镜头配方 · 实拍手记"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "default": "#070806"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#f6f8f0"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "主干、图钉和标题第二行的颜色；支流和运镜小字从文字色降饱和推出来。",
+        "default": "#c6f432"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 108。竖屏和 4K 会自动换算。",
+        "default": 108,
+        "minimum": 64,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

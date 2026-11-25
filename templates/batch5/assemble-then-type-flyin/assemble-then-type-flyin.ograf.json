@@ -1,0 +1,186 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.assemble-then-type-flyin",
+  "version": "0.1.0",
+  "name": "骨架拼装落字 · Skeleton then type flyin",
+  "description": "石墨暗场里，页面的空壳先过冲飞入拼好，停半拍后每个字带着 3D 翻滚从远处逐字落位；落定后按钮通电成金色实底、右侧媒体图亮起一档，整页还在极缓推近。标题、说明、按钮、图注、刊头、1–6 枚指标、媒体图、三种颜色和标题字号都能在检查器里改。改编自 video-shotcraft 的 assemble-then-type-flyin 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "左栏大标题，按回车换行。中文逐字落位；太长会自动缩小，不换行也不出框。",
+        "default": "先搭骨架，\n再落文字。"
+      },
+      "description": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "说明句",
+        "description": "标题下面那行说明，逐字落位，太长会自动换行并缩小；留空只隐藏这句话。",
+        "default": "一句话开始，到成片交付。"
+      },
+      "cta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "按钮文字",
+        "description": "金色按钮上的字，118 帧起按钮通电成实底、字色变深；太长会自动缩小。",
+        "default": "开始制作"
+      },
+      "caption": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "图注",
+        "description": "媒体图下方那行小字，最后落位；留空不显示，媒体卡和窄条色块照常保留。",
+        "default": "样片 · 十月"
+      },
+      "masthead": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "刊头",
+        "description": "顶栏左边的刊头文字，替代原卡的品牌名；留空只隐藏刊头，顶栏壳保留。",
+        "default": "创作工坊"
+      },
+      "metrics": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "指标列表",
+        "description": "一行一枚，写成「数值｜标签」（竖线分隔）。支持 1–6 行；超过 6 行只取前 6 行，行多会自动缩小，行少时剩下的摊开补满。",
+        "default": "一步｜从一句话到成片\n全流程｜生成剪辑调色\n三十秒｜成片直接可用"
+      },
+      "mediaImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "右侧媒体图",
+        "description": "放在媒体卡上半（横屏在右栏、竖屏在标题下方），cover 裁切，横图竖图方图都行；留空画深色占位块和淡图标，亮起效果照常。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "石墨暗场的底色；背景渐变、面板表面、暗角和阴影都从它推出来。",
+        "default": "#0e0f11"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、说明、按钮、指标和图注的主色；面板描边和分隔线也从它推。",
+        "default": "#f4f4f2"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调金",
+        "description": "按钮通电、媒体卡亮起和下方窄条的颜色；CTA 通电后的字色会变深。",
+        "default": "#e4c58a"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 88。竖屏和 4K 自动换算；行数多或字太长会自动缩小。",
+        "default": 88,
+        "minimum": 40,
+        "maximum": 180
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体标题和思源黑体正文。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

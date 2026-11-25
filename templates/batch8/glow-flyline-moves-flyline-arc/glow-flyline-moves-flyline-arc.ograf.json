@@ -1,0 +1,76 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.glow-flyline-moves-flyline-arc",
+  "version": "0.1.0",
+  "name": "卡片飞线连接 · Flyline arc",
+  "description": "叠在你自己的仪表盘或卡片画面上的一组发光飞线：每条从起点亮起锚点，长出一段带亮头和彗尾的弧线，到站留下一个节点和一圈冲击环，第二条线接着打到下一站。不画任何背景和卡片；飞线坐标（画面百分比）、线色、辉光色和线宽都能在检查器里改。改编自 video-shotcraft 的 flyline-arc 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "links": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "飞线",
+        "description": "一行一条，格式「起点X｜起点Y｜终点X｜终点Y」，坐标是画面百分比 0–100（左上角是 0｜0）。支持 1–6 条，超过 6 条只画前 6 条；不填就不画线。",
+        "default": "27｜31｜84｜76\n84｜76｜56｜31"
+      },
+      "lineColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "线色",
+        "description": "飞线白芯和节点核心的颜色。默认暖白，深色素材上也能看清。",
+        "default": "#f4f2ea"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "辉光色",
+        "description": "两层外辉光、起点锚、落点光晕和冲击环的颜色；默认是把原卡靛蓝压灰的低饱和蓝。",
+        "default": "#8a93c9"
+      },
+      "lineWidth": {
+        "type": "number",
+        "title": "线宽",
+        "description": "白芯的线宽，默认 3.0，范围 2–8；两层辉光和光头会跟着变粗。4K 会自动缩放。",
+        "default": 3,
+        "minimum": 2,
+        "maximum": 8
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.timeline-travel",
+  "version": "0.1.0",
+  "name": "时间轴急停推近 · Timeline travel",
+  "description": "镜头沿水平时间轴缓起、冲刺、急刹三段变速横移，每过一站卡片从刻度线上弹簧过冲弹起，末站急停并推近 1.28×。一行一站：刻度名｜日期｜标题｜说明｜底部指标，说明和指标可省；3–6 站，超出只取前 6。改编自 video-shotcraft 的 timeline-travel 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "stops": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "站列表",
+        "description": "一行一站：刻度名｜日期｜标题｜说明｜底部指标，竖线隔开；说明和指标可以省，只写刻度名和标题也行。3–6 站，多了只取前 6 站；最后一站是急停推近的主角（强调色）。",
+        "default": "v1.0｜2026年7月｜正式发布｜首批模板与画廊上线。｜渲染引擎\nv2.0｜2026年8月｜镜头与声音｜2.5D 运镜配节拍音效。｜节拍同步\nv3.0｜2026年9月｜运镜工作台｜每个镜头在一处调校。｜实时预览\n今天｜2026年10月｜一句话成片｜你写创意，它来拍。｜智能拍摄"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页眉小字",
+        "description": "左上角强调色的小字。留空就不显示，不影响下面的标题。",
+        "default": "发布历程"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "页眉下面的大标题。留空就不显示。",
+        "default": "每个月都在交付"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "最后一站（主角站）的卡片描边、节点、页眉小字用的颜色。",
+        "default": "#5b63d3"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "主文字、轴线和刻度的颜色，次级文字和远景大字由它推出。",
+        "default": "#17181c"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "舞台底色，柔光和暗角由它推出。",
+        "default": "#fafaf9"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "卡片标题的字号（默认 32），刻度标签约 40；卡片尺寸 360×240 随字号等比缩放。",
+        "default": 32,
+        "minimum": 20,
+        "maximum": 56
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.neon-triple-marquee",
+  "version": "0.1.0",
+  "name": "三行对滚轮唱 · Triple marquee",
+  "description": "一面斜拍的夜墙，三行灯管词左右反向对滚，一行一行轮着点亮，像霓虹招牌在轮唱；亮行的光溢到砖墙和湿地上，最后自上而下断电，停在熄灯海报上再统一出场。词（1–6行）、墙色、三种灯管色和字号都能在检查器里改。改编自 video-shotcraft的 neon-triple-marquee镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "words": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "词",
+        "description": "一行一个词，也可以用「、」或「|」隔开；支持1–6行，超过6行只取前6行（这面墙最多6行还能读清）。行数多了字和行距一起缩小，只填一行时垂直居中。",
+        "default": "取景、打磨、交付"
+      },
+      "wallColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墙面颜色",
+        "description": "砖墙的底色；墙面的溢光、地面的颜色和整帧的底色都从它推出来。",
+        "default": "#0a0b14"
+      },
+      "color1": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "第一行灯色",
+        "description": "第1、4、7……行的灯管色。想要原卡的霓虹青，填 #38d9ff。",
+        "default": "#efe3cc"
+      },
+      "color2": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "第二行灯色",
+        "description": "第2、5、8……行的灯管色。想要原卡的洋红，填 #ff3d9a。",
+        "default": "#d99a55"
+      },
+      "color3": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "第三行灯色",
+        "description": "第3、6、9……行的灯管色。想要原卡的钠灯琥珀，填 #ffae34。",
+        "default": "#7d96ad"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按1080高的画面算，默认286。竖屏和4K自动换算；行数多时按行高自动缩小，填120到340之间。",
+        "default": 286,
+        "minimum": 120,
+        "maximum": 340
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

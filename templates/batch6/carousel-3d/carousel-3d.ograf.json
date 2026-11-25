@@ -1,0 +1,149 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.carousel-3d",
+  "version": "0.1.0",
+  "name": "3D 环形画廊 · 3D carousel",
+  "description": "卡片围成一圈转动，正前方的一张点亮，环下大字幕随步进上滚换字；图片、卡片名称、底色、卡面色、强调色、文字色和字幕字号都能在检查器里改。填几张图就摆几张卡（建议 4–12 张，超过 12 张只取前 12 张），8 张一圈 5.6 秒，图越多一圈越长；留空画 8 张带序号的占位卡。改编自 video-shotcraft 的 carousel-3d 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5200
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5600
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "画廊图片",
+        "description": "几张就摆几张卡，建议 4–12 张；超过 12 张只取前 12 张，不会重复用图凑数。留空画带序号的占位卡。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "labels": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片名称",
+        "description": "一行一个名称，对应环上的卡，也用在环下的大字幕。少于图片数时剩下的卡只显示编号，多于图片数时多余的忽略；太长会自动缩小。",
+        "default": "节奏快剪\n镜头俯冲\n声音设计\n仪表盘\n闪切组接\n动态图表\n缓动曲线\n运动镜头"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "石墨暗场的底色，舞台渐变从它推出来；透明背景时整块不画。",
+        "default": "#070806"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡面色",
+        "description": "卡片和占位卡的石墨底色，卡片渐变从它推出来。",
+        "default": "#141611"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "正前方卡的描边和外发光、卡脚下的底光、字幕编号的颜色。",
+        "default": "#c6f432"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "字幕名称的颜色，卡片的灰边框、顶部受光和占位图标也从它推出来。",
+        "default": "#f6f8f0"
+      },
+      "captionSize": {
+        "type": "integer",
+        "title": "字幕字号",
+        "description": "环下方字幕名称的字号，按 1920×1080 的画面算，默认 72；编号会按比例跟着变。",
+        "default": 72,
+        "minimum": 36,
+        "maximum": 140
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.typewriter-moves",
+  "version": "0.1.0",
+  "name": "打字机改口 · Typewriter retype",
+  "description": "一句话先被慢慢打出来，光标犹豫两下后把后半句逐字退格删掉，再用更快的节奏重打一遍，最后一道马克笔底色从左到右铺在指定的词下面。开头、两版文字、铺底色的词、眉题、颜色和字号都能在检查器里改；文字越多打得越久，片段要相应拉长。改编自 video-shotcraft 的 typewriter-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "opening": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "开头",
+        "description": "一直留在画面里的开头，和「先打出的」一起逐字打出来，改口时不删。",
+        "default": "它不只是"
+      },
+      "firstText": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "先打出的",
+        "description": "先打出来、随后被逐字退格删掉的文字。留空就停顿后直接打「改口后」的那句。",
+        "default": "幻灯片"
+      },
+      "retyped": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "改口后",
+        "description": "退格之后以更快的节奏重打的文字，会和开头连成一句。留空就只剩开头。",
+        "default": "你的摄制组"
+      },
+      "highlight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "铺底色词",
+        "description": "要在「改口后」里铺马克笔底色的词，按原文逐字找；找不到就不铺。",
+        "default": "摄制组"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "打字行上方的一行小字，默认「一句话介绍」。留空就不显示。",
+        "default": "一句话介绍"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景底色，纵向渐变和主光由它推出来。",
+        "default": "#efefec"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "打字行的颜色，眉题颜色由它和底色混出。",
+        "default": "#17181c"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "光标和马克笔底色的颜色。",
+        "default": "#5b63d3"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 100。整行太宽或竖屏时会自动缩小。",
+        "default": 100,
+        "minimum": 30,
+        "maximum": 260
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的等宽字体（汉字自动用思源黑体）。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.fui-hud-moves",
+  "version": "0.1.0",
+  "name": "取景框咬合 · Reticle lock-on",
+  "description": "叠在你的画面上：四个 L 形角标带速度模糊从右下画外飞入，超调回弹后收缩贴紧目标、咬合帧角标收紧一下，中心十字随后淡出，框上方弹出带状态点的深色标签并停住。框的位置大小、标签和两种颜色都能在检查器里改。改编自 video-shotcraft 的 fui-hud-moves（ReticleLockOn）镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 2600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3000
+      }
+    },
+    "properties": {
+      "label": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标签",
+        "description": "咬合后框上方弹出的那句话。留空就不显示标签，只保留取景框。",
+        "default": "重点看这里"
+      },
+      "centerX": {
+        "type": "number",
+        "title": "框中心 X",
+        "description": "取景框中心在画面宽度里的百分比，0–100。贴边时整个取景框会自动往里收。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "centerY": {
+        "type": "number",
+        "title": "框中心 Y",
+        "description": "取景框中心在画面高度里的百分比，0–100。贴边时整个取景框会自动往里收。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "boxWidth": {
+        "type": "number",
+        "title": "框宽",
+        "description": "取景框宽度，占画面宽度的百分比。太大时会收到画面里。",
+        "default": 42,
+        "minimum": 5,
+        "maximum": 90
+      },
+      "boxHeight": {
+        "type": "number",
+        "title": "框高",
+        "description": "取景框高度，占画面高度的百分比。太大时会收到画面里。",
+        "default": 30,
+        "minimum": 5,
+        "maximum": 90
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "角标强调色",
+        "description": "L 形角标、中心十字和标签状态点的颜色。",
+        "default": "#5b63d3"
+      },
+      "backingColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "角标衬底色",
+        "description": "角标笔画外面那圈衬底的颜色，保证任何底色上都看得清，一般保持白色。",
+        "default": "#ffffff"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

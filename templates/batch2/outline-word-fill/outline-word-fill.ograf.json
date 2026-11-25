@@ -1,0 +1,193 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.outline-word-fill",
+  "version": "0.1.0",
+  "name": "空心字点亮 · Outline word fill",
+  "description": "一个空心大字从 3.2 倍急缩落位，背后的虚线大圆从画外收拢，两侧虚线向内瞄准，「以前 / 现在」的读数随后出现；描边预热后第 54 帧一帧硬切成白热实心，闪一下辉光和冲击环再定格。大字、两侧读数、眉题、副句、标志、三种颜色和字号都能在检查器里改。改编自 video-shotcraft 的 outline-word-fill 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 2600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3000
+      }
+    },
+    "properties": {
+      "word": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大字",
+        "description": "中间那个词，先画成空心描边，第 54 帧硬切成实心。留空就只剩圆、虚线和读数。",
+        "default": "更快"
+      },
+      "leftLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左标签",
+        "description": "左侧读数的标签，默认「以前」。标签和左数值都留空时，左侧读数不显示，水平虚线保留。",
+        "default": "以前"
+      },
+      "leftValue": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左数值",
+        "description": "左侧读数的数值，默认「一周」。与左标签都留空时，左侧读数不显示。",
+        "default": "一周"
+      },
+      "rightLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右标签",
+        "description": "右侧读数的标签，默认「现在」。标签和右数值都留空时，右侧读数不显示，水平虚线保留。",
+        "default": "现在"
+      },
+      "rightValue": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右数值",
+        "description": "右侧读数的数值，默认「四小时」。点亮那一帧起变成强调色；与右标签都留空时不显示。",
+        "default": "四小时"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "圆内上方的小字，第 56 帧升起。留空且没有标志图片时，这一行不显示。",
+        "default": "速度对比"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副句",
+        "description": "圆内下方的一行说明，最后升起，太长会自动换行。留空就不显示。",
+        "default": "一句提示词，直接出成片。"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志图片",
+        "description": "眉题左边的小标志，高度跟着字号走。留空只显示眉题文字。填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "暖黑底色；舞台渐变、主光和暗角都从它推出来。",
+        "default": "#100906"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "点亮后圆与虚线的颜色、冲击环、舞台主光；右侧数值点亮后也用它。",
+        "default": "#ff6b2c"
+      },
+      "litColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "点亮字色",
+        "description": "点亮后实心字的颜色，默认白热 #fff5ee；读数和描边的灰也由它推出来。",
+        "default": "#fff5ee"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "大字的字号，按 1080 高的画面算，默认 220。圆和上下两行小字会跟着变；字太长时大字会自动缩小。",
+        "default": 220,
+        "minimum": 120,
+        "maximum": 360
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

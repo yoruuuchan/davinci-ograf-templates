@@ -1,0 +1,178 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.chart-live-moves-axis-rescale",
+  "version": "0.1.0",
+  "name": "爆表重标折线 · Axis rescale shock",
+  "description": "一页米色瑞士网格数据海报：左上标题逐字升起，右上年度合计 KPI，满版折线一路爬升到最后一个爆表点，冲出天花板、撞进 KPI，停半拍后 y 轴整体重标（旧刻度飞出、新刻度滑入、网格加密、旧折线压扁成地平线），新值落回并弹出赤陶数值标签。标题、眉题、KPI 标题与首末数字、系列数据、标签副行、三个颜色和字号都能在检查器里改。改编自 video-shotcraft 的 axis-rescale-shock 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "左上角标题上面那行小字，一行显示；留空就不显示，标题和右边 KPI 不受影响。",
+        "default": "渲染月报 · 2026"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "左上角的大标题，中文一个字一个字升起、英文一个词一个词升起；太长会自动缩小。",
+        "default": "每月产出"
+      },
+      "kpiLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "KPI 标题",
+        "description": "右上角年度合计上面的小标签；留空只留数字。",
+        "default": "年度合计"
+      },
+      "kpiFrom": {
+        "type": "number",
+        "title": "合计起始",
+        "description": "右上角合计 KPI 滚动的起点，单位 k 自动带（493 就是 493k）。与系列数据无关，按你的合计口径手填。",
+        "default": 493,
+        "minimum": 0,
+        "maximum": 100000
+      },
+      "kpiTo": {
+        "type": "number",
+        "title": "合计结束",
+        "description": "重标时合计 KPI 滚到的终点，单位 k 自动带（833 就是 833k）。",
+        "default": 833,
+        "minimum": 0,
+        "maximum": 100000
+      },
+      "series": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "数据",
+        "description": "一行一个点，写成「标签｜数值」，数值单位是千（22 就是 22k）。默认十二行；8–14 行都会按行数均分排下，超过 14 行只取前 14 行。最后一行是爆表点，数值必须明显大于前面所有值（建议 ≥3 倍于次大值）；不满足也能播，只是冲出高度会按比值缩到至少 120px。前后两套刻度和「k」缩写都自动生成，不用手填。",
+        "default": "一月｜22\n二月｜30\n三月｜26\n四月｜38\n五月｜35\n六月｜47\n七月｜44\n八月｜58\n九月｜55\n十月｜66\n十一月｜72\n十二月｜340"
+      },
+      "deltaNote": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标签副行",
+        "description": "真值标签里大数字下面的小字。写到百分比时会按系列最后两行自动重算（默认 +372%），其它文字原样显示；留空只显示大数字。",
+        "default": "▲ 较上月 +372%"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "爆表段、预警刻度、端点、真值标签和 KPI 重标后的颜色。",
+        "default": "#c4552d"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、KPI、折线、刻度和基线用这个墨色；排线、网格和灰阶刻度都从它推透明度。",
+        "default": "#221a12"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "米色纸底；上下渐变、柔光、数据点填充和标签上的浅色文字都从它推出来。",
+        "default": "#e8ddce"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "标题和 KPI 数字的字号，默认 124；刻度、月份、眉题和标签文字按同比例缩放。",
+        "default": 124,
+        "minimum": 60,
+        "maximum": 200
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

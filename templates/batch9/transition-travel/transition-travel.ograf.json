@@ -1,0 +1,142 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.transition-travel",
+  "version": "0.1.0",
+  "name": "字腔穿越转场 · Letterform zoom",
+  "description": "暖黑字卡把大字挖成字腔，洞里透出下面那轨的下一段；镜头指数推进钻进最厚的一条竖笔，盖板在76–86帧淡出，之后只剩下一段。字、眉题、副标、字号和三种颜色都能在检查器里改。用法：上一段在模板开始处结束，下一段放下面那轨、入点同帧，模板放上面。改编自 video-shotcraft 的 transition-travel 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "word": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大字",
+        "description": "字腔里的词，建议1–6个汉字或3–8个字母；太长会自动缩小。留空就整张卡不画，直接透出下一段。",
+        "default": "成片"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "大字号",
+        "description": "按1080高的画面算，默认720。实际字号会再按测量宽度收到画面88%以内，换字后锚点自动重量。",
+        "default": 720,
+        "minimum": 360,
+        "maximum": 900
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "大字包围盒上方40px的小字，字距从0.8em收到0.42em。留空就不显示，副标留在原位。",
+        "default": "第二幕"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标",
+        "description": "大字包围盒下方60px的一行说明，24px上浮入场。留空就不显示，眉题留在原位。",
+        "default": "从这一笔，进下一场。"
+      },
+      "plateColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "盖板颜色",
+        "description": "暖黑盖板的中间色；顶光渐变和底部暗部都从它推出来。",
+        "default": "#150b07"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "熔光颜色",
+        "description": "字缘熔光、眉题和盖板顶光的暖色；默认是压灰的熔金橙。",
+        "default": "#b8764f"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "副标颜色",
+        "description": "大字下面那行副标的颜色。",
+        "default": "#d8c4b4"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

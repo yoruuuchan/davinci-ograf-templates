@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.brand-ink-open",
+  "version": "0.1.0",
+  "name": "墨线压印立名 · Ink letterpress open",
+  "description": "品牌开场第一拍：琥珀色十字准星先在纸面上描画又淡去，字标逐字压印落定（由大到小、由虚到实，字底闪过一道强调色短划），下面等宽字体的副标用打字机逐字打出、光标闪到第 95 帧停。字标、副标、三种颜色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 brand-ink-open 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "wordmark": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字标",
+        "description": "品牌名或片名。中文一个字一个字压出来，英文一个词一个词压出来；字多时节奏自动加快，太长会自动缩小。",
+        "default": "拾光影像工作室"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标",
+        "description": "字标下面用打字机逐字打出的一行小字，打完光标会闪一阵；留空时这行和光标都不显示。",
+        "default": "把每一帧，都拍成电影。"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的纸色。",
+        "default": "#faf7f2"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "字标的墨色；副标的颜色也从它推出来。",
+        "default": "#13110f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "十字准星和每个字底下的短划、打字光标的颜色。",
+        "default": "#955905"
+      },
+      "wordmarkSize": {
+        "type": "number",
+        "title": "字标字号",
+        "description": "按 1080 高的画面算，默认 132。副标、准星和间距会跟着变；字太多时会自动缩小。",
+        "default": 132,
+        "minimum": 72,
+        "maximum": 220
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体（副标中文会落到思源黑体，数字仍是等宽）。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

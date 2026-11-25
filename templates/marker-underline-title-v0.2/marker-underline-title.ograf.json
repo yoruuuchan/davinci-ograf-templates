@@ -1,0 +1,122 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.marker-underline-title",
+  "version": "0.2.0",
+  "name": "马克笔下划线标题 · Marker underline title",
+  "description": "两行大标题错峰落定，关键词下面一笔马克笔线从左往右画出来，片段结尾上飘淡出。改编自 video-shotcraft 的 marker-underline-title 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "line1": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "第一行",
+        "default": "遇见全新的"
+      },
+      "line2": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "第二行",
+        "default": "动效模板"
+      },
+      "keyword": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "划线的词",
+        "description": "要在第一行或第二行里出现，先找第一行。找不到就不画线。",
+        "default": "全新"
+      },
+      "icon": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "图标路径",
+        "description": "第二行前面的小图标，可留空。填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#17181c"
+      },
+      "markerColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "马克笔颜色",
+        "default": "#1b1916"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉纸面，只留字和线，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 118。竖屏和 4K 会自动换算。",
+        "default": 118,
+        "minimum": 16,
+        "maximum": 400
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "留空用内置的思源黑体；也可以填电脑里装好的字体名，比如 微软雅黑、楷体。",
+        "default": ""
+      },
+      "italic": {
+        "type": "boolean",
+        "title": "关键词斜体",
+        "description": "勾上后划线的词变斜，线也变成左低右高。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

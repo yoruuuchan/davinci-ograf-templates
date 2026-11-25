@@ -1,0 +1,126 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.letterspace-materialize",
+  "version": "0.1.0",
+  "name": "字距结晶显影 · Letterspace materialize",
+  "description": "暮色湖面上，一行大字距的细线字标整词同步显影：所有字符同帧起笔、描边随进度从左到右扫开、同帧齐收，画完瞬间轻轻提亮再回落，水面里有它的倒影。主文字、三种颜色、字号都能在检查器里改；勾上透明背景只留字标，叠在别的画面上。改编自 video-shotcraft 的 letterspace-materialize 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "text": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主文字",
+        "description": "结晶显影的字标文字，4–8 个字最好看；字距固定为大字距（本卡身份）。字长了整行自动缩小，不出框。",
+        "default": "成片工作室"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "字色",
+        "description": "字标的颜色，描边和填色都用它。",
+        "default": "#f6f3fa"
+      },
+      "nightColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "夜空底色",
+        "description": "夜空的基准色；天空、山、水的颜色都从它和霞光色推出来。",
+        "default": "#120f24"
+      },
+      "dawnColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "霞光色",
+        "description": "水天线霞光和水面波光的颜色。",
+        "default": "#f6a8aa"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 120。竖屏和 4K 会自动换算；文字太长会整行缩小。",
+        "default": 120,
+        "minimum": 60,
+        "maximum": 220
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

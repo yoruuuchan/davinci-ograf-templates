@@ -1,0 +1,224 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.slam-entrance-moves-score",
+  "version": "0.1.0",
+  "name": "比分重拳砸落 · Score slam",
+  "description": "夜场终场比分卡：卡先悬在镜头前虚焦蓄力，六帧砸到屏心，落点同帧爆出金辉冲击环、玻璃与金箔碎片、火花、竖向震屏和一道白闪，比分数字随后二次落地，顶签滑出、胜方金线下划，卡下标题逐字升起。顶签、两队名与比分、赛事行、队徽图片、标题、强调词、副句、三种颜色和比分字号都能在检查器里改。改编自 video-shotcraft 的 slam-entrance-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "topTag": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "顶签",
+        "description": "比分卡顶上那枚金色标签。落定后从卡顶滑出，太长会自动缩小；留空就不显示。",
+        "default": "终场 · 加时 4 分钟"
+      },
+      "teamLeft": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左队名",
+        "description": "左边队伍的名字。填长了会自动缩小；留空只留下队徽圆。",
+        "default": "晨光队"
+      },
+      "teamRight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右队名",
+        "description": "右边队伍的名字。填长了会自动缩小；留空只留下徽圆。",
+        "default": "夜航队"
+      },
+      "scoreLeft": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左分",
+        "description": "左边队伍的比分，填数字（可以三位数）。数值大的一侧算胜方，胜方数字下划金线；留空就不显示数字。",
+        "default": "3"
+      },
+      "scoreRight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右分",
+        "description": "右边队伍的比分，填数字（可以三位数）。两边相同就算平局，不划金线。留空就不显示数字。",
+        "default": "2"
+      },
+      "eventLine": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "赛事行",
+        "description": "卡底那行等宽小字，比如赛事名和赛季。太长会自动缩小；留空就不显示。",
+        "default": "年度决赛 · 第三季"
+      },
+      "crestLeft": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "左队徽",
+        "description": "左边队伍的队徽，会裁成圆形。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "crestRight": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "右队徽",
+        "description": "右边队伍的队徽，会裁成圆形。留空时画描边圆加队名首字。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "headline": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡下标题",
+        "description": "比分卡下面的大字，中文逐字、英文逐词升起。可以按回车换行；填长了会自动换行并缩小。",
+        "default": "晨光队捧杯。"
+      },
+      "headlineMarks": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "强调词",
+        "description": "标题里要换成强调色的词，一行一个（也可以用「、」隔开），标题里每一处都会标出来；留空就整句同色。",
+        "default": "捧杯"
+      },
+      "subline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副句",
+        "description": "标题下面那行淡入的小字。太长会自动换行；留空就不显示。",
+        "default": "这些运镜，我以前要手 K 一周。"
+      },
+      "stageColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "夜场底色",
+        "description": "舞台和比分卡的底色；卡的亮面、暗面和舞台渐变都从它推出来。",
+        "default": "#141416"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "队名、比分、标题和实心圆徽的颜色；副色、弱色和圆徽描边都从它推出来。",
+        "default": "#f2f1ec"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "顶签、冲击环辉、胜方金线、火花和金箔的颜色，也用作标题强调词的颜色。",
+        "default": "#d8b45e"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "比分数值字号",
+        "description": "比分数字的字号，按 1080 高的画面算，默认 220。卡高、队名和间距跟着等比缩放；比分位数多、队名长时整卡会自动缩小。",
+        "default": 220,
+        "minimum": 140,
+        "maximum": 280
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

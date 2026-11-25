@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.beat-step-list-theme-cycle",
+  "version": "0.1.0",
+  "name": "逐拍换词换色 · Beat step list",
+  "description": "一个词一拍：胶囊接住新词、换色，词表向上滚一行；前导词钉在胶囊左边，口号在右下逐字升起。轮换词支持2–12个，默认五个词四拍（30/48/66/84帧起拍），每多一个词整段约多0.6秒，词多了要把片段拉长；前导词、口号、两组颜色和字号都能在检查器里改。改编自 video-shotcraft的 beat-step-list-theme-cycle镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "lead": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "前导词",
+        "description": "钉在胶囊左边的引子，默认「变得」。留空时胶囊单独居中，不占位。",
+        "default": "变得"
+      },
+      "words": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "轮换词",
+        "description": "一行一个，或用「、」「|」隔开；支持2–12个，超过12个只取前12个。一个词一拍，最后一个词停住；每多一个词整段长约多0.6秒，词多了要把片段拉长。",
+        "default": "干净\n现代\n活泼\n有力量\n像你"
+      },
+      "tagline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "口号",
+        "description": "右下角的收尾句，右沿对齐胶囊。逐字升起，字多时自动压缩、太长会换行或缩小，留空不显示。",
+        "default": "同一件东西，换一种气质。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "起始底色",
+        "description": "第一拍之前的背景色。",
+        "default": "#15120f"
+      },
+      "pillColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "起始胶囊色",
+        "description": "第一拍之前的胶囊颜色；胶囊上的字会自动取它的深色版。",
+        "default": "#ece6da"
+      },
+      "nextBgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "后续底色",
+        "description": "第一拍起的背景色；每一拍在 OKLCH里把色相转 +90°。",
+        "default": "#1d0e17"
+      },
+      "nextPillColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "后续胶囊色",
+        "description": "第一拍起的胶囊颜色；每一拍在 OKLCH里把色相转 +90°，胶囊字色、光晕和阴影也跟着变。",
+        "default": "#ff8a3d"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按1080高的画面算，默认132。行高、胶囊、内边距和留白都跟着变；整块超宽时自动缩到画面宽90%以内。",
+        "default": 132,
+        "minimum": 88,
+        "maximum": 180
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

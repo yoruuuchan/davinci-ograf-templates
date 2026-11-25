@@ -1,0 +1,124 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.ui-to-brand-morph-icon-flip-bloom",
+  "version": "0.1.0",
+  "name": "图标翻转变标 · Icon flip bloom",
+  "description": "一张图先蓄力晃两下，沿 Y轴翻扁成竖线，翻过最薄处换成另一张图、带过冲撑开，字标随即逐字由大变小落定；开始图标、结尾标志、字标、三种颜色和字号都能在检查器里改，没填图时画中性的占位方块和圆环。改编自 video-shotcraft的 icon-flip-bloom-logo镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "iconImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "开始图标",
+        "description": "翻扁前的那个图，方形最好，没填显示占位方块。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "logoImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "结尾标志",
+        "description": "翻过去撑开的 logo，方形最好，没填显示占位圆环。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "wordmark": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字标",
+        "description": "标志右边逐字落定的名字；太长会整体缩小。留空只显示标志，标志留在正中。",
+        "default": "山丘影像"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "字标颜色",
+        "description": "字标的主色；接地软影也从它推出来。",
+        "default": "#141622"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景底色；亮场渐变和占位方块都从它推出来。",
+        "default": "#ececea"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "结尾占位圆环和背景柔光里的一抹暖色。",
+        "default": "#d3923c"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "字标的字号，按1080高的画面算，默认112；字太长时会自动缩小。",
+        "default": 112,
+        "minimum": 40,
+        "maximum": 240
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

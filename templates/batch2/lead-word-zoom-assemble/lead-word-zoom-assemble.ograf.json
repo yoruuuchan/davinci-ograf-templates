@@ -1,0 +1,146 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.lead-word-zoom-assemble",
+  "version": "0.1.0",
+  "name": "首词放大成句 · Lead word zoom",
+  "description": "首词先以大字号占住画面正中，短暂停留时继续向观众推近，然后缩回终字号、整行左滑落位；后半句的词从右侧逐个推入，整行上移时副行浮出，之后画面停住，片段结尾统一上飘淡出。首词、后半句、强调词、副行、文字色、强调色、底色和字号都能在检查器里改。改编自 video-shotcraft的 lead-word-zoom-assemble镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 2600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3000
+      }
+    },
+    "properties": {
+      "lead": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "首词",
+        "description": "开场放大到画面正中的那个词，默认「这就是」。留空就只显示后半句。",
+        "default": "这就是"
+      },
+      "rest": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "后半句",
+        "description": "接在首词后面的句子。有空格就按空格分词、各词从右侧推入；中文没有空格就整句当一个词。",
+        "default": "我们的新片"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "强调词",
+        "description": "在后半句里按文字片段匹配，匹配到的字换成强调色。留空或找不到就不强调。",
+        "default": "新片"
+      },
+      "subline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副行",
+        "description": "标题下方的小字，第32到46帧浮出。留空就不显示。",
+        "default": "一张镜头卡，一份做法。"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#1d1d1f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "强调词的颜色；背景的靛蓝主光也从它推出来。",
+        "default": "#5b63d3"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "背景的底色，主光、暖光和轻微渐变都叠在它上面。",
+        "default": "#f4f4f7"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "首词和句子的终字号，按1080高的画面算，默认96。副行和间距跟着变；字太多会自动缩小。",
+        "default": 96,
+        "minimum": 40,
+        "maximum": 200
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.draw-svg-trace",
+  "version": "0.1.0",
+  "name": "手绘圈注 · Pen trace annotation",
+  "description": "叠在你的画面上，用一支带笔头的墨线沿圆角矩形跑一圈，把重点圈出来；闭合时线会冲深加粗、四角裁切标记外弹退场，描边随后一直留在画面里。圈好后标注出现在框上方（上方放不下就放下方），下面用朱红马克笔补一笔下划线。框的位置、大小、圆角、线宽、标注和三种颜色都能在检查器里改，片段结尾统一上飘淡出。改编自 video-shotcraft 的 draw-svg-trace 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "annotation": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标注",
+        "description": "框闭合后出现在框上方（上方放不下就放下方）。留空就只画圈注，不显示标注和下划线。",
+        "default": "看这里"
+      },
+      "centerX": {
+        "type": "number",
+        "title": "横向位置",
+        "description": "框中心在画面宽度里的百分比。靠近左右边缘时会自动往里收，保证框不出画。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "centerY": {
+        "type": "number",
+        "title": "纵向位置",
+        "description": "框中心在画面高度里的百分比。靠近上下边缘时会自动往里收，保证框不出画。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "boxWidth": {
+        "type": "number",
+        "title": "框宽",
+        "description": "框的宽度，占画面宽度的百分比。太大时会收到画面里。",
+        "default": 40,
+        "minimum": 5,
+        "maximum": 90
+      },
+      "boxHeight": {
+        "type": "number",
+        "title": "框高",
+        "description": "框的高度，占画面高度的百分比。太大时会收到画面里。",
+        "default": 36,
+        "minimum": 5,
+        "maximum": 90
+      },
+      "radius": {
+        "type": "number",
+        "title": "圆角",
+        "description": "圆角半径，像素，默认24；超过框短边的一半时自动取一半。",
+        "default": 24,
+        "minimum": 0,
+        "maximum": 160
+      },
+      "lineWidth": {
+        "type": "number",
+        "title": "线宽",
+        "description": "墨线的基础粗细，默认6；闭合加粗、笔头和落影都会跟着变。",
+        "default": 6,
+        "minimum": 2,
+        "maximum": 24
+      },
+      "lineColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "线条颜色",
+        "description": "描边、笔头和四角裁切标记的墨色。",
+        "default": "#17130f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "下划线和裁切标记四角小圆点的颜色，默认朱红。",
+        "default": "#e5432d"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标注文字的颜色。",
+        "default": "#17130f"
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

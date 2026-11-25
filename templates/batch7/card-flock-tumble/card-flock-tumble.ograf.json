@@ -1,0 +1,180 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.card-flock-tumble",
+  "version": "0.1.0",
+  "name": "卡群翻飞收束 · Card flock tumble",
+  "description": "一叠照片卡从近 90° 的侧棱薄边翻飞进来，沿一条样条翻到阶梯站定后继续慢转，10 帧吸进中心；同时亮起白热闪核和一圈湍流烟雾环，巨字带渐变砸入，标语和品牌眉题随后落定。卡片图、巨字、标语、品牌名与标志、四种颜色和巨字字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 card-flock-tumble 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片图",
+        "description": "填 2–5 张，一行一张，从上到下就是从后到前的顺序；每张 cover 裁进 560×400 的圆角卡，横图、竖图、方图都不拉伸。超过 5 张只取前 5 张；留空画 3 张深紫占位卡。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "headline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "巨字",
+        "description": "画面中央的巨字，单行；太长会自动缩小。背景的描边字墙也用它重复排出来；留空不显示。",
+        "default": "镜头即语言"
+      },
+      "motto": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语",
+        "description": "巨字下面的标语，中文逐字、英文逐词升起；太长会自动缩小，留空不显示。",
+        "default": "每一帧，都有落点。"
+      },
+      "brandName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "品牌名",
+        "description": "巨字上方那行眉题，逐字浮现；留空只留左边的标志，两个都留空整行不占位。",
+        "default": "拾光影像"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "品牌标志",
+        "description": "眉题左边的标志，按高度 50 等比缩放；留空就不占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "暗场底色；渐变、暗角、卡片落地影都从它推出来。",
+        "default": "#0b0816"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "主光、卡片发丝外框与辉光、烟雾环、巨字渐变末端。",
+        "default": "#a78bfa"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "辉光色",
+        "description": "主光的第二层、闪核、巨字泛光和烟雾环的暖色。",
+        "default": "#f472b6"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "巨字、标语、眉题和描边字墙的主色，巨字渐变从它起头。",
+        "default": "#f7f2ff"
+      },
+      "headlineSize": {
+        "type": "number",
+        "title": "巨字字号",
+        "description": "按 1080 高的画面算，默认 282；5 个中文大约横贯 73%。竖屏和 4K 会自动换算，太长时 FitBox 还会再缩。",
+        "default": 282,
+        "minimum": 140,
+        "maximum": 340
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

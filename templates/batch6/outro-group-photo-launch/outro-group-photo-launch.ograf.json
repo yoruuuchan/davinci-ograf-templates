@@ -1,0 +1,165 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.outro-group-photo-launch",
+  "version": "0.1.0",
+  "name": "群图飞聚收场 · Group photo launch",
+  "description": "4–9 张合影图从四面八方带旋转飞入，每张落进一张白卡，围成一圈把字标让在中间；字标逐字压印、全员退后一步，crane 落机位，配开场光带、舞台光和上飘金尘。合影图、字标、标志图、标语、纸面／墨色／强调色和字标字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 outro-group-photo-launch 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "合影图",
+        "description": "一行一张，按顺序飞入。4–9 张最合适，最多取前 12 张；不填时画 6 张浅色占位块（带淡淡的序号）。每张按自身比例 cover 裁进白卡，横图、竖图、方图都不拉伸。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "wordmark": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字标",
+        "description": "逐字压印登场。中文一个字一个字，英文一个词一个词；填长了会自动缩小，不出框。留空时如果填了标志图就只显示标志。",
+        "default": "拾光影坊"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志图",
+        "description": "放在字标前面，比第一个字早 4 帧压印。留空不显示，字标保持居中。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "tagline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语",
+        "description": "字标下面那行等宽小字，字距拉开，最后淡入上移。留空整条不显示，rule 不受影响。",
+        "default": "每一帧，都算数。"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景纸色；中心光晕、白卡底色、暖光和金尘都从它推出来。",
+        "default": "#f9f6f1"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "字标墨色",
+        "description": "字标和标语的墨色；白卡的描边、阴影和暗角也由它推出来。",
+        "default": "#211c14"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "rule 和两端延长线的颜色。",
+        "default": "#9a621f"
+      },
+      "markSize": {
+        "type": "integer",
+        "title": "字标字号",
+        "description": "按 1080 高的画面算，默认 118。竖屏和 4K 自动换算；字太多或带标志时会自动缩小，不出框。",
+        "default": 118,
+        "minimum": 56,
+        "maximum": 200
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

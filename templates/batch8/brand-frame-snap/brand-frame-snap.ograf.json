@@ -1,0 +1,151 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.brand-frame-snap",
+  "version": "0.1.0",
+  "name": "彩框包屏翻色 · Brand frame snap",
+  "description": "叠在你的录屏上的一圈粗品牌色画框：四条实体色带在 0–18 帧从零长满，左上角标从框带下沿升起，84 帧整圈同帧从设计色硬翻成开发色、角标同帧换字，接 3 帧径向白闪和框厚阻尼弹跳，然后静止。框洞是透明的，下面那轨的录屏铺满；右上可以放品牌名和一枚 logo。两种框色、字色、框带厚度和角标文字都能在检查器里改。改编自 video-shotcraft 的 brand-frame-snap 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "modeA": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "模式名 A",
+        "description": "0–83 帧左上角标上的字，默认「设计」；留空时这一段不显示角标，画框照常。",
+        "default": "设计"
+      },
+      "modeB": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "模式名 B",
+        "description": "84 帧翻色后同帧换上的字，默认「开发」；留空时翻色后不显示角标。",
+        "default": "开发"
+      },
+      "brand": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右上品牌名",
+        "description": "框带右上的品牌字，和角标同字号；留空就不显示文字（logo 照常显示），文字位也不占位。太长会自动缩字号。",
+        "default": "拾光影像"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "品牌标志",
+        "description": "放在品牌字左边，高度约为框带的 0.66 倍，完整等比显示、不裁切。框带是彩色的，建议用浅色或透明底的标志；留空就只显示品牌字。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "colorA": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "框色 A",
+        "description": "0–83 帧的框带颜色，默认设计蓝 #2f55ff。",
+        "default": "#2f55ff"
+      },
+      "colorB": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "框色 B",
+        "description": "84 帧翻色后的框带颜色，默认开发橘 #ff5b1f。",
+        "default": "#ff5b1f"
+      },
+      "labelColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "角标颜色",
+        "description": "角标和右上品牌字的颜色，默认白；框带顶亮底暗的薄釉也从它推。",
+        "default": "#ffffff"
+      },
+      "bandWidth": {
+        "type": "number",
+        "title": "框带宽度",
+        "description": "框带厚度，占舞台短边的百分比，默认 5.6（1080p 约 60px）。角标字号、logo 高度、左右内缩和内圆角都跟着它变。",
+        "default": 5.6,
+        "minimum": 4,
+        "maximum": 9
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

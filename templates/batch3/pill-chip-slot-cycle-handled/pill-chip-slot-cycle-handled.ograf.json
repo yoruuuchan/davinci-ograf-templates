@@ -1,0 +1,140 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.pill-chip-slot-cycle-handled",
+  "version": "0.1.0",
+  "name": "胶囊滚轮挤开 · Chip slot cycle",
+  "description": "浅底一句话「你的 镜头 我们全包了」：中间的深色胶囊里词竖向滚动，胶囊宽度随词长平滑伸缩，两侧的字被自然挤开又收回；胶囊上下露出淡淡的幽灵词，暗示还能往下滚。前句、后句、胶囊词表（2–8 项，超过 8 项只取前 8 项；切换按帧排：第 37 帧开始第一次切换，每次 18 帧、中间静置 15 帧，每多一个词整段长约多 33 帧、约 1.1 秒）、三种颜色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 pill-chip-slot-cycle-handled 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "prefix": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "前句",
+        "description": "胶囊前面的半句，默认「你的」。清空就只隐藏这句，后句和胶囊留在原位。",
+        "default": "你的"
+      },
+      "suffix": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "后句",
+        "description": "胶囊后面的半句，默认「我们全包了」。清空就只隐藏这句，前句和胶囊留在原位。",
+        "default": "我们全包了"
+      },
+      "chips": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "胶囊词",
+        "description": "一行一个，或用「、」「|」隔开；支持 2–8 项，超过 8 项只取前 8 项。每多一个词整段长约多 1.1 秒。",
+        "default": "镜头\n运镜\n声音\n渲染"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景色，胶囊里的字默认用它。",
+        "default": "#fbfbfd"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "句子颜色",
+        "description": "前句、后句和幽灵词的颜色，胶囊投影也从它推。",
+        "default": "#15171d"
+      },
+      "chipColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "胶囊颜色",
+        "description": "中间深色胶囊的底色。",
+        "default": "#1a1c24"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 120；胶囊高是字号的 1.6 倍，胶囊内字号是 0.733 倍，都跟着走。",
+        "default": 120,
+        "minimum": 56,
+        "maximum": 200
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

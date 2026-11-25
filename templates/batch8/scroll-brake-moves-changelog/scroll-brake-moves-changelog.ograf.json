@@ -1,0 +1,141 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.scroll-brake-moves-changelog",
+  "version": "0.1.0",
+  "name": "长卷急刹停更 · Changelog scroll brake",
+  "description": "一整年的更新日志从下往上高速掠过，快起步、长尾减速，急刹停在画面正中；最后一行抬升 1.03、描上强调色，其余行退暗到 0.38。条目一行一条，按「版本｜类型｜标题｜说明｜日期」填写，列可以省，只写标题也行；最多 24 行，超出只取前 24 行，停点是最后一条不是「计划」的行，类型自动变成「发布」徽章，它后面的「计划」行留在下方当路线图。类型只会归到 新功能／改进／修复／计划，认不出的按「新功能」。背景光场、暗角和颗粒可以在检查器里关掉。改编自 video-shotcraft 的 changelog-scroll-brake 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "entries": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "条目",
+        "description": "一行一条，按「版本｜类型｜标题｜说明｜日期」填写，列可以省，只写标题也行。类型填 新功能／改进／修复／计划，认不出的按新功能；最后一条不是「计划」的行是停点，类型自动变成发布；排在它后面的「计划」行留在下方当路线图。最多 24 行，超出只取前 24 行。",
+        "default": "v0.3｜修复｜导出丢帧｜高码率长片不再掉帧。｜1月8日\nv0.4｜改进｜时间轴缩放｜滚轮缩放到光标位置。｜1月15日\nv0.5｜新功能｜镜头预设｜保存常用机位与参数。｜1月22日\nv0.6｜修复｜字幕换行｜中文标点不再单独成行。｜2月2日\nv0.7｜改进｜渲染队列｜拖拽调整任务顺序。｜2月9日\nv0.8｜新功能｜素材标签｜按颜色和关键词筛选。｜2月16日\nv0.9｜改进｜色彩管理｜支持 ACES 工作流。｜2月20日\nv1.0｜修复｜音频同步｜变速片段对白不再错位。｜2月25日\nv1.1｜改进｜预览画质｜代理文件更清晰。｜3月3日\nv1.2｜新功能｜关键帧曲线｜贝塞尔手柄可整体缩放。｜3月8日\nv1.3｜新功能｜批量导出｜全项目默认开启，无需设置。｜3月12日\nv1.4｜计划｜实时协作｜多人同屏批注。｜第二季度\nv1.5｜计划｜云端备份｜工程自动同步到私有云。｜第三季度\nv1.6｜计划｜多轨音效｜音效分轨独立调节。｜第四季度"
+      },
+      "headerTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页眉标题",
+        "description": "画面顶上那行标题，默认「更新日志」；留空整行不显示，太长会自动缩小。",
+        "default": "更新日志"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "停点行的描边、NEW 标记、发布徽章，以及「新功能」类型徽章。",
+        "default": "#5b63d3"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题和说明的主色；次级灰、「修复」徽章和发丝线都从它推出来。",
+        "default": "#17181c"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "亮场底色，默认近白；渐变、暗部和停点行的白卡都按它配。",
+        "default": "#fafaf9"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "停点行标题的字号，默认 36。其余标题 28、说明 22，行高和行宽按同一比例缩放；竖屏和 4K 会整页换算。",
+        "default": 36,
+        "minimum": 18,
+        "maximum": 64
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

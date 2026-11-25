@@ -1,0 +1,195 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.magician-card-flourish",
+  "version": "0.1.0",
+  "name": "星芒变出卡 · Magician card flourish",
+  "description": "深蓝午夜舞台上先闪出一枚蓝色星芒，卡从光里被甩出来，沿慢进弧线飞出、绕自己的对角轴转十三整圈后硬定格，落点炸开一圈光脉冲、一道斜向扫光，右侧文案随后逐行浮出。卡面图、票根两行、眉题、标题、副文、卡片落点、强调色、舞台底色、文字色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft的 magician-card-flourish镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "cardImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "卡面图",
+        "description": "铺满卡内，留一圈深蓝卡壳；横图、竖图都会按 cover裁切。留空时显示深蓝底 +星芒化石占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "stubLeft": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "票根左",
+        "description": "卡底票根行左边的小字，默认「一人一票」。留空只隐藏左边，右边仍留在原位。",
+        "default": "一人一票"
+      },
+      "stubRight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "票根右",
+        "description": "卡底票根行右边的小字，默认「1920×1080 · 30fps」。留空只隐藏右边；两侧都留空时整行隐藏。",
+        "default": "1920×1080 · 30fps"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "右侧文案上方那行蓝色小字，字距从宽收拢到正常。留空就不显示。",
+        "default": "正在上映"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "右侧大标题，按回车换行；第一行用粗字重、后面几行用轻字重。字太长会自动换行并缩小。",
+        "default": "拍出\n好镜头。"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "副文",
+        "description": "标题下面的说明，按回车换行；中文一个字一个字浮出，英文一个词一个词浮出。留空不显示。",
+        "default": "一支片子，\n从这一张卡开始。"
+      },
+      "cardX": {
+        "type": "number",
+        "title": "卡片横向位置",
+        "description": "卡片中心的横向位置，画面宽的百分比，默认36（原卡约36）。竖屏时卡片居中，不用这个值。",
+        "default": 36,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "cardY": {
+        "type": "number",
+        "title": "卡片纵向位置",
+        "description": "卡片中心的纵向位置，画面高的百分比，默认50。竖屏时卡片固定在画面上部，不用这个值。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "星芒、光脉冲、背光、眉题和卡壳内光的颜色。",
+        "default": "#3f9bff"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "舞台底色",
+        "description": "舞台的深蓝底色；背景渐变、暗角和阴影都从它推出来。",
+        "default": "#05070e"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、副文和票根文字的颜色。",
+        "default": "#f0f4ff"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按1080高的画面算，默认132。竖屏和4K自动换算；字太长会自动换行并缩小。",
+        "default": 132,
+        "minimum": 60,
+        "maximum": 260
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

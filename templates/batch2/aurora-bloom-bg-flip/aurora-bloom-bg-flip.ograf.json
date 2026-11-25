@@ -1,0 +1,149 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.aurora-bloom-bg-flip",
+  "version": "0.1.0",
+  "name": "极光翻底转折 · Aurora bloom flip",
+  "description": "浅灰底上，一团紫橙柔光从底部升起；随后整个底色在约 0.35 秒里压暗到近黑，柔光收成余晖。第一句同步虚化上浮退场，空一瞬后第二句虚化入场，颜色从光色收到暗场字色（默认白）。两句文案、光色、亮/暗场底色、亮/暗场字色和字号都能在检查器里改，片段结尾上飘淡出。勾「透明背景」后只留两句话，第二句收成白色，叠在浅色视频上会看不清，可以把暗场字色改深。改编自 video-shotcraft 的 aurora-bloom-bg-flip 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "sentenceA": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "第一句",
+        "description": "亮场上的旧状况，会逐字（英文逐词）虚化上浮退场。留空就不显示。",
+        "default": "以前，一支片要做几周"
+      },
+      "sentenceB": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "第二句",
+        "description": "空一瞬后入场的新状况，颜色从光色收到暗场字色。留空就不显示。",
+        "default": "现在，一句话就够"
+      },
+      "lightColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光色",
+        "description": "极光的主色，也是第二句入场时的字色；第一句退场时被这团光吞掉。",
+        "default": "#7c5cff"
+      },
+      "lightBg": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "亮场底色",
+        "description": "反转前浅色背景的颜色，反转前的顶光从它这里来。",
+        "default": "#ececec"
+      },
+      "darkBg": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暗场底色",
+        "description": "反转后近黑背景的颜色。",
+        "default": "#0a0a12"
+      },
+      "lightInk": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "亮场字色",
+        "description": "第一句在浅色底上的颜色，默认近黑。",
+        "default": "#16171c"
+      },
+      "darkInk": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暗场字色",
+        "description": "第二句最后收到的颜色，默认白；勾透明背景时它就是第二句的颜色。",
+        "default": "#f5f5fa"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 104。竖屏和 4K 自动换算；太长会自动换行，再放不下就整块缩小。",
+        "default": 104,
+        "minimum": 40,
+        "maximum": 220
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

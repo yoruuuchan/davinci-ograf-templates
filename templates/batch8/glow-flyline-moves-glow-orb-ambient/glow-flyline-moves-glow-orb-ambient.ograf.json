@@ -1,0 +1,150 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.glow-flyline-moves-glow-orb-ambient",
+  "version": "0.1.0",
+  "name": "暗场光斑呼吸 · Glow orb ambient",
+  "description": "深色舞台上三团低饱和光斑缓慢呼吸、交错漂移，中间一块磨砂玻璃卡，卡面铺一张你的图（四周留一圈玻璃边），标题和副标压在左下；光斑从卡后游过，卡缘按最近的一团泛起微光，镜头极缓推进后收敛定格。卡面图、标题、副标、标题字号、底色、光斑色、文字色都能改；标题副标留空各自消失。氛围主要靠背景，一般不用勾透明背景。改编自 video-shotcraft 的 glow-flyline-moves 镜头卡里的 glow-orb-ambient 变体（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "cardImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "卡面图",
+        "description": "铺满玻璃卡内、四周留 18px 玻璃边；横图竖图都按比例裁切、不拉伸。留空时画深色渐变占位块和淡图片图标，标题副标照常显示。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "压在卡面左下的大字，中文一个字一个字虚化落定。留空就不显示，副标留在原位。字太长会自动换行并缩小。",
+        "default": "夜色落下来"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "标题下面的一行说明，字号跟着标题等比缩放。留空就不显示，标题留在原位。",
+        "default": "慢镜头 · 环境声"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 160。副标按同一比例缩放；竖屏和 4K 自动换算，字太长时整体缩小。",
+        "default": 160,
+        "minimum": 80,
+        "maximum": 200
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "舞台的深海青黑底色；背景渐变、暗角、占位块和底部渐隐都从它推出来。",
+        "default": "#071a1e"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光斑色",
+        "description": "主光斑的颜色；另外两团从它用 OKLCH 推成蓝灰和陶土色，外发光和轮廓光也取最近那团的颜色。",
+        "default": "#6f9c94"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、副标和点阵的颜色；副标会自动压暗一点。",
+        "default": "#eefaf7"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景：底色、三团光斑、点阵、暗角、颗粒和外发光都不画，只留玻璃卡、卡面图和文字，可以叠在别的画面上。这张卡的氛围主要靠背景，一般不用勾。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

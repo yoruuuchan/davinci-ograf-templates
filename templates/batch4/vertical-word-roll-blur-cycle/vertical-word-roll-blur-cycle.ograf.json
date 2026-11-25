@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.vertical-word-roll-blur-cycle",
+  "version": "0.1.0",
+  "name": "句尾滚轮换词 · Word roll blur",
+  "description": "句干不动，句尾三行高的视窗里一串词往上滚：中心词清晰、落定瞬间从灰染成强调色，相邻行纵向模糊、按滚筒曲面压扁，视窗上下沿柔边渐隐。句干、词表（2–8个，超过8个只取前8个）、底色／文字色／强调色和字号都能在检查器里改；词越多整段越长（每多一个词约多1秒），五到八个词要把时间线上的片段拉到约6–9秒。改编自 video-shotcraft的 vertical-word-roll-blur-cycle镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "stem": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "句干",
+        "description": "滚轮前面不动的半句，默认「专为」；留空就只显示滚轮，整组仍居中。",
+        "default": "专为"
+      },
+      "words": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "词表",
+        "description": "一行一个，或用「、」「|」隔开；支持2–8个，超过8个只取前8个。末词是结论，建议写最长。每多一个词整段约多1秒，时间线上的片段要相应拉长；默认四个词约5秒。",
+        "default": "新品发布\n产品演示\n宣传片\n每一支成片"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景底色；柔光、暗角和颗粒都从它推出来。",
+        "default": "#f4f4f2"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "句干和词的颜色；未落定的灰由它和底色混出来。",
+        "default": "#17181c"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "词落定那一瞬间的颜色；滚动过程中所有词都只有灰。",
+        "default": "#5b63d3"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按1080高的画面算，默认120；行高是字号的1.467倍，视窗正好三行。",
+        "default": 120,
+        "minimum": 56,
+        "maximum": 200
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

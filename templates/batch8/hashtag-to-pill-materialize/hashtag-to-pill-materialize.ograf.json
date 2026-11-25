@@ -1,0 +1,142 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.hashtag-to-pill-materialize",
+  "version": "0.1.0",
+  "name": "话题词变胶囊 · Hashtag to pill",
+  "description": "一句话话题词在近白纸面上逐字打出，光标恒亮；第 48 帧硬切实体化成一颗带 # 图标的灰色胶囊，停 0.6 秒后缩小左移，落到成品页的标签位，第 83 帧再一帧硬切揭示奶油色笔记页：墨绿标题、三行正文，胶囊换成鼠尾草绿。话题词、标题、正文、纸色／墨色／胶囊色／光标色和标题字号都能在检查器里改；话题词最多 8 个字，正文 1–8 行（超过只取前 8 行），太长自动缩小。改编自 video-shotcraft 的 hashtag-to-pill-materialize 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "tag": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "话题词",
+        "description": "会自动在前面加 #，填了 # 也认。最多 8 个字，多出的字不显示；字多时胶囊变宽，到 1500 就自动缩字号。",
+        "default": "话题"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "成品页的标题，默认 122px。太长会自动换行并缩小，不会压到下面的胶囊；留空只隐藏标题。",
+        "default": "我最爱的几个镜头"
+      },
+      "body": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "正文",
+        "description": "一行一行填，支持 1–8 行，超过 8 行只显示前 8 行；行数多或字太长会自动缩小。留空只隐藏正文。",
+        "default": "这几招我反复用：急推把主数字砸在重拍上，\n环绕把产品转一圈，甩镜把两段接起来。\n都在这份清单里，欢迎拿走。"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "成品页标题和揭示后胶囊文字的颜色，图标也从它推出来。",
+        "default": "#2d5c47"
+      },
+      "pillColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "胶囊颜色",
+        "description": "揭示后成品页胶囊的颜色；字和图标会自动换成同色系的深色。",
+        "default": "#d5e0cf"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "揭示后成品页的纸色，背景渐变和正文色都从它推出来；揭示前是偏白的浅色。",
+        "default": "#f6f3e8"
+      },
+      "cursorColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光标颜色",
+        "description": "打字时光标的颜色，光标恒亮不闪。",
+        "default": "#e0453f"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "成品页标题的字号，按 1080 高的画面算，默认 122；正文跟着等比。竖屏和 4K 自动换算。",
+        "default": 122,
+        "minimum": 80,
+        "maximum": 180
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

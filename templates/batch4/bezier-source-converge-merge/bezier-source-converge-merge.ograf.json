@@ -1,0 +1,150 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.bezier-source-converge-merge",
+  "version": "0.1.0",
+  "name": "多路汇一点 · Bezier converge",
+  "description": "左侧几枚白瓷圆片节点，各由一条细贝塞尔曲线汇向右侧同一点：曲线先从左往右画出，强调色数据包带彗尾沿路滑行，节点随后沿自己的曲线滑进汇聚点并缩小消失，涟漪一圈接收，曲线从左端反向擦除，结尾徽标收到画面正中、下方字幕逐词加深。来源一行一路（「｜」前是名称、后是小标签，只写名称也行），支持 2–8 路；汇聚点标志可换成自己的图片。改编自 video-shotcraft 的 bezier-source-converge-merge 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "lanes": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "来源",
+        "description": "一行一路：「名称｜小标签」，小标签可以不写（「｜」也不写）。支持 2–8 路，超过 8 路只排前 8 路；超过 6 路时节点自动改两列，曲线仍汇向同一点。",
+        "default": "页面截图｜素材图\n镜头卡｜分镜\n代码｜脚本\n录音｜旁白"
+      },
+      "caption": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "结尾字幕",
+        "description": "汇聚完成后在徽标下方逐词加深的字幕，按回车换行（最多两行为佳）；太长会自动缩小。留空就不显示。",
+        "default": "多个来源，\n一支片子。"
+      },
+      "mark": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "汇聚点标志",
+        "description": "替换汇聚点上的圆点，比如自己的 logo；透明底 PNG 效果最好。留空显示一枚强调色圆点。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "数据包、彗尾、接收涟漪，以及没填标志时的汇聚点圆点。",
+        "default": "#5b63d3"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "结尾字幕的主色；曲线描边、节点名称的深浅和字幕的占位灰都从它推出来。",
+        "default": "#17181c"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "浅灰纸面背景；描边渐变的浅端也从它推出来。勾了透明背景就不画。",
+        "default": "#efefeb"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

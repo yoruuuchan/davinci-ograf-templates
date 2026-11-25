@@ -1,0 +1,142 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.fracture",
+  "version": "0.1.0",
+  "name": "碎片拼合海报 · Fracture reassemble",
+  "description": "一片碎片从四面八方翻滚飞入，按离中心的距离波纹式拼成一张整海报（5×5 瓦片，网格可调），落位时带「咔哒」小摆，随后整海报极缓推近、海报上的眉题和主名亮起；片段结尾碎片沿背离中心方向加速旋出。海报用一张图（横竖图都居中裁切、按 380×230 比例），没填时画一张中性占位海报，动作照常完整播放。默认排布让文字落在海报中央偏下、不跨拼缝；改字后文字被拼缝切开是这张卡的质感的一部分，属正常效果。改编自 video-shotcraft 的 fracture 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3300
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 700
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "poster": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "海报图",
+        "description": "拼成海报的那张图，25 块瓦片切的是它，拼齐才见全图；横竖图都居中裁成 380×230 的比例。留空时画一张中性占位海报，动作照常。",
+        "default": ""
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "海报上的小字，印在主名上方、随瓦片切片。留空不显示。",
+        "default": "全新亮相"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主名",
+        "description": "海报上的主标题，默认落在海报中央偏下、不跨拼缝；改字后拼缝切开文字属正常效果，字太长会自动缩小、不出海报框。",
+        "default": "手作影集"
+      },
+      "grid": {
+        "type": "integer",
+        "title": "网格",
+        "description": "每边的瓦片数：3×3 到 7×7，默认 5（25 块）。瓦片越大块数越少、碎片感越粗；波纹按离中心的距离重算。",
+        "default": 5,
+        "minimum": 3,
+        "maximum": 7
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "深场底色，上下渐变和暗角都从它推出来。",
+        "default": "#0b0b10"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "海报身后的环境光、占位海报和眉题的色相都从它推出来。",
+        "default": "#5a8ed9"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

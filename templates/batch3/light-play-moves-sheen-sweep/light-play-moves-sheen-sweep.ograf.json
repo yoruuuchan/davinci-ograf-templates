@@ -1,0 +1,208 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.light-play-moves-sheen-sweep",
+  "version": "0.1.0",
+  "name": "卡片扫光加冕 · Sheen sweep",
+  "description": "米色展台上一张钛黑卡从下方升起、缓缓转向光源，一道斜向高光带在卡面上扫过一次，扫过的地方拉丝纹和蚀刻字被照亮；左边一栏眉题、标题、正文和按钮依次入场。卡面文字、标志、颜色、标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 light-play-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方那行强调色小字，前面有一颗圆点；留空连圆点一起不显示。",
+        "default": "首映计划"
+      },
+      "headline": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行，逐行从线下升起，两行错开一点；太长会自动换行并缩小。",
+        "default": "电影感，\n是默认设置。"
+      },
+      "body": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "正文",
+        "description": "标题下面的说明文字，淡入上浮；按回车换行，留空不显示。",
+        "default": "为你的片子准备的一套镜头卡。\n从一张截图到一支成片。"
+      },
+      "cta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "按钮文字",
+        "description": "左下角的深色胶囊按钮，留空就不显示按钮。",
+        "default": "拍你的第一支片"
+      },
+      "cardTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "卡面主标",
+        "description": "卡面顶部标志旁边的名字；留空就只显示标志，标志也留空时卡面顶部留空。",
+        "default": "导演卡"
+      },
+      "cardRole": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "卡面小标",
+        "description": "卡面左下角署名上面的小字；留空只隐藏小标，署名留在原位。",
+        "default": "导演"
+      },
+      "cardName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "卡面署名",
+        "description": "卡面左下角的署名，纯英文时用等宽字体；留空不显示。",
+        "default": "你的名字"
+      },
+      "cardBadge": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "卡面角标",
+        "description": "卡面右下角的角标；留空不显示。",
+        "default": "工作室"
+      },
+      "cardLogo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "卡面标志",
+        "description": "卡面左上角、主标旁边的标志，横向的小图最好看。留空就只显示卡面主标。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "展台的沙色底，渐变和卡面蚀刻色都跟着它推。",
+        "default": "#efe6da"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "标题、正文和按钮底的颜色。",
+        "default": "#221a12"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "眉题圆点和眉题、按钮箭头的颜色。",
+        "default": "#c4552d"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡身色",
+        "description": "钛黑卡的卡身颜色，卡面渐变、厚边和蚀刻字都从这里推。",
+        "default": "#1b1a19"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "左栏标题的字号，按1080高的画面算，默认118；正文、按钮、眉题都跟着比例走。",
+        "default": 118,
+        "minimum": 60,
+        "maximum": 180
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体和思源等宽。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.wall-reveal-moves-bento",
+  "version": "0.1.0",
+  "name": "便当格逐格点亮 · Bento light up",
+  "description": "暗场里一面便当格墙压暗待命，琥珀彗星流光逐格绕边框一圈，描边过半时格内图片 back-out 弹出、提亮；第一格点亮时标题跟着提亮，全部点亮后整面墙 1→1.04 缓推收住。格子图片、眉标、主标题、底色／强调色／文字色和标题字号都能在检查器里改：1–8 张图会自己换排法，不填图时画 6 个占位格。改编自 video-shotcraft 的 BentoLightUp 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "格子图片",
+        "description": "2–8 张，一行一个路径，从上到下从左到右排；超过 8 张只取前 8 张。填几张就排几张：1 张一大格、2–4 张一行、5–6 张 3×2、7–8 张 4×2；横图竖图都按 cover 裁切，不拉伸。不填时画 6 个占位格，动作照常。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉标",
+        "description": "主标题上面的小字，默认「作品集」，用强调色；留空只隐藏这一行，主标题留在原位。",
+        "default": "作品集"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主标题",
+        "description": "默认「每一张，都在这里调好。」；第 20 帧起随第一格点亮提亮。太长会自动缩小，不出框。",
+        "default": "每一张，都在这里调好。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "暗场底色，默认 #2a2a28；渐变、暗角和占位卡都从它推出来。勾透明后不画。",
+        "default": "#2a2a28"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "彗星流光、常亮细边和眉标的颜色，默认琥珀 #e8b45e；暖光脉冲、地面暖光也由它推出来。",
+        "default": "#e8b45e"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "主标题的颜色，默认 #f1efe9；占位格的图标和序号也从它推出来。",
+        "default": "#f1efe9"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 56；太长会自动缩小。竖屏也按这个字号显示。",
+        "default": 56,
+        "minimum": 32,
+        "maximum": 90
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

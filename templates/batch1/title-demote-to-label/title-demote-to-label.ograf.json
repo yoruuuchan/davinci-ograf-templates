@@ -1,0 +1,154 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.title-demote-to-label",
+  "version": "0.1.0",
+  "name": "标题降为栏目标签 · Title demote to label",
+  "description": "暖白纸面上，大标题从线后升起、站稳，然后飞向左上角缩成栏目标签，导语和 1–6 张文字卡片在下面错峰长出来，最后停住。标题、章节号、导语、卡片（一行一张，标题和正文用｜隔开）、纸面/文字/强调色、字号都能在检查器里改。改编自 video-shotcraft 的 title-demote-to-label 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大标题",
+        "description": "末尾的句号、问号、感叹号会换成强调色；没有末尾标点就不加。留空则整块标题（含眉题和编号）都不显示。太长会自动缩小。",
+        "default": "分镜。"
+      },
+      "chapter": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "章节号",
+        "description": "眉题显示「第 01 节」，降格后标签前显示「01 /」。留空则两者都不显示。",
+        "default": "01"
+      },
+      "lead": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "导语",
+        "description": "标题下面的一段话，第一句用文字色、后面的句子浅一档。留空就不显示。",
+        "default": "挑一个镜头。每个都附一份做法。"
+      },
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片",
+        "description": "一行一张卡片，标题和正文之间用「｜」或「|」隔开；只写标题、不写正文也行，空行忽略。最多取前 6 张：1–3 张一排居中，4 张变窄排一排，5–6 张分两排、每排 3 张。留空就不显示卡片。",
+        "default": "冲击推镜｜镜头怼向画面里最重要的那个数字。\n用户评价｜“这个推镜，我原本要手动调一星期。”\n卡点节拍｜128 拍的 BGM，每个切点都踩在拍子上。"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#17130f"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "标题末尾的标点、章节号和眉题用这个颜色。",
+        "default": "#e5432d"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的纸色，卡片的底色和柔光会跟着变。",
+        "default": "#f0ebe1"
+      },
+      "titleSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 220。竖屏和 4K 会自动换算；太长会自动缩小。",
+        "default": 220,
+        "minimum": 80,
+        "maximum": 360
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

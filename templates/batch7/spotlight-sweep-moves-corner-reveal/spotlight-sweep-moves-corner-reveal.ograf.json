@@ -1,0 +1,92 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.spotlight-sweep-moves-corner-reveal",
+  "version": "0.1.0",
+  "name": "角落聚光显影 · Corner spotlight reveal",
+  "description": "黑场上，一团聚光从左上角匀速扩张、光心往右下漂，照到的地方画面逐渐显影，最后整屏亮起并定格。只填一张页面截图或照片（整张按比例裁满画面）；不填图时显示一块中性的骨架占位页。这个模板只画自己的图片和光：勾上透明背景时，显影罩外是透明的，可以从角落揭开下面那一轨。改编自 video-shotcraft 的 CornerSpotlightReveal 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "pageImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "页面截图",
+        "description": "要被聚光显影的整张页面截图或照片，会按比例裁满整个画面。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "显影罩外的底色，默认纯黑。",
+        "default": "#000000"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光晕颜色",
+        "description": "光心那团白热光晕和聚光羽化边的颜色，默认白色。",
+        "default": "#ffffff"
+      },
+      "panelColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "占位页颜色",
+        "description": "没填图片时的骨架占位页的底色，骨架条和小方块也从它推出来。",
+        "default": "#f6f6f5"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

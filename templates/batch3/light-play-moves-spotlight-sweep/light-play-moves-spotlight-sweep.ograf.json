@@ -1,0 +1,180 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.light-play-moves-spotlight-sweep",
+  "version": "0.1.0",
+  "name": "聚光扫亮标题 · Spotlight sweep",
+  "description": "剧场首映夜：酒红天鹅绒幕布前一盏钨丝追光像钟摆一样摆动，光扫到哪里，哪里的大标题就被照亮（暗场里只留一层几乎看不见的字影）；停稳后光圈张开、整行全亮，眉题和副标跟着入场，副标下可以放标志。文字、强调词、颜色、字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 light-play-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "headline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "暗场里被追光扫亮的大标题，一行不换行；太长会自动缩小。",
+        "default": "拍成一部电影"
+      },
+      "emphasis": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "强调词",
+        "description": "一行一个，最多 4 个；要在标题里出现，每处都会标出来。中文变香槟金色，英文变斜体。",
+        "default": "电影"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方那行点缀色小字，字距从松到收入场；留空不显示。",
+        "default": "今晚 · 全球首映"
+      },
+      "subline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标",
+        "description": "标题下面一行说明，上浮淡入；留空不显示。",
+        "default": "电影级产品片，交给你的团队。"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志",
+        "description": "副标下面的小标志，约 34px 高，横向小图最好看。留空不显示。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "酒红黑的剧场底色；幕布、地板、暗角都从这里推。",
+        "default": "#1a0a0d"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "标题和副标文字的暖白色。",
+        "default": "#f8efe2"
+      },
+      "lightColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "光色",
+        "description": "追光、光斑和光锥的钨丝暖白色；幕布亮面跟着它变。",
+        "default": "#ffe6c2"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "点缀色",
+        "description": "眉题和中文强调词的香槟金色。",
+        "default": "#e3bd7f"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 220；太长会自动缩小到画面宽的 86% 以内。",
+        "default": 220,
+        "minimum": 100,
+        "maximum": 260
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "眉题和副标的字号倍率，1 是原卡比例；跟着标题字号一起缩放，觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体和思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

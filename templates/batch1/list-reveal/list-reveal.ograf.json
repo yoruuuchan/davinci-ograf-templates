@@ -1,0 +1,179 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.list-reveal",
+  "version": "0.1.0",
+  "name": "列表逐项入场 · List reveal",
+  "description": "一列侧栏条目逐项找位，整列同时缓慢上漂；当前项是一块瓷白高亮条，未读徽章挂在指定一项上，右侧标题等列表铺到一半才逐行升起。列表、当前项、徽章、标题、副句、四种颜色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 list-reveal 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "list": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "列表",
+        "description": "一行一项，或用「、」「|」隔开。支持 2–8 项，超过 8 项只显示前 8 项；项数多时整列等比缩小。",
+        "default": "首页\n镜头\n渲染\n审片\n设置\n退出登录"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标题",
+        "description": "按回车换行。列表铺到一半时才逐行升起；太长会自动换行并缩小。",
+        "default": "每个镜头，\n触手可及。"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "副句",
+        "description": "标题下面的说明，最后出现。按回车换行，太长会自动换行；留空就不显示。",
+        "default": "配方、渲染和分镜，\n一键直达。"
+      },
+      "active": {
+        "type": "integer",
+        "title": "当前项",
+        "description": "高亮第几项，从 1 数；填 0 不高亮。超过列表项数时也不高亮。",
+        "default": 1,
+        "minimum": 0,
+        "maximum": 8
+      },
+      "badgeAt": {
+        "type": "integer",
+        "title": "徽章项",
+        "description": "未读徽章挂在第几项，从 1 数；填 0 不显示。超过列表项数时也不显示。",
+        "default": 4,
+        "minimum": 0,
+        "maximum": 8
+      },
+      "badgeText": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "徽章文字",
+        "description": "徽章里的文字，默认 3。留空就不显示徽章。",
+        "default": "3"
+      },
+      "stageColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "舞台颜色",
+        "description": "背景底色；条目、主光和暗角都从它推出来。",
+        "default": "#0e0f11"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "列表、标题和副句的主色，条目表面和分隔线也从它推出来。",
+        "default": "#f4f4f2"
+      },
+      "barColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "高亮条颜色",
+        "description": "当前项那块实心条的颜色，条上的字会变深。",
+        "default": "#f7f6f2"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "未读徽章和当前项圆点的颜色。",
+        "default": "#e4c58a"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1080 高的画面算，默认 120。副句和间距会跟着变；太长会自动缩小。",
+        "default": 120,
+        "minimum": 48,
+        "maximum": 200
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

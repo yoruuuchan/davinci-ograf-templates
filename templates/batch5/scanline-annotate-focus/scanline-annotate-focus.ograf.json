@@ -1,0 +1,157 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.scanline-annotate-focus",
+  "version": "0.1.0",
+  "name": "扫描线逐块标注 · Scanline annotate",
+  "description": "一张页面图放在浏览器窗里，一条钴蓝扫描线以严格匀速自上而下掠过；线越过哪块的下缘，哪块就弹出四角取景框（弹簧一次过冲）并闪一下对焦，随后贴出一枚逐字打出的机器标签，顶部状态行实时计数。页面图、标注目标、完成语、地址栏文字、机器色、页面底色和标签字号都能在检查器里改；最多 8 处标注，目标多了扫描会自动拉长。改编自 video-shotcraft 的 scanline-annotate-focus 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "page": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "被扫描的页面",
+        "description": "一张页面截图，按 cover 裁进浏览器窗，横图竖图都不拉伸；留空画中性浅色占位面和淡图片图标，扫描动作照常。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "targets": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "标注目标",
+        "description": "一行一处：「横%｜纵%｜标签｜说明」。横纵是框中心在页面图上的百分比（0–100），按窗里实际看到的那块页面算（cover 可能裁掉图的边）；框默认是图的 18%×14%，想改大小就在说明后面再加「宽%｜高%」两列，只写「横%｜纵%｜标签」也行。最多 8 处，多的截掉；坐标贴边会自动钳回窗内。",
+        "default": "34｜38｜标题｜页面主张\n66｜38｜导航｜四个入口\n34｜66｜按钮｜想让人点的地方\n66｜66｜图片｜配图区域"
+      },
+      "doneLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "完成语",
+        "description": "全部扫描完，状态行从「读取中」切换成的文字。留空就不显示状态字。",
+        "default": "读取完成"
+      },
+      "pageUrl": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "地址栏文字",
+        "description": "浏览器顶栏地址框里的小字，默认「示例页面」；太长会自动缩小，留空就只留顶栏、不显示地址框。",
+        "default": "示例页面"
+      },
+      "machineColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "机器色",
+        "description": "扫描线、取景框、标签和计数的颜色，默认钴蓝。",
+        "default": "#2b4fd8"
+      },
+      "sandColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "页面底色",
+        "description": "窗外的舞台光、顶栏、占位面和状态行底色都从它推出来。",
+        "default": "#e8ddce"
+      },
+      "labelSize": {
+        "type": "number",
+        "title": "标签字号",
+        "description": "机器标签的字号，按 1080 高的画面算，默认 32。签条高度和内边距会跟着变；太长会自动缩小。",
+        "default": 32,
+        "minimum": 18,
+        "maximum": 56
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体与等宽字体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

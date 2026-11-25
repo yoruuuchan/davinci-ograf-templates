@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.list-stack-press",
+  "version": "0.1.0",
+  "name": "列表摞起跳数 · List stack press",
+  "description": "暖白纸面上，列表卡一张接一张从下方 600px 升入摞起：计数器先亮起，之后每 12 帧落一张卡，交替带 2° 倾斜，每张飞来时把已落定的整摞压下 6px 再弹回；落定后荧光笔从左长出，最后一张落定后一道斜光扫过整摞。卡片图、高亮词、计数器眉题和底行、纸面／墨色／强调色、数字字号都能在检查器里改；不填图时画 5 张中性占位卡。改编自 video-shotcraft 的 list-stack-press 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 2800
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 200
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3000
+      }
+    },
+    "properties": {
+      "cardImages": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "列表卡图",
+        "description": "每张卡面一张图，一行一个路径，从上到下就是落卡顺序；填几张就摞几张，最多 8 张（超过只取前 8 张），张数就是计数器数字。横图、竖图、方图都按 cover 裁切填满卡面，不拉伸；不填时画 5 张中性占位卡。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "marks": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "高亮词",
+        "description": "一行一个，按顺序对应每张卡上被荧光笔划的那一处，条的宽度按这个词量出来；某张卡没有对应词就不划。多出的词忽略；留空就整摞都不划。",
+        "default": "传感器漂移\n置信度路由\n自动研究循环\n方言语音\n长程编码"
+      },
+      "counterTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "计数器眉题",
+        "description": "计数器大数字上面的小字，默认「论文雷达」；留空只隐藏眉题，数字和发丝线保留。太长会自动缩小。",
+        "default": "论文雷达"
+      },
+      "counterSub": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "计数器底行",
+        "description": "计数器发丝线下面的小字，默认「今日已收录 31 篇」；留空只隐藏底行，眉题、数字和发丝线都还在。",
+        "default": "今日已收录 31 篇"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景暖纸色；中间的柔光从它推出来。",
+        "default": "#faf7f2"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "计数器小字、发丝线和卡片阴影的深色，阴影也用它保持同源。",
+        "default": "#3c2d1e"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "计数器数字的颜色；荧光笔取它的浅版，扫光不受影响。",
+        "default": "#b0700f"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "数字字号",
+        "description": "计数器大数字的字号，按 1080 高的画面算，默认 104。竖屏和 4K 会自动换算。",
+        "default": 104,
+        "minimum": 72,
+        "maximum": 140
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

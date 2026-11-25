@@ -1,0 +1,92 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.wall-reveal-moves-wireframe",
+  "version": "0.1.0",
+  "name": "线框扫描显影 · Wireframe draw on",
+  "description": "图纸底上先描出一个居中的大框和中性版面骨架，四角裁切标记跟着落位；随后一条琥珀扫描线从左向右扫过，用户的图片在框内按扫描前沿一点点显影，身后拖着一段渐隐暖光。留空图片时框内换成浅色占位块和图片图标，扫描照常。改编自 video-shotcraft 的 wall-reveal-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "image": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "图片",
+        "description": "框内显影的图片，界面截图或照片都行；横图给横框、竖图给竖框，超出部分居中裁切。留空时显示浅色占位块和图片图标。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "图纸底色，空框占位块也从它和强调色混出来。勾选透明背景后不画。",
+        "default": "#eef0f2"
+      },
+      "wireColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "线框颜色",
+        "description": "外框、骨架线、四角标记和点阵的颜色。",
+        "default": "#6c7894"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "扫描竖线、双层辉光、身后余温和空框占位块都从它推出来。",
+        "default": "#ffc46b"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

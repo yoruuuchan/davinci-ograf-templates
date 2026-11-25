@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.slam-entrance-moves-impact",
+  "version": "0.1.0",
+  "name": "重卡砸槽震邻 · Impact burst",
+  "description": "一张成片规格页：左右两张纸白规格卡驻场，中间留一个虚线空槽；深墨蓝的主角卡从镜头上方放大、虚焦地悬着，六帧砸进空槽。落点起钴蓝冲击环、白色压力盘、18 片碎屑和 8px 震屏，三帧后冲击波把两张邻卡推开 34px 再阻尼回正，顶签随后弹出，65 帧后整版静止（只留极缓推镜）。三张卡内容、顶签、眉题、页面标题、纸面 / 墨色 / 强调色和标题字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 slam-entrance-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "三张卡内容",
+        "description": "一行一张卡，最多三行（多出的行不显示），第二行是砸进来的主角卡。每行按「名称｜大数字｜单位｜一句话｜按钮」写，只写到哪列就显示到哪列；留空的行跳过。整段留空时画三个虚线槽，并砸入一张空白主角卡壳。",
+        "default": "预告片｜15 秒｜9:16 竖屏｜社交首发用。｜剪一支预告\n发布片｜60 秒｜16:9 · 1080p｜你的产品，动起来。｜渲染发布片\n讲解片｜90 秒｜带旁白｜每个功能逐个拍。｜排分镜"
+      },
+      "heroTag": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "顶签",
+        "description": "主角卡落定后从卡顶弹出的钴蓝签上的字，太长会自动缩小；留空就不弹签。",
+        "default": "导演剪辑版"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "页面左上角那行小字，原卡这里是品牌标志和名字。留空就不显示。",
+        "default": "成片规格"
+      },
+      "pageTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页面标题",
+        "description": "页面顶部的大标题。填长了会自动换行并缩小，不会压到下面的卡片；留空就不显示。",
+        "default": "一句话，到一支成片。"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "页面背景和邻卡表面的颜色；主光、暗角、邻卡表面都从它推出来。",
+        "default": "#eef1f6"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "邻卡文字的颜色，也是主角卡深墨蓝底色的来源（原卡 NAVY 由它推出）。",
+        "default": "#1c2128"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "冲击环、压力盘光晕、顶签、主角卡按钮和眉题的颜色。",
+        "default": "#2b4fd8"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "页面标题的字号，按 1080 高的画面算，默认 76。标题太长时会自动缩小。",
+        "default": 76,
+        "minimum": 52,
+        "maximum": 104
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

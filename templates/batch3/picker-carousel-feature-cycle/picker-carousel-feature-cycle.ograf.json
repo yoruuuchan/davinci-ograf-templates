@@ -1,0 +1,126 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.picker-carousel-feature-cycle",
+  "version": "0.1.0",
+  "name": "竖向吸附轮播 · Picker carousel",
+  "description": "一列功能名在纸面选择器里逐项吸附、穿过不动的焦点药丸，每次落定药丸轻轻一呼吸；当前项前有一颗强调色小圆点，视口上下渐隐。功能名、纸面／文字／强调色、字号和透明背景都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 picker-carousel-feature-cycle镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4000
+      }
+    },
+    "properties": {
+      "items": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "功能名",
+        "description": "一行一个，或用「、」「|」隔开；支持2–10项，超过10项只显示前10项。每项吸附到焦点停一次；项数越多整段越长（每多一项多约0.65秒），片段要相应拉长才看得完。全部留空时只剩纸面。",
+        "default": "分镜脚本\n实拍素材\n运镜设计\n踩点剪辑\n声音设计\n成片导出"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景底色；顶光、落地光、暗角、灰阶文字和药丸都从它推出来。",
+        "default": "#f3f3f1"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "功能名的主文字色；药丸描边和软阴影也用它调淡。",
+        "default": "#111113"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "焦点行小圆点的颜色。",
+        "default": "#5b63d3"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "按1080高的画面算，默认68。行高、药丸和视口都跟着等比缩放；竖屏按画面宽92%再缩一次，单行太长时只缩这一行。",
+        "default": 68,
+        "minimum": 44,
+        "maximum": 100
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

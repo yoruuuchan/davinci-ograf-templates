@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.voice-waveform-live",
+  "version": "0.1.0",
+  "name": "录音声纹胶囊 · Voice waveform live",
+  "description": "米色暖光里，上方一句实时转写逐词出现、由虚变实，说出的词先亮成赤陶再沉成墨色；下方胶囊里64条声纹从右往左滚动，麦克风随说话呼吸。说完提交，转写收进赤陶消息气泡，胶囊退回待机，留下「已发送 ·0:03」的对话海报。说的话（一句一行，1–8句）、在听标签、已发送、提示语、文字／强调／底色和字号都能在检查器里改。改编自 video-shotcraft的 voice-waveform-live镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "lines": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "说的话",
+        "description": "一行一句，支持1–8句，每行一个说话窗；某句留空就跳过那一段说话。句子多时每句的窗口自动缩短，6秒内仍会说完并提交；每多一句，说的话大约多一两秒，但节奏会更紧。超过8句只念前8句。",
+        "default": "给这周五，剪一支发布短片，\n开场用一个急推。"
+      },
+      "listening": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "在听",
+        "description": "胶囊左上角的在听标签，默认「正在听」；留空就连前面的圆点一起不显示，提交后自动退场。",
+        "default": "正在听"
+      },
+      "sent": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "已发送",
+        "description": "提交后气泡下面那行字，默认「已发送」；后面的计时由模板实时累加、到提交帧停住，不用自己写。留空只显示对勾和计时。",
+        "default": "已发送"
+      },
+      "hint": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "提示语",
+        "description": "开口前浮现在转写位置的一句提示，第一个词出现前淡出；留空不显示。",
+        "default": "说说下一镜……"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "转写、在听标签和已发送文字的主色；收进气泡后会反过来变白。",
+        "default": "#221a12"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "声纹、麦克风、消息气泡、光标和刚说出的词的颜色。",
+        "default": "#c4552d"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景的米色；舞台光、胶囊、地面暖光和阴影都从它推出来。",
+        "default": "#e8ddce"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "转写字号，按1080高的画面算，默认92。竖屏和4K自动换算；句子多或字太长会自动换行并缩小。",
+        "default": 92,
+        "minimum": 40,
+        "maximum": 180
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.cursor-flyover",
+  "version": "0.1.0",
+  "name": "光标巡览特写 · Cursor flyover",
+  "description": "你的页面图装进一个浅色应用窗：相机从整页俯瞰依次飞到各站特写，macOS 光标先一步到位、轻弧线飞行、点击留下涟漪，站名小签在光标旁浮现，最后拉回俯瞰停住。页面图、站点（一行一站「横%｜纵%｜站名」，2–5 站）、特写倍率、机器色和窗底色都能在检查器里改；站名留空就不显示小签。图至少 2000 像素宽，特写才不糊；默认 3 站约 6 秒，每多一站把片段加长约 1.5 秒。改编自 video-shotcraft 的 cursor-flyover 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6000
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6400
+      }
+    },
+    "properties": {
+      "page": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "页面图",
+        "description": "你的产品截图、看板或海报，横竖方图都行；按 cover 铺满世界画布，不太会裁到内容。留空画中性浅色占位面和淡图片图标，动作照常。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "stops": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "站点",
+        "description": "一行一站：横%｜纵%｜站名。坐标相对你的图，0–100，既是相机对准点也是光标点击点；支持 2–5 站，超过 5 站只走前 5 站。站名留空就不显示小签。相邻站顺路，对角来回跳会晕，默认 3 站约 6 秒，每多一站片段要加长约 1.5 秒。",
+        "default": "26｜34｜数据看板\n74｜32｜镜头预览\n52｜74｜发布设置"
+      },
+      "zoomIn": {
+        "type": "number",
+        "title": "特写倍率",
+        "description": "每站特写的放大倍数，1.0–1.6，默认 1.3。超过约 1.5 时截图分辨率不够会糊，图最好至少 2000 像素宽。",
+        "default": 1.3,
+        "minimum": 1,
+        "maximum": 1.6
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "机器色",
+        "description": "光标旁站名小签的底色和点击涟漪的颜色；原卡是钴蓝。",
+        "default": "#2f5bff"
+      },
+      "windowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "窗口底色",
+        "description": "应用窗底板和舞台背景的基色，底板渐变、占位面都从它推出来；图本身的颜色在图里控制。",
+        "default": "#eef2f8"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

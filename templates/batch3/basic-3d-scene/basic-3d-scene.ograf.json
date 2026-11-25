@@ -1,0 +1,187 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.basic-3d-scene",
+  "version": "0.1.0",
+  "name": "三维章节漫游 · 3D chapter flight",
+  "description": "几张章节卡散布在三维空间里，相机逐站飞行对齐，最后拉远总览落版；每站停留时卡底金色进度线走满。章节一行一章（编号｜小标题｜大标题｜说明），支持 2–5 章：3 章建议片段 8500ms，4 章约 10000ms，5 章约 11500ms。标题、总览文案、品牌名、标志、四种颜色和标题字号都能在检查器里改。改编自 video-shotcraft 的 basic-3d-scene 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 8100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 8500
+      }
+    },
+    "properties": {
+      "chapters": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "章节",
+        "description": "一行一章，用「｜」分成「编号｜小标题｜大标题｜说明」：01｜取景｜先看清画面。｜真实页面截图，按镜头调度。只写一段就当成大标题、编号自动 01/02…；编号、小标题、说明留空就不显示。支持 2–5 章，超过 5 只取前 5。",
+        "default": "01｜取景｜先看清画面。｜真实页面截图，按镜头调度。\n02｜打磨｜把动作写成镜头。｜一张配方卡，把运镜变成代码。\n03｜交付｜一句话，交一支片。｜从分镜到成片，一次做完。"
+      },
+      "overviewTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "总览标题",
+        "description": "结尾拉远后的大标题，衬线体、逐词升起。太长会自动缩小。",
+        "default": "把每一镜，刻成片。"
+      },
+      "overviewNote": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "总览眉题",
+        "description": "大标题上面那行小字，和品牌名、标志排在一起。留空就不显示。",
+        "default": "章节汇成一支片"
+      },
+      "overviewSub": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "总览副句",
+        "description": "大标题下面的一句说明。留空就不显示。",
+        "default": "给产品片的一整套镜头配方。"
+      },
+      "brandName": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "品牌名",
+        "description": "每张卡右上角和总览眉题里的品牌名。留空就不显示。",
+        "default": "拾光影像工作室"
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志",
+        "description": "总览眉题最前面的标志图；每张卡上不出现。留空就没有标志。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "舞台底色，浮尘和暗角也从它推出来。",
+        "default": "#08080a"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、说明、章节数字的主色。",
+        "default": "#f4f4f2"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "章节编号、进度线、总览眉题的颜色。",
+        "default": "#e4c58a"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡片颜色",
+        "description": "章节卡的底色，卡面的亮暗渐变也从它推出来。",
+        "default": "#16171a"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "章节卡上大标题的字号，按对位时的原生像素算，默认 156；说明、小标题、大章节数字都跟着等比。太长会自动缩小。",
+        "default": 156,
+        "minimum": 90,
+        "maximum": 220
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

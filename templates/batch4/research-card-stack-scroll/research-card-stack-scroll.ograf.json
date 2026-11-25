@@ -1,0 +1,126 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.research-card-stack-scroll",
+  "version": "0.1.0",
+  "name": "资料卡叠压滚入 · Research stack",
+  "description": "一张张资料卡（0.4 秒一张）从正上方竖直滚入并依次压叠：新卡从镜头前方落下，旧卡后退缩小、略微变暗，只有正在读的那张带投影和作者行/四根摘要骨架线；背景浅灰格线同速滚动。卡片一行一张、用「｜」分成标题和作者，1–12 张都能排，超过 12 张只排前 12 张（张数越多整段越长，片段要相应拉长；最后一张落定后画面停在它上面）。改编自 video-shotcraft 的 research-card-stack-scroll 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片",
+        "description": "一行一张，行内用「｜」分成「标题｜作者」，作者可留空。支持 1–12 张，超过只排前 12 张；每 0.4 秒进一张，张数越多整段越长，片段要相应拉长。",
+        "default": "长视频的注意力曲线｜研究组\n素材检索的三条路径｜素材组\n一镜到底还是分切｜摄影组\n配乐怎么托住节奏｜声音组\n字幕出现的时机｜编辑组\n封面第一眼的取舍｜设计组\n横竖屏的构图重排｜设计组\n成片交付前的十项检查｜质检组\n片头三秒的留白｜导演组\n观众在哪里快进｜数据组"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景的浅灰纸色，横向格线也从它推出来。",
+        "default": "#fafafa"
+      },
+      "cardColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡面颜色",
+        "description": "深色圆角纸卡的底色，描边和摘要骨架条从它和文字色推出来。",
+        "default": "#1a1a1a"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "卡片文字",
+        "description": "标题的字色，骨架条也从它推出来。",
+        "default": "#f0f0f0"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "作者行和每张卡左侧细竖条的颜色。",
+        "default": "#ff6a1f"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

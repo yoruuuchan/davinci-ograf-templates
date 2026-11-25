@@ -1,0 +1,197 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.mosaic-reframe",
+  "version": "0.1.0",
+  "name": "瓦片三态重排 · Mosaic reframe",
+  "description": "一组照片在三种排版之间连续重排：规则网格、一张主图带图注的拼贴、沿对角线摊开的相纸瀑布。右上角三档控件先动，瓦片晚 4 帧跟上；全程缓慢推近，最后一帧是一张完整的照片海报。图片、页眉、控件、图注、收尾标题和四种颜色都能在检查器里改。图片最多 12 张，超过只取前 12 张；少于 4 张按实际张数排，不补片；不填图画 12 张米色占位片，三种排版照常变化。改编自 video-shotcraft 的 mosaic-reframe 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 7100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 7500
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "瓦片图片",
+        "description": "一组照片，按填图顺序进画面。最多 12 张，超过只取前 12 张；少于 4 张按实际张数排，不补片；全空时画 12 张米色占位片。横图、竖图、方图都按 cover 裁切，不会拉伸。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "headerTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "页眉标题",
+        "description": "左上角那一行字。留空就不显示页眉；太长会自动缩小，不会盖住 C 态第一张相纸。",
+        "default": "影像档案"
+      },
+      "showModes": {
+        "type": "boolean",
+        "title": "显示排版开关",
+        "description": "右上角三档控件。关掉就只剩瓦片重排，切换节奏不变。",
+        "default": true
+      },
+      "modes": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "排版标签",
+        "description": "三档控件的文字，一行一个或用「、」隔开。固定三档，不足三个用默认补，超过三个忽略。",
+        "default": "网格\n拼贴\n瀑布"
+      },
+      "featureKicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "精选标签",
+        "description": "B 态主图左上角的小标签。留空只隐藏这一行，标题和副行留在原位。",
+        "default": "精选"
+      },
+      "featureTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主图标题",
+        "description": "B 态主图上的大字，按收尾标题字号的 0.68 倍。太长会换行并缩进主图；留空只隐藏这一行。",
+        "default": "落日沉进海面"
+      },
+      "featureMeta": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主图副行",
+        "description": "B 态主图最下面的小字。留空只隐藏这一行，标签和标题留在原位。",
+        "default": "第01张"
+      },
+      "endTitle": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "收尾标题",
+        "description": "C 态的标题，按回车换行；第二行用强调色，中文正体、英文斜体。留空就不显示标题。",
+        "default": "每一格，\n都值得看。"
+      },
+      "endSub": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "收尾副行",
+        "description": "收尾标题下面的说明。留空就不显示；太长会自动换行并缩小。",
+        "default": "同一组照片，三种看法，一次看完。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "沙色舞台的底色，主光、暗角和占位片都从它推出来。",
+        "default": "#efe6da"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "页眉、标签、收尾标题的颜色，阴影也从它推出来。",
+        "default": "#221a12"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "控件指示胶囊、收尾标题第二行和精选标签的颜色。",
+        "default": "#c4552d"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "相纸颜色",
+        "description": "瓦片和相纸的白边底色。",
+        "default": "#fbf6ef"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "收尾标题字号",
+        "description": "按 1080 高的画面算，默认 124。B 态主图标题取它的 0.68 倍；太长或太高时会自动缩小。",
+        "default": 124,
+        "minimum": 60,
+        "maximum": 180
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源宋体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.spotlight-hero-card",
+  "version": "0.1.0",
+  "name": "聚光锁定主角 · Spotlight hero card",
+  "description": "石墨黑剧场里，一页卡片墙先被暖白聚光灯扫过，最后锁定其中一张：相机 18 帧推进到斜侧特写，卡弹起、悬停、亮两圈香槟金轮廓光，再贴回页面落定，卡旁的两行大字带着香槟色马克条一起落回。页面截图和主角卡是两张独立的图，最自然的是把同一张图填进两处。改编自 video-shotcraft 的 spotlight-hero-card 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "pageImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "页面截图",
+        "description": "整页截图或任何底图，cover 铺满页面平面，像贴在页面上；留空时画石墨灰的卡片墙占位。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "heroImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "主角卡图",
+        "description": "被聚光锁定、弹起的那张卡，cover 裁成圆角卡。页面图和卡图是两张独立的图；想省事可以两处填同一张，页面被压暗、卡浮起时用同一张图重新裁成卡。留空时用页面占位墙里的浅色图片块。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "cardX": {
+        "type": "number",
+        "title": "卡片横向",
+        "description": "卡片中心在画面上的横向位置，0–100（%）。会自动夹在安全边内，填 0 或 100 也不会把卡推出画外。",
+        "default": 50,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "cardY": {
+        "type": "number",
+        "title": "卡片纵向",
+        "description": "卡片中心在画面上的纵向位置，0–100（%）。默认 64，在画面中偏下；填到 0 或 100 也会夹在安全边内。",
+        "default": 64,
+        "minimum": 0,
+        "maximum": 100
+      },
+      "cardW": {
+        "type": "number",
+        "title": "卡片宽度",
+        "description": "卡片宽度占画面宽的百分比（10–60），高度按 3:2 推。原卡约 360/1920；默认 12，推进后是画面主角。",
+        "default": 12,
+        "minimum": 10,
+        "maximum": 60
+      },
+      "note": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "注记",
+        "description": "卡旁的两行大字，按回车换行。默认自动排在卡左侧，卡靠左时排右侧，竖屏排上方；太长会自动换行并缩小；留空不显示。",
+        "default": "你的产品，\n动起来。"
+      },
+      "noteHighlight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "强调词",
+        "description": "注记里要长马克条的词，命中每一处都标，字会翻成墨色；多个词用「、」或「|」隔开。找不到的词忽略。",
+        "default": "动起来"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "香槟金",
+        "description": "轮廓光束、马克条和落地光的颜色；暖白灯光也从它推出来。",
+        "default": "#d4b06a"
+      },
+      "dimColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暖黑",
+        "description": "关灯后的压暗色，卡片形暗场和空槽的底色都从它推。",
+        "default": "#0e0c0a"
+      },
+      "noteColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "注记字色",
+        "description": "注记的暖白色；页面占位块也从它提亮。",
+        "default": "#f6f3ec"
+      },
+      "noteSize": {
+        "type": "number",
+        "title": "注记字号",
+        "description": "按推进后的画面算，默认 100；竖屏和 4K 由宿主换算，注记太长会自动缩小。",
+        "default": 100,
+        "minimum": 40,
+        "maximum": 240
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上不画底色、剧场压暗和颗粒，只留页面图、灯光下的卡和注记。这张卡的页面就是画面主体，一般不用勾。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

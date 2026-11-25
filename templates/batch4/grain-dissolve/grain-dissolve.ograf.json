@@ -1,0 +1,133 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.grain-dissolve",
+  "version": "0.1.0",
+  "name": "砂化凝聚字标 · Grain dissolve",
+  "description": "一行干净的字标先砂化成沸腾的颗粒噪点，带斜纹和像素角柄的选区框展开又撤走，噪点随后凝聚成更大号的短字标，位移衰减、辉光冲高回落，凝固成清晰的发光字标。名字、后缀、字标字号、背景／文字／辉光颜色、透明背景和字体都能在检查器里改。改编自开源镜头卡 video-shotcraft · grain-dissolve（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 2600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3000
+      }
+    },
+    "properties": {
+      "mark": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "短字标",
+        "description": "整行字和凝聚后的短字标共用这个名字；太长会自动缩小。留空时整行只显示后缀。",
+        "default": "拾光影像工作室"
+      },
+      "status": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "整行后缀",
+        "description": "整行字是「{短字标.后缀 }」；留空就只显示「{短字标 }」。",
+        "default": "今日正式上线"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字标字号",
+        "description": "按1080高的画面算，默认132。整行字号是它的0.59倍；字太长会自动缩小，选区框跟着量。",
+        "default": 132,
+        "minimum": 80,
+        "maximum": 200
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "背景底色，中间的柔光和暗角都从它推出来。",
+        "default": "#0a0b0e"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "整行字和凝聚后短字标的主色；选区框的灰阶也从它推出来。",
+        "default": "#eceef3"
+      },
+      "glowColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "辉光颜色",
+        "description": "三层白辉光、游离砂粒和横向光痕的颜色。",
+        "default": "#dfe6ff"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

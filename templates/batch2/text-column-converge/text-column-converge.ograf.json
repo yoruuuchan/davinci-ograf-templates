@@ -1,0 +1,139 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.text-column-converge",
+  "version": "0.1.0",
+  "name": "左右词合拢 · Text column converge",
+  "description": "左边一个词钉在左侧、右边一个词钉在右侧，右边的词逐个轮换（最多 12 个）；最后一个词停稳后两边合拢成居中的一句，下方再浮出一行小字。左词、轮换词、最后的词、小字、底色、文字色和字号都能在检查器里改。轮换词越多整段越长，8 个词建议至少 6 秒。改编自 video-shotcraft 的 text-column-converge 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "text": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左边的词",
+        "description": "左边钉住不动的词，合拢后留在整句开头。默认「全新」。",
+        "default": "全新"
+      },
+      "list": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "轮换的词",
+        "description": "一行一个，或用「、」「|」隔开。支持 2–12 个，超过 12 个只显示前 12 个；词越多整段越长，平均每多一个词约多 0.25 秒，8 个词建议至少 6 秒。",
+        "default": "字幕\n调色\n配乐"
+      },
+      "finalWord": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "最后的词",
+        "description": "轮换结束后停在右边、再和左词合拢的词。默认「工作流」，合拢后是「全新 工作流」。",
+        "default": "工作流"
+      },
+      "line": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "小字",
+        "description": "合拢后浮在下方的一行小字。默认「下周上线」，留空就不显示；中文不排斜体。",
+        "default": "下周上线"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "冷色相深底，顶光和合拢后的柔光都从它推出来。",
+        "default": "#08090c"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "两个词和小字的主色，次级灰、暗部都由它和底色混出来。",
+        "default": "#eeeef2"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "按 1080 短边的画面算，默认 80。整个构图以画面中心按字号等比缩放：左右两个词往两边推，字距、小字间距和柔光一起变；太大时自动整体缩小，不出框。",
+        "default": 80,
+        "minimum": 32,
+        "maximum": 200
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

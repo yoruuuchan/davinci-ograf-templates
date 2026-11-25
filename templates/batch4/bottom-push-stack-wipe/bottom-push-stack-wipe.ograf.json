@@ -1,0 +1,125 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.bottom-push-stack-wipe",
+  "version": "0.1.0",
+  "name": "换章底推上屏 · Bottom push chapter wipe",
+  "description": "章节海报从底边整屏向上推入，把上一章刚性顶出画外：整块饱和色板、上缘受光边和接缝阴影、整摞速度模糊，标题在落定前逐行升起，说明随后淡入，尾段极缓推近。章节2–6章，一行一章：章号｜名称｜标题（可换行）｜说明｜底色，底色留空自动接上一章换色。右栏配图一章一张，图不够时循环，留空画中性占位块。默认4章（170f/5500ms）照原卡节奏；5–6章每章约40f（26f推入+14f停留），片长约6.7/8.1秒，要把片段拉长。改编自 video-shotcraft的 bottom-push-stack-wipe镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "chapters": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "章节",
+        "description": "一行一章，组内用「｜」隔开：章号｜名称｜标题（可用\\n两行）｜说明｜底色。支持2–6章，超过只取前6章。章号留空时行首留一个「｜」，例如「｜开场｜标题」；说明、底色留空自动省略／换色。",
+        "default": "00｜开场｜来认识\\n镜头工坊。｜电影感的产品片，交给你的智能体来拍。｜#141415\n01｜快｜一句话，\\n一支片。｜把想拍的描述清楚，剩下交给流程。｜#2d4cff\n02｜准｜卡在\\n拍点上。｜每一镜都落在音乐的拍点。｜#ff4d1f\n03｜稳｜交付\\n全自动。｜成片锁定的那一刻，各平台就绪。｜#cdf23a"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "章号胶囊描边，以及没填底色时的起始底色；每章填了 hex的优先用填的。",
+        "default": "#2d4cff"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "标题字号",
+        "description": "章节标题字号，按1080短边算，默认116；开场章自动放大到约1.45倍。太长会自动换行、整块缩小。",
+        "default": 116,
+        "minimum": 60,
+        "maximum": 200
+      },
+      "photos": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "右栏配图",
+        "description": "一章一张按顺序，图比章节少时循环使用；留空时右栏画中性占位块。多出的图不用。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

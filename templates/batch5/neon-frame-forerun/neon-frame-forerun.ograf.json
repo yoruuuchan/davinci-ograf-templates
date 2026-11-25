@@ -1,0 +1,164 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.neon-frame-forerun",
+  "version": "0.1.0",
+  "name": "描框贴落登场 · Frame forerun drop",
+  "description": "霓虹框从左缘中点分两路奔画，在右缘相撞闪一下，面板由暗转亮，标题、副标题和截图面板带着同形软影从3D上空错峰贴落；勾上「环绕齐落」就换成机位从左绕到右、三件同帧起落。标题、副标题、面板截图、三种颜色和标题字号都能在检查器里改，竖屏整体缩小。框色默认压低了饱和，把 A、B改回 #b48cff / #ff6fb5就是原卡配色。改编自 video-shotcraft的 neon-frame-forerun镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 4500
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "面板上方的标题，默认64号；太长会自动换行，放不下再等比缩小。",
+        "default": "新页面，今天上线"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "标题下面的小字。留空就不显示，标题位置不动；太长会自动换行缩小。",
+        "default": "十月十四日 · 周二"
+      },
+      "shot": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "面板截图",
+        "description": "铺满1440×840的面板，cover裁切，横图竖图都不拉伸。留空时画从框色推的深色占位块和图片图标。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "orbit": {
+        "type": "boolean",
+        "title": "环绕齐落",
+        "description": "勾上换环绕模式：机位从左绕到右，三件同帧起落同帧贴合；不勾是错峰点亮。",
+        "default": false
+      },
+      "frameColorA": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "框色 A",
+        "description": "霓虹框的紫色端；灯管、白热芯和 rim辉光都从它推。原卡是 #b48cff。",
+        "default": "#9c8fd4"
+      },
+      "frameColorB": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "框色 B",
+        "description": "霓虹框的粉色端；框色渐变和相撞闪光都从它推。原卡是 #ff6fb5。",
+        "default": "#cf92b4"
+      },
+      "baseColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景和面板底色的深紫黑，暗角、占位块和文字阴影都从它推。",
+        "default": "#0a0712"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按1080高的画面算，默认64（原卡66）。太长会自动换行，放不下再缩小。",
+        "default": 64,
+        "minimum": 36,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

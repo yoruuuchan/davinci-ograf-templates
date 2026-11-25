@@ -1,0 +1,139 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.gradient-word-sweep",
+  "version": "0.1.0",
+  "name": "渐变扫光大字 · Gradient word sweep",
+  "description": "一个发光的大字被一道彩色渐变从左到右扫亮：先扫出蓝青、紫、粉、琥珀四段色，再叠三层柔光、波前尾迹和过曝亮核，扫完后在字上零星跳出紫色闪电，最后停在发光的字上；下面可以有一行标语，两行错峰浮入。大字、标语、起始色、结束色、背景色、字号和闪电都能在检查器里改，标语留空就只显示大字。改编自 video-shotcraft的 gradient-word-sweep镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 3100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 3500
+      }
+    },
+    "properties": {
+      "word": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大字",
+        "description": "被渐变扫亮的大字，2–6个汉字或一个英文词最稳；太长会自动缩小。留空就只显示标语。",
+        "default": "火力全开"
+      },
+      "tagline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语",
+        "description": "大字下面的一行白色说明，比大字晚4帧浮入；留空不显示。",
+        "default": "一句话，出一支成片。"
+      },
+      "startColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "起始色",
+        "description": "渐变最左边的颜色，扫光从这里开始。",
+        "default": "#59c2ff"
+      },
+      "endColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "结束色",
+        "description": "渐变最右边的颜色，扫光在这里收尾；中间两段固定用紫色和粉色。",
+        "default": "#ffc46b"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "近黑底色，中间的柔光和四周的暗角都从它推出来；勾透明背景时不画。",
+        "default": "#07060a"
+      },
+      "lightning": {
+        "type": "boolean",
+        "title": "闪电",
+        "description": "扫光结束后，字上按排期闪7次紫色闪电。关掉只留辉光。",
+        "default": true
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "大字字号，按1080高的画面算，默认184；标语按一半大小跟随，字太宽时整块自动缩小。",
+        "default": 184,
+        "minimum": 80,
+        "maximum": 320
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

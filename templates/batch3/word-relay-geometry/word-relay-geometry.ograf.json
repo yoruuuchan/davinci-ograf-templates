@@ -1,0 +1,134 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.word-relay-geometry",
+  "version": "0.1.0",
+  "name": "一词一几何 · Word relay geometry",
+  "description": "几个利益词一拍一拍接力：第一个词配虚线大圆加彗星飞弧，中间的词配三个依次长满再咬紧的圆，最后一个词金属扫光后收成纯白，下面一行副句逐词升起来。改编自 video-shotcraft 的 word-relay-geometry 镜头卡（Apache-2.0）。词的个数可以增减，整段时长会跟着变。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6500
+      }
+    },
+    "properties": {
+      "words": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "词表",
+        "description": "一行一组，写「词｜副句」（竖线隔开，副句可留空）。2–6 组有效：第一个词配虚线圆，最后一个词配金属扫光，中间的词配三圆；超过 6 组只取前 6 组。",
+        "default": "更快｜一句话出完成片。\n更紧｜每一刀都踩在拍子上。\n更强｜像电影工作室做的发布片。"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "整个画面的背景色。",
+        "default": "#08080a"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "词、副句、几何线和进度条的颜色，会自动推深推淡。",
+        "default": "#f4f4f2"
+      },
+      "sheenColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "扫光色",
+        "description": "最后一个词扫光带的香槟色。",
+        "default": "#e4c58a"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "词的字号，按 1080 高的画面算，默认 230。词太宽时这个词会自动缩到画面里，几何不变大不变小。",
+        "default": 230,
+        "minimum": 100,
+        "maximum": 300
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

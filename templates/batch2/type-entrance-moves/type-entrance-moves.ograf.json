@@ -1,0 +1,124 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.type-entrance-moves",
+  "version": "0.1.0",
+  "name": "字符坠落 · Letter drop",
+  "description": "一行大字从上方依次坠落，落地弹两下、压一下，歪着小角度站定，每个字脚下有一抹接触影；第 110 帧整行吸气回正，副标题随后浮出。大字、副标题、底色、文字色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 type-entrance-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "text": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "大字",
+        "description": "逐个字符依次坠落。输入多少字符就显示多少，汉字、字母都行，整行太宽时会自动缩小；只填 1 个也能从第 4 帧起跳。",
+        "default": "落地有声"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "整行回正之后浮出；留空就不显示。",
+        "default": "每个镜头，都踩在拍子上。"
+      },
+      "textColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "default": "#17181c"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "背景底色，柔光、地面和暗角都从它推出来；勾透明背景时不画。",
+        "default": "#efefec"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 176。字的物理下落距离不变，整行太宽或字太多时会自动缩小。",
+        "default": 176,
+        "minimum": 80,
+        "maximum": 320
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

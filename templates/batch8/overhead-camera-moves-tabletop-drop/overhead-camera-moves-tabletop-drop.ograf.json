@@ -1,0 +1,97 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.overhead-camera-moves-tabletop-drop",
+  "version": "0.1.0",
+  "name": "桌面巡视扎入 · Tabletop drop",
+  "description": "俯拍一张石墨台面：3–5 张桌面截图平铺成样稿卡阵，相机横滑巡视、选中目标页后骤降扎入，落版成一张占画面 96% 宽的大页；页名作为印刷标签贴在每张样稿下沿。图片、目标页、页名和三种颜色都能在检查器里改，不填图时画 3 张中性占位页。勾「透明背景」会去掉暗桌，反差没了，建议不勾。改编自 video-shotcraft 的 overhead-camera-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "桌面截图",
+        "description": "按顺序排成桌面卡阵，3–5 张；每张按 16:9 铺满一张样稿。不填时画 3 张中性占位页，少于 3 张时桌面会空；超过 5 张只取前 5 张。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "targetIndex": {
+        "type": "integer",
+        "title": "目标页序号",
+        "description": "落版的是第几张截图，从 1 数，默认 2。填到超过图片张数时取最后一张。",
+        "default": 2,
+        "minimum": 1,
+        "maximum": 5
+      },
+      "labels": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "页名",
+        "description": "一行一张，和图片顺序对应；最多 5 行，多出的忽略。页名太长会自动缩字号；留空的那张不显示页名。",
+        "default": "镜头\n首页\n更新"
+      },
+      "tableColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "台面颜色",
+        "description": "石墨台面的底色，网格线从它提亮。透明模式下不画台面。",
+        "default": "#0e0f11"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸色",
+        "description": "占位页的纸色，顶灯光池和体积光也从它推出来。",
+        "default": "#f4f1ea"
+      },
+      "tagColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "标签金色",
+        "description": "目标页页名的金色；其他页的页名会随选定压暗。",
+        "default": "#b8893a"
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉台面、网格、顶灯光池和光束、远端压暗、暗角和颗粒，只留样稿和页名。暗桌反差没了，建议不勾。",
+        "default": false
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

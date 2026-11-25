@@ -1,0 +1,155 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.card-flip-reveal",
+  "version": "0.1.0",
+  "name": "功能卡翻面报数 · Card flip reveal",
+  "description": "一排暗色功能卡逐张沿纵轴翻面：先反向预备，再加速翻 194° 过冲、弹簧落回 180°，翻成瓷白结论卡——大号结论数字、「之前／用上之后」对照条和结论标签依次落定，卡下镜面地板有同步翻转的倒影。支持 1–4 张卡，正面名称、描述和背面数字、标签、对照值都在检查器里改，片段结尾上飘淡出。超过 4 张只取前 4 张。改编自 video-shotcraft 的 card-flip-reveal 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "cards": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡组",
+        "description": "一行一张卡：名称｜正面描述｜结论数字｜结论标签｜对照前值｜对照后值。至少写前四列，缺的列不显示；支持 1–4 张，超过只取前 4，3 张保持原卡一排，4 张整排缩小。",
+        "default": "一句话成片｜写一行想法，得到一支片子｜3.2×｜更快出第一版剪辑｜48 分钟｜15 分钟\n镜头配方｜推拉摇移，都已调好｜−41%｜打关键帧的时间｜6.1 小时｜3.6 小时\n素材检索｜所有素材，一次搜到｜0.2 秒｜找到对的那一条｜3.4 秒｜0.2 秒"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "左上角的大标题，逐字升起；太长会自动换行并缩小。",
+        "default": "三项能力，三个结果。"
+      },
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "标题上方那行金色小字，逐字模糊升起；留空就不显示。",
+        "default": "上线成果"
+      },
+      "gold": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "金色强调",
+        "description": "眉题、背面小圆点和舞台金色余光的颜色。",
+        "default": "#c9a45c"
+      },
+      "ink": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "正面文字色",
+        "description": "正面暗卡上的名称、描述、小标，以及左上角标题的颜色。",
+        "default": "#ece8e2"
+      },
+      "paper": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "瓷白色",
+        "description": "背面结论卡的纸色，渐变和描边都从它推出来。",
+        "default": "#fbfaf7"
+      },
+      "nameSize": {
+        "type": "integer",
+        "title": "正面名称字号",
+        "description": "正面底部名称的字号，默认 52；4 张一排时整张卡一起缩小。",
+        "default": 52,
+        "minimum": 28,
+        "maximum": 72
+      },
+      "barLabels": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "对照标签",
+        "description": "背面对照条的两个标签，用「｜」隔开，所有卡共用；留空用默认「之前｜用上之后」。",
+        "default": "之前｜用上之后"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

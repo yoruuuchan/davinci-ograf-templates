@@ -1,0 +1,180 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.radial-ripple-phone-chips",
+  "version": "0.1.0",
+  "name": "波纹手机定格 · Ripple phone chips",
+  "description": "四层暖沙色同心圆错相呼吸，中央手机从下方升起，屏内是用户自己的图片（不填时显示一屏内容列表的剪影，不滚动），图片比屏幕高时缓慢上滑、从状态栏和底部渐隐下面穿过；两侧胶囊先左后右弹出并悬浮，左下角标题和标语最后升起。屏幕图、两侧胶囊、标题标语、颜色和手机位置都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 radial-ripple-phone-chips 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "screenImage": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "手机屏幕图",
+        "description": "竖屏图（比如 9:16 的截图）最合适，横图会裁掉两侧；比屏幕高时画面会缓慢上滑，正好填满就不滚。留空显示一屏内容列表的剪影。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "chipLeft": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "左侧胶囊",
+        "description": "左边胶囊上的文字，带列表图标。留空这颗胶囊就不显示，右边的留在原位。",
+        "default": "随手剪一段"
+      },
+      "chipRight": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "右侧胶囊",
+        "description": "右边胶囊上的文字，带下载图标。留空这颗胶囊就不显示，左边的留在原位。",
+        "default": "一键出成片"
+      },
+      "chipSize": {
+        "type": "integer",
+        "title": "胶囊字号",
+        "description": "两颗胶囊文字的字号，按 1080 高的画面算，默认 36（原卡数值）。文字太长贴到安全边距时会自动缩小。",
+        "default": 36,
+        "minimum": 20,
+        "maximum": 64
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "收尾标题",
+        "description": "左下角收尾块的主标题，逐词升起，前面带一个强调色小方章。留空整个收尾块（含标语）都不显示。",
+        "default": "样片工坊"
+      },
+      "slogan": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标语",
+        "description": "标题下面那行小字，逐词浮现。留空不显示。",
+        "default": "每个镜头，一次到位。"
+      },
+      "accent": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "胶囊图标圆和收尾块小方章的颜色。",
+        "default": "#c4552d"
+      },
+      "ringDark": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "同心圆深色",
+        "description": "最外层同心圆的颜色，里面三层由它推浅。",
+        "default": "#dccbb4"
+      },
+      "ink": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "胶囊文字、手机状态栏和收尾块的主色。",
+        "default": "#2b231d"
+      },
+      "phoneX": {
+        "type": "integer",
+        "title": "手机水平位置",
+        "description": "手机中心的横坐标（1920 宽的画面，默认 960 = 居中）。横屏想偏左或偏右时改它；竖屏时手机始终居中。",
+        "default": 960,
+        "minimum": 360,
+        "maximum": 1560
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

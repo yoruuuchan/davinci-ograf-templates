@@ -1,0 +1,194 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.depth-layer-moves",
+  "version": "0.1.0",
+  "name": "分层视差滑轨 · Depth layer moves",
+  "description": "整页截图拆成远景、中景卡组和近景标签三层，在同一条滑轨上以 0.35 / 0.7 / 1.4 的速度差滑过固定画框；落定时主角卡停在画面正中，抬起、加深描边并落下角标，画面上的眉标、标题和副句始终不动。卡片图、整页底图、漂浮标签、眉标、标题、副句、主角角标与序号、三种颜色和标题字号都能在检查器里改；片段结尾上飘淡出。改编自 video-shotcraft 的 depth-layer-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "images": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "卡片图",
+        "description": "一行一个路径，从左到右排；建议 3–10 张，超过 10 张只取前 10 张。不填就画 6 张占位卡。每张卡宽固定 440，高按原图比例并夹在 300–620，长截图封顶后裁切、不拉伸。 在文件夹里选中几张图片，按 Ctrl+Shift+C 复制路径，整段粘贴进来。一行一张，从上到下就是出场顺序，可以在框里调换行的顺序。",
+        "default": ""
+      },
+      "backdrop": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "整页底图",
+        "description": "远景那张整页截图，退焦、降饱和后当环境。留空就自动用第一张卡片图；一张图都没有时画中性页面骨架。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "tags": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "漂浮标签",
+        "description": "一行一个，或用「、」「|」隔开。支持 3–8 个，超过 8 个只显示前 8 个；落定时只留最后两枚压在画面下沿。",
+        "default": "界面\n图表\n文案\n流程\n细节"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉标",
+        "description": "左上角那行小字，字距从宽收拢；留空就不显示，主标题位置不变。",
+        "default": "分层视差"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主标题",
+        "description": "中文一个字一个字升起，英文一个词一个词升起；太长自动换行并缩小。留空只留眉标和副句。",
+        "default": "你的页面，有纵深。"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副句",
+        "description": "右上角右对齐的说明，第 26 帧起淡入；留空就不显示。",
+        "default": "截图拆成三层，在空间里滑过。"
+      },
+      "focusLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主角角标",
+        "description": "主角卡上沿那枚角标的文字，前面有一个实心小圆点；留空整块不显示。",
+        "default": "聚焦"
+      },
+      "focusIndex": {
+        "type": "integer",
+        "title": "主角序号",
+        "description": "第几张卡是主角，从 1 数；超过图数时取最后一张。滑轨长度跟着它变。",
+        "default": 4,
+        "minimum": 1,
+        "maximum": 10
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "暖纸底色（sand 中间调）；远近景的雾、桌面承接光、占位卡和页面骨架都从它推出来。",
+        "default": "#e8ddce"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "标题、副句和暗部的颜色；卡影、次级文字也从它推。",
+        "default": "#221a12"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "主角描边、角标底、眉标和部分标签胶囊的颜色。",
+        "default": "#c4552d"
+      },
+      "titleSize": {
+        "type": "integer",
+        "title": "标题字号",
+        "description": "按 1920×1080 的设计稿算，默认 120。副句、眉标、角标、胶囊和间距跟着等比；太长会自动缩小。",
+        "default": 120,
+        "minimum": 72,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体和等宽。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

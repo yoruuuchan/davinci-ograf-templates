@@ -1,0 +1,185 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.gauge-readout-moves-tape",
+  "version": "0.1.0",
+  "name": "滚带定针读数 · Tape gauge",
+  "description": "一条竖向刻度带在钴蓝读数窗后滚动、指针钉死不动：读数慢爬顶到旧上限虚线，虚线断开，回拉一下后刻度带带着运动模糊冲刺，弹簧刹车冲过新上限再回摆落定，钴蓝三角恰好停进指针；左侧标题升起、结论逐字浮现、涨幅胶囊和「旧 → 新」小结收尾。旧/新上限、单位、文字、颜色都能在检查器里改，涨幅和小结由上限自动算。改编自 video-shotcraft 的 gauge-readout-moves 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "eyebrow": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "左上角强调色小字。留空就不显示。",
+        "default": "每小时出片数"
+      },
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "左侧大标题，一行显示；太长会自动缩小，不会压到右侧刻度带。",
+        "default": "吞吐量"
+      },
+      "conclusion": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "结论",
+        "description": "标题下面强调色的结论，读数落定后逐字升起。新上限低于旧上限时文案不会自动变，记得自己改；太长会自动缩小。",
+        "default": "翻了三倍"
+      },
+      "oldLimit": {
+        "type": "number",
+        "title": "旧上限",
+        "description": "慢爬的终点和虚线位置。刻度步长、冲刺距离、回摆幅度都从它和新上限推。",
+        "default": 140,
+        "minimum": 0.1,
+        "maximum": 100000
+      },
+      "newLimit": {
+        "type": "number",
+        "title": "新上限",
+        "description": "冲刺的落点和钴蓝三角停的位置。刻度步长、比例尺、冲刺速度都按它反算。",
+        "default": 420,
+        "minimum": 0.1,
+        "maximum": 100000
+      },
+      "unit": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "单位",
+        "description": "跟在读数和「旧 → 新」小结后面，不标在刻度上。留空就不显示。",
+        "default": "k"
+      },
+      "oldLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "旧上限标签",
+        "description": "旧上限虚线右边的大写小字；留空只留虚线。",
+        "default": "原上限"
+      },
+      "newLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "新上限标签",
+        "description": "钴蓝三角右边的大写小字；留空只留三角。",
+        "default": "新上限"
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景纸色；渐变、主光、带面从它推。",
+        "default": "#f7f9fc"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "墨色",
+        "description": "标题和刻度的主色；虚线、灰阶、刻度数字、阴影都从它推。",
+        "default": "#0d1324"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "读数窗、指针、钴蓝三角、眉题和结论的颜色。",
+        "default": "#2f5bff"
+      },
+      "chipColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "涨幅色",
+        "description": "涨幅胶囊的底、描边和文字的颜色。",
+        "default": "#00b39a"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体和等宽数字。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

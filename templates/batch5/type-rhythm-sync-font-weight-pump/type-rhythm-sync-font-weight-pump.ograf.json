@@ -1,0 +1,157 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.type-rhythm-sync-font-weight-pump",
+  "version": "0.1.0",
+  "name": "字重打拍 · Font weight pump",
+  "description": "一句短标题踩在两小节的固定节拍上：静止时字是细的、字与字之间留着缝，每一拍笔画由细变粗再弹回，第二小节长出上下两行描边回声，第九拍落成粗体渐变海报；右上角是真实 BPM，底部 8+1 格音序器跟着亮。BPM 默认 120，改成你的歌的 BPM 就能对上拍子。改编自 video-shotcraft 的 font-weight-pump 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5500
+      }
+    },
+    "properties": {
+      "title": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "标题",
+        "description": "2–6 个字最好，字多了会自动缩小。中文按字拆，英文一个词一个词排，英文会显示成大写。",
+        "default": "更响"
+      },
+      "subtitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副标题",
+        "description": "drop 之后一个字一个字升起；填长了会自动换行或缩小，留空就不显示。",
+        "default": "跟着鼓点，落在拍上。"
+      },
+      "bpm": {
+        "type": "number",
+        "title": "BPM",
+        "description": "改成你的歌的 BPM（60–200），默认 120。拍点从第 16 帧排起，两小节后落重拍；BPM 越高拍子越密。",
+        "default": 120,
+        "minimum": 60,
+        "maximum": 200
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "底色",
+        "description": "舞台的深底色，背景渐变和字后柔光都从它推出来。",
+        "default": "#0b0816"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "字色",
+        "description": "标题静止时的紫白色，字幕和角标也从它降亮度推。",
+        "default": "#f7f2ff"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "脉冲时的紫色，音序器格子和 drop 渐变也用它。默认压了饱和；想回到原卡霓虹紫填 #a78bfa。",
+        "default": "#a995e4"
+      },
+      "accent2Color": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "重音色",
+        "description": "每小节第一拍和 drop 的粉色，drop 渐变的末端也是它。想回到原卡亮粉填 #f472b6。",
+        "default": "#df86b3"
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "标题字号，按 1080 高的画面算，默认 240；字太多时会自动缩小，竖屏和 4K 会整体换算。",
+        "default": 240,
+        "minimum": 100,
+        "maximum": 300
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

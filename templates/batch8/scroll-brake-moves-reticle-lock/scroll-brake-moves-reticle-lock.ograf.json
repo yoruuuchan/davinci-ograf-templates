@@ -1,0 +1,163 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.scroll-brake-moves-reticle-lock",
+  "version": "0.1.0",
+  "name": "急刹准星锁定 · Brake reticle lock",
+  "description": "更新记录从下往上高速掠过，急刹冲过头 30px 再回弹落定；停住的那一帧，四个 L 形准星从画外飞入咬住「条目」的最后一行（目标行），该行亮起、其余行退暗，右侧弹出「刚刚发布」小标签；目标行下面跟着几条「后续计划」，标题偏灰，同原卡。条目、后续计划、顶栏标题、标签、强调／文字／背景色、准星大小和字号都能在检查器里改，透明背景时只留卡片、准星、标签和文字。改编自 video-shotcraft 的 brake-reticle-lock 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 4600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 5000
+      }
+    },
+    "properties": {
+      "entries": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "条目",
+        "description": "一行一条：标题｜说明｜版本｜日期，后三列可留空。最后一行是锁定目标行；可填 1–20 行，超过只显示前 20 行。行数会改变滚动行程和急刹时间。",
+        "default": "时间线标记｜在时间线上标出重点。｜v2.0｜1月8日\n批量渲染｜一次排出多条任务。｜v2.1｜1月12日\n字体回退修复｜标题不再缺字。｜v2.2｜1月17日\n冷启动加速｜打开工程更快。｜v2.3｜1月22日\n离线素材缓存｜断网也能预览。｜v2.4｜1月27日\n光标路径平滑｜鼠标轨迹更顺。｜v2.5｜2月1日\n字幕样式库｜一键套用整套字幕。｜v2.6｜2月7日\n剪映工程导出｜导出后接着剪。｜v2.7｜2月12日\n音频自动闪避｜人声出现时音乐让位。｜v2.8｜2月17日\n审片链接｜发给客户直接看。｜v2.9｜2月22日\n配音同步｜口型与字幕对齐。｜v2.10｜2月26日\n镜头预设库｜向所有项目开放。｜v2.11｜3月4日"
+      },
+      "upcoming": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "后续计划",
+        "description": "目标行下面跟着的计划，一行一条，格式同「条目」：标题｜说明｜版本｜日期。标题是浅灰的，急刹后和其余行一起退暗；最多 4 行（画面里能看到 3 行）。留空就只有条目。",
+        "default": "竖屏 9:16 剪辑｜第四季度排期。｜—｜第四季度\n品牌素材导入｜第四季度排期。｜—｜第四季度\n镜头 A/B 对比｜第四季度排期。｜—｜第四季度"
+      },
+      "headerTitle": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "顶栏标题",
+        "description": "顶栏里那行标题，默认「更新记录」。留空只留顶栏的底边细线；右侧没有别的东西。",
+        "default": "更新记录"
+      },
+      "tagLabel": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "旁弹标签",
+        "description": "目标行右侧那个黑色小标签里的字，默认「刚刚发布」。留空就不弹标签，绿点和黑底一起消失。",
+        "default": "刚刚发布"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "准星、目标行描边、第一档图标底色和标题行图标渐变的颜色。",
+        "default": "#5b63d3"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字色",
+        "description": "标题、说明、版本、日期的字色，也是顶栏文字和标签黑底的底色；灰阶和发丝线都从它推出来。",
+        "default": "#17181c"
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景色",
+        "description": "页面底色；柔光、暗角和顶栏的浅底都从它推出来。",
+        "default": "#fafaf9"
+      },
+      "reticleSize": {
+        "type": "integer",
+        "title": "准星大小",
+        "description": "角标的臂长，默认 46（原卡尺寸）。粗细按 46 时的 6px 等比缩放。",
+        "default": 46,
+        "minimum": 24,
+        "maximum": 96
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "字号",
+        "description": "目标行标题的字号，默认 36；其余行、说明、版本和日期按原卡比例一起缩放。文字太长会自动缩到一行内。",
+        "default": 36,
+        "minimum": 24,
+        "maximum": 48
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

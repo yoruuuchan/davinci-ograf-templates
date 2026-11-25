@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.gradient-transition",
+  "version": "0.1.0",
+  "name": "渐变三段变奏 · Gradient morph transition",
+  "description": "暗底上三类 CSS 渐变轮流变奏：linear 角度扫过、radial 光斑对角游走聚焦、conic 三色环越转越慢落定，窄交叉淡化换段不停顿；前景两段大字逐字从虚焦升起，第三段是字距收拢的品牌名加一行副句。三段文案、品牌名、副句、三个颜色和字号都能在检查器里改，片段结尾上飘淡出。勾透明背景时只剩前景文字（这张是背景卡，透明后没有渐变，一般不要勾）。改编自 video-shotcraft 的 gradient-transition 镜头卡（Apache-2.0）。画面只取决于播放头位置，往回拖、重复渲染都是同一帧。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6500
+      }
+    },
+    "properties": {
+      "lines": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "三段文案",
+        "description": "按回车分段：第一行、第二行逐字从虚焦升起，第三行是品牌名上方的小标签（会转大写）。只填两行时第三段不出现小标签。",
+        "default": "光，弯下来。\n把它，聚焦。\n新工具，上场。"
+      },
+      "brand": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "品牌名",
+        "description": "第三段的大字，字距从松收到紧入场；留空连副句一起不显示。",
+        "default": "上新"
+      },
+      "sub": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "副句",
+        "description": "品牌名下面那行说明；留空不显示。",
+        "default": "从一句话到一支片。"
+      },
+      "brightColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "渐变亮色",
+        "description": "渐变里最亮的颜色，linear 段的亮带和 radial 段的光心都从它推。",
+        "default": "#f254b8"
+      },
+      "coldColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "渐变冷色",
+        "description": "渐变收尾的冷色，conic 三色环的第三色也用它。",
+        "default": "#64baf7"
+      },
+      "darkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "暗底色",
+        "description": "暗底和外圈压暗的底色；每段渐变的最深处都从它推。",
+        "default": "#0a0714"
+      },
+      "fontSize": {
+        "type": "integer",
+        "title": "大字字号",
+        "description": "前两段大字字号，按 1080 高的画面算，默认 180；品牌名字号按原卡比例跟着变。字太长会自动缩小。",
+        "default": 180,
+        "minimum": 80,
+        "maximum": 300
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

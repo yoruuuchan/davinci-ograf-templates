@@ -1,0 +1,154 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.pill-slot-cycle",
+  "version": "0.1.0",
+  "name": "句尾词槽轮换 · Pill slot cycle",
+  "description": "句干钉在左端，句尾的胶囊每 0.7 秒滚一格：旧的上飞、新的从下带运动模糊翻进来；换完最后一个词胶囊飞走，收束句带着一次过冲落位，整行再缓缓居中。句干、收束句、胶囊词表（2–10 项，超过 10 项只取前 10 项；每多一项整段长约多 0.7 秒）、图标开关、四种颜色和字号都能在检查器里改，片段结尾上飘淡出。改编自 video-shotcraft 的 pill-slot-cycle 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 6100
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6500
+      }
+    },
+    "properties": {
+      "stem": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "句干",
+        "description": "钉在左端不动的那半句，默认「一套流程，能」。",
+        "default": "一套流程，能"
+      },
+      "finale": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "收束句",
+        "description": "胶囊换完后落位的后半句，默认「一次做完。」；和句干的字号字重完全一致。",
+        "default": "一次做完。"
+      },
+      "pills": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "胶囊词",
+        "description": "一行一个，或用「、」「|」隔开；支持 2–10 项，超过 10 项只取前 10 项。每多一项整段长约多 0.7 秒。",
+        "default": "画分镜\n拍页面\n运镜头\n踩拍子剪\n设计声音\n渲染成片"
+      },
+      "showIcons": {
+        "type": "boolean",
+        "title": "显示图标",
+        "description": "胶囊前面的线性小图标，按顺序从六个图标里循环取；关掉后胶囊宽度重算，句子更干净。",
+        "default": true
+      },
+      "paperColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "纸面颜色",
+        "description": "背景纸色，主光和暗角跟着变。",
+        "default": "#ececea"
+      },
+      "inkColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "文字颜色",
+        "description": "句干、收束句和胶囊文字的颜色。",
+        "default": "#17181c"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "胶囊里图标和图标底的颜色。",
+        "default": "#5b63d3"
+      },
+      "pillColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "胶囊颜色",
+        "description": "胶囊底色，发丝边、内高光和软影都从它推。",
+        "default": "#ffffff"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "字号",
+        "description": "按 1080 高的画面算，默认 96；胶囊内文字是字号的 0.667 倍，图标跟着等比缩放。",
+        "default": 96,
+        "minimum": 48,
+        "maximum": 160
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源黑体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}

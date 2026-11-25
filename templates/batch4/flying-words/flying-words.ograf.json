@@ -1,0 +1,171 @@
+{
+  "$schema": "https://ograf.ebu.io/v1/specification/json-schemas/graphics/schema.json",
+  "id": "yoru.flying-words",
+  "version": "0.1.0",
+  "name": "词语纵深隧道 · Flying words",
+  "description": "一排关键词从隧道深处沿纵深飞向镜头、擦身而过，循环不停；正中压一组静态标题（眉题 + 主标题），也可以关掉标题当纯背景用。词表、标题、颜色、字号都能在检查器里改，画面只取决于播放头位置，往回拖、重复渲染都是同一帧。改编自 video-shotcraft 的 flying-words 镜头卡（Apache-2.0）。",
+  "author": {
+    "name": "Yoru"
+  },
+  "main": "graphic.mjs",
+  "supportsRealTime": true,
+  "supportsNonRealTime": true,
+  "stepCount": 1,
+  "actionDurations": [
+    {
+      "type": "playAction",
+      "duration": 5600
+    },
+    {
+      "type": "updateAction",
+      "duration": 0
+    },
+    {
+      "type": "stopAction",
+      "duration": 400
+    }
+  ],
+  "schema": {
+    "type": "object",
+    "gddPlayoutOptions": {
+      "client": {
+        "duration": 6000
+      }
+    },
+    "properties": {
+      "words": {
+        "type": "string",
+        "gddType": "multi-line",
+        "title": "词表",
+        "description": "隧道里飞的词，一行一个（或用「、」「|」隔开）。推荐 16 个，8–30 个都行，超过 30 个只取前 30 个。词的位置、字号、颜色按词序固定，同一份词表每次都一样；出场相位按词数均分，词越多隧道越密。",
+        "default": "分镜\n运镜\n节奏\n调色\n音效\n转场\n字幕\n包装\n开场\n混音\n成片\n交付\n海报\n竖屏\n预告\n花絮"
+      },
+      "kicker": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "眉题",
+        "description": "主标题上面那行小字。留空就只显示主标题。",
+        "default": "镜头工坊"
+      },
+      "headline": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "主标题",
+        "description": "压在隧道正中的大标题。填长了会自动缩小；留空只显示眉题。",
+        "default": "每一帧，都是设计。"
+      },
+      "showForeground": {
+        "type": "boolean",
+        "title": "显示前景标题",
+        "description": "关掉就只剩词语隧道，可以当纯背景叠在别的内容下面。",
+        "default": true
+      },
+      "logo": {
+        "type": "string",
+        "gddType": "file-path/image-path",
+        "gddOptions": {
+          "extensions": [
+            "png",
+            "jpg",
+            "jpeg",
+            "webp",
+            "svg",
+            "gif"
+          ]
+        },
+        "title": "标志",
+        "description": "眉题前面的小标志（自己的 logo）。留空不显示。 填图片的完整路径：在文件夹里选中图片，按 Ctrl+Shift+C 复制路径，粘贴进来。",
+        "default": ""
+      },
+      "bgColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "背景颜色",
+        "description": "隧道尽头的底色，上方渐变和光晕跟着变。",
+        "default": "#05070e"
+      },
+      "wordColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "词颜色",
+        "description": "大部分关键词和主标题的颜色。",
+        "default": "#f2f5ff"
+      },
+      "accentColor": {
+        "type": "string",
+        "gddType": "color-rrggbb",
+        "pattern": "^#[0-9a-f]{6}$",
+        "title": "强调色",
+        "description": "强调词、眉题、隧道发丝环和中心光晕的颜色。",
+        "default": "#86a8ff"
+      },
+      "fontSize": {
+        "type": "number",
+        "title": "词字号",
+        "description": "关键词的字号上限（按 1080 高的画面算），每个词在它的 0.55–1 倍之间取。竖屏和 4K 会自动换算。",
+        "default": 96,
+        "minimum": 40,
+        "maximum": 160
+      },
+      "smallScale": {
+        "type": "number",
+        "title": "小字倍率",
+        "description": "小字（眉题、副标、说明、标注这类）的字号倍率，1 是原卡比例；觉得小字太小就调大。",
+        "default": 1,
+        "minimum": 0.6,
+        "maximum": 2
+      },
+      "transparent": {
+        "type": "boolean",
+        "title": "透明背景",
+        "description": "勾上就去掉背景，只留文字和图形，可以叠在别的画面上。",
+        "default": false
+      },
+      "fontPick": {
+        "type": "string",
+        "gddType": "select",
+        "enum": [
+          "内置",
+          "微软雅黑",
+          "宋体",
+          "楷体",
+          "仿宋",
+          "黑体",
+          "等线",
+          "思源宋体"
+        ],
+        "gddOptions": {
+          "labels": {
+            "内置": "内置",
+            "微软雅黑": "微软雅黑",
+            "宋体": "宋体",
+            "楷体": "楷体",
+            "仿宋": "仿宋",
+            "黑体": "黑体",
+            "等线": "等线",
+            "思源宋体": "思源宋体"
+          }
+        },
+        "title": "字体预设",
+        "description": "下拉选一个预设字体；下面的「字体」框里填了就以它为准。",
+        "default": "内置"
+      },
+      "fontFamily": {
+        "type": "string",
+        "gddType": "single-line",
+        "title": "字体",
+        "description": "填字体名，比如 微软雅黑、楷体、思源宋体。留空用内置的思源字体。要用的字体没装，把字体文件放进模板目录的 fonts 文件夹，填 fonts/文件名.ttf；直接填 C:\\Windows\\Fonts\\... 这种系统路径在达芬奇里不生效。",
+        "default": ""
+      }
+    }
+  },
+  "renderRequirements": [
+    {
+      "accessToPublicInternet": {
+        "ideal": false
+      }
+    }
+  ]
+}
