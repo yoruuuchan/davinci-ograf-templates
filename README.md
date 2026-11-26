@@ -77,11 +77,9 @@
 |:--:|:--:|:--:|
 | ![默认](previews/resolve/variant-a.jpg) | ![改文案和配色](previews/resolve/variant-b.jpg) | ![换成楷体](previews/resolve/variant-c.jpg) |
 
-达芬奇 21.1.2 检查器里的样子（实拍）：
+达芬奇 21.1.2 检查器里长这样（实拍）。marker 卡的「背景」是整库唯一的下拉字段：
 
-| 一张卡的字段面板 | 下拉字段 |
-|:--:|:--:|
-| <img src="previews/resolve/inspector-fields.png" width="340" alt="brace-expand 的字段面板"> | <img src="previews/resolve/select-field.png" width="340" alt="marker 卡的「背景」下拉"> |
+<img src="previews/resolve/select-field.png" width="340" alt="marker 卡的「背景」下拉">
 
 常见字段：
 
